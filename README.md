@@ -7,7 +7,7 @@
 [![Dependencies](https://david-dm.org/techx/quill.svg)](https://app.dependabot.com/accounts/krubenok/repos/204301089)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ecd84351d8444ca29d05756ac7f40fc0)](https://www.codacy.com/manual/krubenok/quill?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=krubenok/quill&amp;utm_campaign=Badge_Grade)
 
-Quill is a registration system designed especially for hackathons. For hackers, it’s a clean and streamlined interface to submit registration and confirmation information. For hackathon organizers, it’s an easy way to manage applications, view registration stats, and more!
+Fountain is a registration system (based on [Quill](https://github.com/techx/quill)) designed especially for corporate, internal hackathons. For the hackers, it’s a clean and streamlined interface to submit registration and confirmation information. For hackathon organizers, it’s an easy way to manage applications, view registration stats, and more!
 
 ![Login Splash](./docs/images/screenshots/login.png)
 
@@ -59,7 +59,7 @@ Quill is a registration system designed especially for hackathons. For hackers, 
 
 ![Dashboard](./docs/images/screenshots/dashboard.png)
 
-After users login, the Dashboard displays the user’s application status and status-specific prompts to resend a verification email, view/edit their application or confirmation forms.
+After users login, the dashboard displays the user’s application status and status-specific prompts to resend a verification email, view/edit their application or confirmation forms.
 
 *Statuses:*
 
