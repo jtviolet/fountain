@@ -374,7 +374,7 @@ module.exports = function(router) {
    * }
    */
   router.get('/settings/whitelist', isAdmin, function(req, res){
-    SettingsController.getWhitelistedEmails(defaultResponse(req, res));
+    SettingsController.getWhitelistedDomains(defaultResponse(req, res));
   });
 
   /**
@@ -387,7 +387,7 @@ module.exports = function(router) {
    */
   router.put('/settings/whitelist', isAdmin, function(req, res){
     var emails = req.body.emails;
-    SettingsController.updateWhitelistedEmails(emails, defaultResponse(req, res));
+    SettingsController.updateWhitelistedDomains(emails, defaultResponse(req, res));
   });
 
   /**
