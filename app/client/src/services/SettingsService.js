@@ -20,10 +20,10 @@ angular.module('reg')
           time: time
         });
       },
-      getWhitelistedEmails: function(){
+      getWhitelistedDomains: function(){
         return $http.get(base + 'whitelist');
       },
-      updateWhitelistedEmails: function(emails){
+      updateWhitelistedDomains: function(emails){
         return $http.put(base + 'whitelist', {
           emails: emails
         });
