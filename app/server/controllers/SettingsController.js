@@ -22,7 +22,7 @@ SettingsController.updateField = function(field, value, callback){
  * @param  {[type]}   emails   [description]
  * @param  {Function} callback args(err, settings)
  */
-SettingsController.updateWhitelistedEmails = function(emails, callback){
+SettingsController.updateWhitelistedDomains = function(emails, callback){
   Settings
     .findOneAndUpdate({},{
       $set: {
@@ -38,8 +38,8 @@ SettingsController.updateWhitelistedEmails = function(emails, callback){
  * Whitelist emails are by default not included in settings.
  * @param  {Function} callback args(err, emails)
  */
-SettingsController.getWhitelistedEmails = function(callback){
-  Settings.getWhitelistedEmails(callback);
+SettingsController.getWhitelistedDomains = function(callback){
+  Settings.getWhitelistedDomains(callback);
 };
 
 /**

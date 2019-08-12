@@ -50,7 +50,7 @@ function canRegister(email, password, callback){
     }
 
     // Check for emails.
-    Settings.getWhitelistedEmails(function(err, emails){
+    Settings.getWhitelistedDomains(function(err, emails){
       if (err || !emails){
         return callback(err);
       }

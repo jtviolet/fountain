@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+var whitelistDomains = process.env.WHITELIST_DOMAINS || '.com';
+
 /**
  * Settings Schema!
  *
@@ -22,36 +24,29 @@ var schema = new mongoose.Schema({
     type: Number,
     default: 604800000 // Date of confirmation
   },
-  whitelistedEmails: {
+  whitelistedDomains: {
     type: [String],
     select: false,
-    default: ['.edu'],
-  },
-  waitlistText: {
-    type: String
+    default: whitelistDomains.split(' '),
   },
   acceptanceText: {
     type: String,
   },
   confirmationText: {
     type: String
-  },
-  allowMinors: {
-    type: Boolean
   }
 });
 
 /**
- * Get the list of whitelisted emails.
- * Whitelist emails are by default not included in settings.
+ * Get the list of whitelisted domains.
  * @param  {Function} callback args(err, emails)
  */
-schema.statics.getWhitelistedEmails = function(callback){
+schema.statics.getWhitelistedDomains = function(callback){
   this
     .findOne({})
-    .select('whitelistedEmails')
+    .select('whitelistedDomains')
     .exec(function(err, settings){
-      return callback(err, settings.whitelistedEmails);
+      return callback(err, settings.whitelistedDomains);
     });
 };
 

@@ -43,14 +43,14 @@ angular.module('reg')
       // Whitelist --------------------------------------
 
       SettingsService
-        .getWhitelistedEmails()
+        .getWhitelistedDomains()
         .then(response => {
           $scope.whitelist = response.data.join(", ");
         });
 
       $scope.updateWhitelist = function(){
         SettingsService
-          .updateWhitelistedEmails($scope.whitelist.replace(/ /g, '').split(','))
+          .updateWhitelistedDomains($scope.whitelist.replace(/ /g, '').split(','))
           .then(response => {
             swal('Whitelist updated.');
             $scope.whitelist = response.data.whitelistedEmails.join(", ");

@@ -1,6 +1,6 @@
 {
-  "name": "hackmit-reg",
-  "description": "mean stack registration system",
+  "name": "fountain",
+  "description": "mean stack registration system for internal hackathons",
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
