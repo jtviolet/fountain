@@ -1,0 +1,200 @@
+<div id="application" class="page">
+  <div class="divided title">
+    Application
+  </div>
+
+  <div class="ui stackable page grid">
+    <div class="column">
+      <div class="ui form"
+            ng-class="{'loading': loading}">
+
+        <div class="divided title">Basic Information</div>
+
+        <fieldset ng-disabled="regIsClosed">
+
+        <div class="field">
+          <label> Email </label>
+          <input type="email"
+                 name="email"
+                 disabled="disabled"
+                 ng-model="user.email">
+        </div>
+
+        <div class="field">
+          <label> Full Name </label>
+          <input type="text"
+                 name="name"
+                 ng-model="user.profile.name">
+        </div>
+
+        <div class="field">
+          <label> Business Org </label>
+          <div id="businessOrg" class="ui search">
+            <div class="ui input">
+              <input class="prompt" type="text" placeholder="Business Org" name="businessOrg" ng-model="user.profile.businessOrg">                
+            </div>
+            <div class="results"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label> Github </label>
+          <input type="text"
+                 name="github"
+                 placeholder="https://github.com/foobar"
+                 ng-model="user.profile.github">
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing hardware?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsHardware">
+            <label> Yes, I would like to use hardware in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsHardware">
+          <label>
+            What kind of hardware would be useful for you?
+          </label>
+          <p>
+            We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything. We will publish a list of available hardware closer to the day of the event.
+          </p>
+          <input type="text" ng-model="user.profile.hardware">
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing any FireEye software?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsSoftware">
+            <label> Yes, I would like to use FireEye software in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsSoftware">
+          <label>
+            What kind of FireEye software would be useful for you?
+          </label>
+          <input type="text" ng-model="user.profile.software">
+        </div>
+
+        <div class="field">
+          <label> Shirt Size</label>
+          <p>
+            Let's get you some swag!
+          </p>
+          <select
+            name="shirt"
+            ng-model="user.profile.shirtSize"
+            required>
+            <option value="">Shirt Size</option>
+            <option value="XS">Unisex X-Small</option>
+            <option value="S">Unisex Small</option>
+            <option value="M">Unisex Medium</option>
+            <option value="L">Unisex Large</option>
+            <option value="XL">Unisex X-Large</option>
+            <option value="XXL">Unisex XX-Large</option>
+            <option value="WXS">Women's X-Small</option>
+            <option value="WS">Women's Small</option>
+            <option value="WM">Women's Medium</option>
+            <option value="WL">Women's Large</option>
+            <option value="WXL">Women's X-Large</option>
+            <option value="WXXL">Women's XX-Large</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label> Liability Waiver </label>
+          <p>
+            <a
+              target="_blank"
+              href="https://go.hackmit.org/liability-waiver">
+              Liability Waiver
+            </a>
+          </p>
+          <p>
+            For legal reasons, FireEye asks that you read and accept the terms of our liability waiver.
+          </p>
+          <p>
+            By writing my name below, I affirm that I have read and accepted the terms of the liability waiver above.
+          </p>
+          <input type="text"
+                 name="signatureLiabilityWaiver"
+                 placeholder="Your Full Legal Name"
+                 ng-model="user.profile.signatureLiability">
+        </div>
+
+        <div class="field">
+          <label> Photo Release </label>
+          <p>
+            <a
+              target="_blank"
+              href="https://go.hackmit.org/photo-release">
+              Photo Release
+            </a>
+          </p>
+          <p>
+            Signing this photo release means if we take photos or photos of you, we can share it with the world.
+          </p>
+          <p>
+            By writing my name below, I affirm that I have read and accepted the terms of the photo release above.
+          </p>
+          <input type="text"
+                 name="signaturePhotoRelease"
+                 placeholder="Your Full Legal Name"
+                 ng-model="user.profile.signaturePhotoRelease">
+        </div>
+
+        <div class="field">
+          <label> Code of Conduct </label>
+          <p>
+            <a
+              target="_blank"
+              href="https://go.hackmit.org/code-of-conduct">
+              Hackathon Code of Conduct
+            </a>
+          </p>
+          <p>
+            It is extremely important to us that attendees follow a set of guidelines to make the event fun for everyone involved. Please read through and make sure you understand what we will be expecting of you.
+          </p>
+          <p>
+            By writing my name below, I affirm that I have read and will abide by the code of conduct detailed above.
+          </p>
+          <input type="text"
+                 name="signatureCodeOfConduct"
+                 placeholder="Your Full Legal Name"
+                 ng-model="user.profile.signatureCodeOfConduct">
+        </div>
+
+        <div class="field">
+          <label>
+            Additional Notes
+          </label>
+          <p>
+            If there's anything else you need to let us know, tell us here!
+          </p>
+          <textarea
+            ng-model="user.profile.notes"></textarea>
+        </div>
+
+        <div class="field" ng-hide="regIsClosed">
+          <button type="submit"
+                  class="fluid ui purple button"
+                  ng-click="submitForm()">
+            Submit
+          </button>
+        </div>
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>
