@@ -2,7 +2,7 @@ const angular = require("angular");
 const swal = require("sweetalert");
 
 angular.module('reg')
-  .controller('ApplicationCtrl', [
+  .controller('ProfileCtrl', [
     '$scope',
     '$rootScope',
     '$state',

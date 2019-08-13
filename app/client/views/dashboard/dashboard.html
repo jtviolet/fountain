@@ -13,26 +13,13 @@
 
         <div
           class="state"
-          ng-class="user.status.name"
-          ng-if="!showWaitlist && !dashState('admittedAndCannotConfirm')">
+          ng-class="user.status.name">
           {{user.status.name}}
         </div>
 
-        <div
-          class="declined state"
-          ng-if="dashState('admittedAndCannotConfirm')">
-          Expired Admission
-        </div>
-
-
-        <div
-          ng-if="showWaitlist"
-          class="waitlist state">
-          On waitlist
-        </div>
-
         <div class="ui divider"></div>
-
+        
+        <!-- Display users name if they've entered it-->
         <div ng-if="user.profile.name.length > 0">
           <p>
             <strong>
@@ -90,14 +77,14 @@
           </p>
 
           <div class="ui purple button"
-               ui-sref="app.application">
-            Complete your application
+               ui-sref="app.profile">
+            Complete your profile
           </div>
 
         </div>
 
         <div
-          ng-if="dashState('openAndSubmitted')"
+          ng-if="dashState('openAnd')"
           class="description">
           <p>
             <strong>
@@ -108,8 +95,8 @@
             {{ DASHBOARD.SUBMITTED }}
           </p>
           <div class="ui purple button"
-               ui-sref="app.application">
-            Edit your application
+               ui-sref="app.profile">
+            Edit your profile
           </div>
 
           <div
@@ -150,8 +137,8 @@
           </div>
 
           <div class="ui purple button"
-               ui-sref="app.application">
-            View your application
+               ui-sref="app.profile">
+            View your profile
           </div>
 
           <div
