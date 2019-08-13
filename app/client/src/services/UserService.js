@@ -40,19 +40,6 @@ angular.module('reg')
         });
       },
 
-<<<<<<< HEAD
-=======
-      updateConfirmation: function(id, confirmation){
-        return $http.put(base + id + '/confirm', {
-          confirmation: confirmation
-        });
-      },
-
-      declineAdmission: function(id){
-        return $http.post(base + id + '/decline');
-      },
-
->>>>>>> 01ae98840fb68071f1ec7d5b19ba0166910e5d24
       // ------------------------
       // Team
       // ------------------------
@@ -78,13 +65,6 @@ angular.module('reg')
         return $http.get(base + 'stats');
       },
 
-<<<<<<< HEAD
-=======
-      admitUser: function(id){
-        return $http.post(base + id + '/admit');
-      },
-
->>>>>>> 01ae98840fb68071f1ec7d5b19ba0166910e5d24
       checkIn: function(id){
         return $http.post(base + id + '/checkin');
       },

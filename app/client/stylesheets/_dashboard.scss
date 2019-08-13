@@ -27,7 +27,6 @@
         color: black;
       }
 
-<<<<<<< HEAD
       &.completed {
         background: $status-submitted-color;
       }
@@ -36,31 +35,6 @@
         background: $status-checkedin-color;
       }
 
-=======
-      &.submitted {
-        background: $status-submitted-color;
-      }
-
-      &.waitlist {
-        background: $status-waitlist-color;
-      }
-
-      &.admitted {
-        background: $status-admitted-color;
-      }
-
-      &.confirmed {
-        background: $status-confirmed-color;
-      }
-
-      &.checked.in {
-        background: $status-checkedin-color;
-      }
-
-      &.declined {
-        background: $status-declined-color;
-      }
->>>>>>> 01ae98840fb68071f1ec7d5b19ba0166910e5d24
     }
   }
 
