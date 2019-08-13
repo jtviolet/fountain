@@ -27,29 +27,14 @@
         color: black;
       }
 
-      &.submitted {
+      &.completed {
         background: $status-submitted-color;
       }
 
-      &.waitlist {
-        background: $status-waitlist-color;
-      }
-
-      &.admitted {
-        background: $status-admitted-color;
-      }
-
-      &.confirmed {
-        background: $status-confirmed-color;
-      }
-
-      &.checked.in {
+      &.checkedin {
         background: $status-checkedin-color;
       }
 
-      &.declined {
-        background: $status-declined-color;
-      }
     }
   }
 

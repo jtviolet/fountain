@@ -298,15 +298,11 @@ schema.statics.validateProfile = function(profile, cb){
 schema.virtual('status.name').get(function(){
 
   if (this.status.checkedIn) {
-    return 'checked in';
-  }
-
-  if (this.status.confirmed) {
-    return "confirmed";
+    return 'checkedin';
   }
 
   if (this.status.completedProfile){
-    return "submitted";
+    return "completed";
   }
 
   if (!this.verified){

@@ -7,7 +7,7 @@ const AdminSettingsCtrl = require('../views/admin/settings/adminSettingsCtrl.js'
 const AdminStatsCtrl = require('../views/admin/stats/adminStatsCtrl.js');
 const AdminUserCtrl = require('../views/admin/user/adminUserCtrl.js');
 const AdminUsersCtrl = require('../views/admin/users/adminUsersCtrl.js');
-const ApplicationCtrl = require('../views/application/applicationCtrl.js');
+const ProfileCtrl = require('../views/profile/profileCtrl.js');
 const ConfirmationCtrl = require('../views/confirmation/confirmationCtrl.js');
 const DashboardCtrl = require('../views/dashboard/dashboardCtrl.js');
 const LoginCtrl = require('../views/login/loginCtrl.js');
@@ -76,10 +76,10 @@ angular.module('reg')
           }
         },
       })
-      .state('app.application', {
-        url: "/application",
-        templateUrl: "views/application/application.html",
-        controller: 'ApplicationCtrl',
+      .state('app.profile', {
+        url: "/profile",
+        templateUrl: "views/profile/profile.html",
+        controller: 'ProfileCtrl',
         data: {
           requireVerified: true
         },
