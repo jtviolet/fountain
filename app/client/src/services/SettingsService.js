@@ -15,14 +15,6 @@ angular.module('reg')
           timeClose: close,
         });
       },
-<<<<<<< HEAD
-=======
-      updateConfirmationTime: function(time){
-        return $http.put(base + 'confirm-by', {
-          time: time
-        });
-      },
->>>>>>> 01ae98840fb68071f1ec7d5b19ba0166910e5d24
       getWhitelistedDomains: function(){
         return $http.get(base + 'whitelist');
       },
@@ -30,33 +22,7 @@ angular.module('reg')
         return $http.put(base + 'whitelist', {
           emails: emails
         });
-<<<<<<< HEAD
       }
     };
-=======
-      },
-      updateWaitlistText: function(text){
-        return $http.put(base + 'waitlist', {
-          text: text
-        });
-      },
-      updateAcceptanceText: function(text){
-        return $http.put(base + 'acceptance', {
-          text: text
-        });
-      },
-      updateConfirmationText: function(text){
-        return $http.put(base + 'confirmation', {
-          text: text
-        });
-      },
-      updateAllowMinors: function(allowMinors){
-        return $http.put(base + 'minors', { 
-          allowMinors: allowMinors 
-        });
-      },
-    };
-
->>>>>>> 01ae98840fb68071f1ec7d5b19ba0166910e5d24
   }
   ]);
