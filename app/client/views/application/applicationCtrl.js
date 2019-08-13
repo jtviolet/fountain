@@ -16,16 +16,8 @@ angular.module('reg')
       // Set up the user
       $scope.user = currentUser.data;
 
-      // Is the student from MIT?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] == 'mit.edu';
-
-      // If so, default them to adult: true
-      if ($scope.isMitStudent){
-        $scope.user.profile.adult = true;
-      }
-
       // Populate the school dropdown
-      populateSchools();
+      populateBusinessOrgs();
       _setupForm();
 
       $scope.regIsClosed = Date.now() > settings.data.timeClose;
@@ -33,38 +25,26 @@ angular.module('reg')
       /**
        * TODO: JANK WARNING
        */
-      function populateSchools(){
+      function populateBusinessOrgs(){
         $http
-          .get('/assets/schools.json')
+          .get('/assets/businessOrgs.csv')
           .then(function(res){
-            var schools = res.data;
-            var email = $scope.user.email.split('@')[1];
-
-            if (schools[email]){
-              $scope.user.profile.school = schools[email].school;
-              $scope.autoFilledSchool = true;
-            }
-          });
-
-        $http
-          .get('/assets/schools.csv')
-          .then(function(res){
-            $scope.schools = res.data.split('\n');
-            $scope.schools.push('Other');
+            $scope.businessOrgs = res.data.split('\n');
+            $scope.businessOrgs.push('Other');
 
             var content = [];
 
-            for(i = 0; i < $scope.schools.length; i++) {
-              $scope.schools[i] = $scope.schools[i].trim();
-              content.push({title: $scope.schools[i]})
+            for(i = 0; i < $scope.businessOrgs.length; i++) {
+              $scope.businessOrgs[i] = $scope.businessOrgs[i].trim();
+              content.push({title: $scope.businessOrgs[i]})
             }
 
-            $('#school.ui.search')
+            $('#businessOrg.ui.search')
               .search({
                 source: content,
                 cache: true,
                 onSelect: function(result, response) {
-                  $scope.user.profile.school = result.title.trim();
+                  $scope.user.profile.businessOrg = result.title.trim();
                 }
               })
           });
@@ -74,7 +54,7 @@ angular.module('reg')
         UserService
           .updateProfile(Session.getUserId(), $scope.user.profile)
           .then(response => {
-            swal("Awesome!", "Your application has been saved.", "success").then(value => {
+            swal("Awesome!", "Your profile has been saved.", "success").then(value => {
               $state.go("app.dashboard");
             });
           }, response => {
@@ -82,29 +62,9 @@ angular.module('reg')
           });
       }
 
-      function isMinor() {
-        return !$scope.user.profile.adult;
-      }
-
-      function minorsAreAllowed() {
-        return settings.data.allowMinors;
-      }
-
-      function minorsValidation() {
-        // Are minors allowed to register?
-        if (isMinor() && !minorsAreAllowed()) {
-          return false;
-        }
-        return true;
-      }
-
       function _setupForm(){
-        // Custom minors validation rule
-        $.fn.form.settings.rules.allowMinors = function (value) {
-          return minorsValidation();
-        };
-
         // Semantic-UI form validation
+        // used to validate the UI fields that are required to be filled before submitting
         $('.ui.form').form({
           inline: true,
           fields: {
@@ -117,39 +77,48 @@ angular.module('reg')
                 }
               ]
             },
-            school: {
-              identifier: 'school',
+            businessOrg: {
+              identifier: 'businessOrg',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your school name.'
+                  prompt: 'Please select your business org.'
                 }
               ]
             },
-            year: {
-              identifier: 'year',
+            shirtSize: {
+              identifier: 'shirtSize',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select your graduation year.'
+                  prompt: 'Please give us a shirt size!'
                 }
               ]
             },
-            gender: {
-              identifier: 'gender',
+            signatureLiability: {
+              identifier: 'signatureLiabilityWaiver',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select a gender.'
+                  prompt: 'Please type your digital signature.'
                 }
               ]
             },
-            adult: {
-              identifier: 'adult',
+            signaturePhotoRelease: {
+              identifier: 'signaturePhotoRelease',
               rules: [
                 {
-                  type: 'allowMinors',
-                  prompt: 'You must be an adult, or an MIT student.'
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
+            signatureCodeOfConduct: {
+              identifier: 'signatureCodeOfConduct',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
                 }
               ]
             }

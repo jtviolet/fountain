@@ -60,7 +60,7 @@ function canRegister(email, password, callback){
         }
       }
       return callback({
-        message: "Not a valid educational email."
+        message: "Your email domain is not valid to register."
       }, false);
     });
 
@@ -88,13 +88,13 @@ UserController.loginWithPassword = function(email, password, callback){
 
   if (!password || password.length === 0){
     return callback({
-      message: 'Please enter a password'
+      message: 'Please enter a password.'
     });
   }
 
   if (!validator.isEmail(email)){
     return callback({
-      message: 'Invalid email'
+      message: 'Invalid email.'
     });
   }
 
@@ -150,10 +150,10 @@ UserController.createUser = function(email, password, callback) {
       return callback(err);
     }
 
-    var u = new User();
-    u.email = email;
-    u.password = User.generateHash(password);
-    u.save(function(err){
+    var newUser = new User();
+    newUser.email = email;
+    newUser.password = User.generateHash(password);
+    newUser.save(function(err){
       if (err){
         // Duplicate key error codes
         if (err.name === 'MongoError' && (err.code === 11000 || err.code === 11001)) {
@@ -165,17 +165,17 @@ UserController.createUser = function(email, password, callback) {
         return callback(err);
       } else {
         // yay! success.
-        var token = u.generateAuthToken();
+        var token = newUser.generateAuthToken();
 
         // Send over a verification email
-        var verificationToken = u.generateEmailVerificationToken();
+        var verificationToken = newUser.generateEmailVerificationToken();
         Mailer.sendVerificationEmail(email, verificationToken);
 
         return callback(
           null,
           {
             token: token,
-            user: u
+            user: newUser
           }
         );
       }
@@ -313,77 +313,6 @@ UserController.updateProfileById = function (id, profile, callback){
       callback);
 
   });
-};
-
-/**
- * Update a user's confirmation object, given an id and a confirmation.
- *
- * @param  {String}   id            Id of the user
- * @param  {Object}   confirmation  Confirmation object
- * @param  {Function} callback      Callback with args (err, user)
- */
-UserController.updateConfirmationById = function (id, confirmation, callback){
-
-  User.findById(id).exec(function(err, user){
-
-    if(err || !user){
-      return callback(err);
-    }
-
-    // Make sure that the user followed the deadline, but if they're already confirmed
-    // that's okay.
-    if (Date.now() >= user.status.confirmBy && !user.status.confirmed){
-      return callback({
-        message: "You've missed the confirmation deadline."
-      });
-    }
-
-    // You can only confirm acceptance if you're admitted and haven't declined.
-    User.findOneAndUpdate({
-      '_id': id,
-      'verified': true,
-      'status.admitted': true,
-      'status.declined': {$ne: true}
-    },
-      {
-        $set: {
-          'lastUpdated': Date.now(),
-          'confirmation': confirmation,
-          'status.confirmed': true,
-        }
-      }, {
-        new: true
-      },
-      callback);
-
-  });
-};
-
-/**
- * Decline an acceptance, given an id.
- *
- * @param  {String}   id            Id of the user
- * @param  {Function} callback      Callback with args (err, user)
- */
-UserController.declineById = function (id, callback){
-
-  // You can only decline if you've been accepted.
-  User.findOneAndUpdate({
-    '_id': id,
-    'verified': true,
-    'status.admitted': true,
-    'status.declined': false
-  },
-    {
-      $set: {
-        'lastUpdated': Date.now(),
-        'status.confirmed': false,
-        'status.declined': true
-      }
-    }, {
-      new: true
-    },
-    callback);
 };
 
 /**
@@ -625,33 +554,6 @@ UserController.resetPassword = function(token, password, callback){
 /**
  * [ADMIN ONLY]
  *
- * Admit a user.
- * @param  {String}   userId   User id of the admit
- * @param  {String}   user     User doing the admitting
- * @param  {Function} callback args(err, user)
- */
-UserController.admitUser = function(id, user, callback){
-  Settings.getRegistrationTimes(function(err, times){
-    User
-      .findOneAndUpdate({
-        _id: id,
-        verified: true
-      },{
-        $set: {
-          'status.admitted': true,
-          'status.admittedBy': user.email,
-          'status.confirmBy': times.timeConfirm
-        }
-      }, {
-        new: true
-      },
-      callback);
-  });
-};
-
-/**
- * [ADMIN ONLY]
- *
  * Check in a user.
  * @param  {String}   userId   User id of the user getting checked in.
  * @param  {String}   user     User checking in this person.
@@ -719,9 +621,9 @@ UserController.makeAdminById = function(id, user, callback){
 /**
  * [ADMIN ONLY]
  *
- * Make user an admin
- * @param  {String}   userId   User id of the user being made admin
- * @param  {String}   user     User making this person admin
+ * Remove user from admin
+ * @param  {String}   userId   User id of the user being removed from admin
+ * @param  {String}   user     User removing this person from admin
  * @param  {Function} callback args(err, user)
  */
 UserController.removeAdminById = function(id, user, callback){

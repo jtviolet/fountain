@@ -13,23 +13,49 @@ var profile = {
     max: 100,
   },
 
-  adult: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-
-  school: {
+  businessOrg: {
     type: String,
     min: 1,
     max: 150,
   },
 
-  graduationYear: {
+  github: {
+    type: String
+  },
+
+  wantsHardware: {
+    type: Boolean
+  },
+
+  hardware: {
+    type: String
+  },
+
+  wantsSoftware: {
+    type: Boolean
+  },
+
+  software: {
+    type: String
+  },
+
+  shirtSize: {
     type: String,
     enum: {
-      values: '2016 2017 2018 2019'.split(' '),
+      values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
     }
+  },
+
+  signatureLiability: {
+    type: String
+  },
+
+  signaturePhotoRelease: {
+    type: String
+  },
+
+  signatureCodeOfConduct: {
+    type: String
   },
 
   description: {
@@ -38,65 +64,11 @@ var profile = {
     max: 300
   },
 
-  essay: {
+  notes: {
     type: String,
     min: 0,
     max: 1500
   },
-
-  // Optional info for demographics
-  gender: {
-    type: String,
-    enum : {
-      values: 'M F O N'.split(' ')
-    }
-  },
-
-};
-
-// Only after confirmed
-var confirmation = {
-  phoneNumber: String,
-  dietaryRestrictions: [String],
-  shirtSize: {
-    type: String,
-    enum: {
-      values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
-    }
-  },
-  wantsHardware: Boolean,
-  hardware: String,
-
-  major: String,
-  github: String,
-  twitter: String,
-  website: String,
-  resume: String,
-
-  needsReimbursement: Boolean,
-  address: {
-    name: String,
-    line1: String,
-    line2: String,
-    city: String,
-    state: String,
-    zip: String,
-    country: String
-  },
-  receipt: String,
-
-  hostNeededFri: Boolean,
-  hostNeededSat: Boolean,
-  genderNeutral: Boolean,
-  catFriendly: Boolean,
-  smokingFriendly: Boolean,
-  hostNotes: String,
-
-  notes: String,
-
-  signatureLiability: String,
-  signaturePhotoRelease: String,
-  signatureCodeOfConduct: String,
 };
 
 var status = {
@@ -109,43 +81,21 @@ var status = {
     required: true,
     default: false,
   },
-  admitted: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  admittedBy: {
-    type: String,
-    validate: [
-      validator.isEmail,
-      'Invalid Email',
-    ],
-    select: false
-  },
+
   confirmed: {
     type: Boolean,
     required: true,
     default: false,
   },
-  declined: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
+
   checkedIn: {
     type: Boolean,
     required: true,
     default: false,
   },
+
   checkInTime: {
     type: Number,
-  },
-  confirmBy: {
-    type: Number
-  },
-  reimbursementGiven: {
-    type: Boolean,
-    default: false
   }
 };
 
@@ -214,13 +164,11 @@ var schema = new mongoose.Schema({
   profile: profile,
 
   /**
-   * Confirmation information
+   * Status information
    *
-   * Extension of the user model, but can only be edited after acceptance.
+   * Extension of the user model.
    */
-  confirmation: confirmation,
-
-  status: status,
+  status: status
 
 });
 
@@ -331,10 +279,11 @@ schema.statics.getByToken = function(token, callback){
 schema.statics.validateProfile = function(profile, cb){
   return cb(!(
     profile.name.length > 0 &&
-    profile.adult &&
-    profile.school.length > 0 &&
-    ['2016', '2017', '2018', '2019'].indexOf(profile.graduationYear) > -1 &&
-    ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
+    profile.businessOrg.length > 0 &&
+    ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL'].indexOf(profile.shirtSize) > -1 &&
+    profile.signatureLiability.length > 0 &&
+    profile.signaturePhotoRelease.length > 0 &&
+    profile.signatureCodeOfConduct.length > 0
     ));
 };
 
@@ -352,16 +301,8 @@ schema.virtual('status.name').get(function(){
     return 'checked in';
   }
 
-  if (this.status.declined) {
-    return "declined";
-  }
-
   if (this.status.confirmed) {
     return "confirmed";
-  }
-
-  if (this.status.admitted) {
-    return "admitted";
   }
 
   if (this.status.completedProfile){
