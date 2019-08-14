@@ -101,45 +101,12 @@ angular.module('reg')
           });
       };
 
-      // Confirmation Time -----------------------------
-
-      $scope.updateConfirmationTime = function(){
-        var confirmBy = cleanDate($scope.settings.timeConfirm).getTime();
-
-        SettingsService
-          .updateConfirmationTime(confirmBy)
-          .then(response => {
-            updateSettings(response.data);
-            swal("Sounds good!", "Confirmation Date Updated", "success");
-          });
-      };
-
       // Acceptance / Confirmation Text ----------------
 
       var converter = new showdown.Converter();
 
       $scope.markdownPreview = function(text){
         return $sce.trustAsHtml(converter.makeHtml(text));
-      };
-
-      $scope.updateWaitlistText = function(){
-        var text = $scope.settings.waitlistText;
-        SettingsService
-          .updateWaitlistText(text)
-          .then(response => {
-            swal("Looks good!", "Waitlist Text Updated", "success");
-            updateSettings(response.data);
-          });
-      };
-
-      $scope.updateAcceptanceText = function(){
-        var text = $scope.settings.acceptanceText;
-        SettingsService
-          .updateAcceptanceText(text)
-          .then(response => {
-            swal("Looks good!", "Acceptance Text Updated", "success");
-            updateSettings(response.data);
-          });
       };
 
       $scope.updateConfirmationText = function(){

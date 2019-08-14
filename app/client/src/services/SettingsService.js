@@ -22,7 +22,12 @@ angular.module('reg')
         return $http.put(base + 'whitelist', {
           emails: emails
         });
-      }
+      },
+      updateConfirmationText: function(text){
+        return $http.put(base + 'confirmation', {
+          text: text
+        });
+      },
     };
   }
   ]);
