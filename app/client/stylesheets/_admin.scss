@@ -11,10 +11,13 @@
     overflow-x: auto;
   }
 
+
+
   table.users {
 
     tr {
       cursor: pointer;
+      white-space: nowrap;
 
       &.admin {
         background: lighten($brand-secondary, 50%) !important;
