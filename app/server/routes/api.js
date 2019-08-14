@@ -310,28 +310,6 @@ module.exports = function(router) {
   });
 
   /**
-   * Update the acceptance text.
-   * body: {
-   *   text: String
-   * }
-   */
-  router.put('/settings/waitlist', isAdmin, function(req, res){
-    var text = req.body.text;
-    SettingsController.updateField('waitlistText', text, defaultResponse(req, res));
-  });
-
-  /**
-   * Update the acceptance text.
-   * body: {
-   *   text: String
-   * }
-   */
-  router.put('/settings/acceptance', isAdmin, function(req, res){
-    var text = req.body.text;
-    SettingsController.updateField('acceptanceText', text, defaultResponse(req, res));
-  });
-
-  /**
    * Update the confirmation text.
    * body: {
    *   text: String
@@ -340,17 +318,6 @@ module.exports = function(router) {
   router.put('/settings/confirmation', isAdmin, function(req, res){
     var text = req.body.text;
     SettingsController.updateField('confirmationText', text, defaultResponse(req, res));
-  });
-
-  /**
-   * Update the confirmation date.
-   * body: {
-   *   time: Number
-   * }
-   */
-  router.put('/settings/confirm-by', isAdmin, function(req, res){
-    var time = req.body.time;
-    SettingsController.updateField('timeConfirm', time, defaultResponse(req, res));
   });
 
   /**
@@ -388,19 +355,6 @@ module.exports = function(router) {
   router.put('/settings/whitelist', isAdmin, function(req, res){
     var emails = req.body.emails;
     SettingsController.updateWhitelistedDomains(emails, defaultResponse(req, res));
-  });
-
-  /**
-   * [ADMIN ONLY]
-   * {
-   *   allowMinors: Boolean
-   * }
-   * res: Settings
-   *
-   */
-  router.put('/settings/minors', isAdmin, function(req, res){
-    var allowMinors = req.body.allowMinors;
-    SettingsController.updateField('allowMinors', allowMinors, defaultResponse(req, res));
   });
 
 };

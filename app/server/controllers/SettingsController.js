@@ -26,10 +26,10 @@ SettingsController.updateWhitelistedDomains = function(emails, callback){
   Settings
     .findOneAndUpdate({},{
       $set: {
-        whitelistedEmails: emails
+        whitelistedDomains: emails
       }
     }, {new: true})
-    .select('whitelistedEmails')
+    .select('whitelistedDomains')
     .exec(callback);
 };
 
