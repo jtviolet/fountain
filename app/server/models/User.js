@@ -94,6 +94,10 @@ var status = {
     default: false,
   },
 
+  checkedInBy: {
+    type: String
+  },
+
   checkInTime: {
     type: Number,
   }

@@ -9,25 +9,34 @@ angular.module('reg')
     function($scope, $http, User, UserService){
       $scope.selectedUser = User.data;
 
-      // Populate the school dropdown
-      populateSchools();
+      // Populate the business orgs dropdown
+      populateBusinessOrgs();
 
       /**
        * TODO: JANK WARNING
        */
-      function populateSchools(){
-
+      function populateBusinessOrgs(){
         $http
-          .get('/assets/schools.json')
+          .get('/assets/businessOrgs.csv')
           .then(function(res){
-            var schools = res.data;
-            var email = $scope.selectedUser.email.split('@')[1];
+            $scope.businessOrgs = res.data.split('\n');
+            $scope.businessOrgs.push('Other');
 
-            if (schools[email]){
-              $scope.selectedUser.profile.school = schools[email].school;
-              $scope.autoFilledSchool = true;
+            var content = [];
+
+            for(i = 0; i < $scope.businessOrgs.length; i++) {
+              $scope.businessOrgs[i] = $scope.businessOrgs[i].trim();
+              content.push({title: $scope.businessOrgs[i]})
             }
 
+            $('#businessOrg.ui.search')
+              .search({
+                source: content,
+                cache: true,
+                onSelect: function(result, response) {
+                  $scope.selectedUser.profile.businessOrg = result.title.trim();
+                }
+              })
           });
       }
 

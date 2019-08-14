@@ -566,7 +566,8 @@ UserController.checkInById = function(id, user, callback){
   },{
     $set: {
       'status.checkedIn': true,
-      'status.checkInTime': Date.now()
+      'status.checkInTime': Date.now(),
+      'status.checkedInBy': user._id
     }
   }, {
     new: true
