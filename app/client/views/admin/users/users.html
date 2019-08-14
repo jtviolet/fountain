@@ -1,34 +1,34 @@
 <div class="ui segment">
-
-  <div class="ui stackable grid">
     <div class="three wide column">
-      <div class="ui header">
-        Search
-      </div>
-      <div class="ui form">
-        <div class="field">
-          <div class="ui icon fluid input">
-            <input type="text"
-                   placeholder="Search..."
-                   ng-model="queryText"
-                   ng-model-options="{debounce: 300}">
-              <i class="search icon"></i>
-          </div>
+        <div class="ui header">
+          Search
         </div>
-
+        <div class="ui form">
+          <div class="field">
+            <div class="ui icon fluid input">
+              <input type="text"
+                     placeholder="Search..."
+                     ng-model="queryText"
+                     ng-model-options="{debounce: 300}">
+                <i class="search icon"></i>
+            </div>
+          </div>
+  
+        </div>
+  
+        <div class="ui divider"></div>
+  
+        <button
+          ng-repeat="page in pages"
+          ng-class="page == currentPage ? 'active pink' : ''"
+          ng-click="goToPage(page)"
+          class="ui icon basic page button">
+          {{page}}
+        </button>
+  
       </div>
-
-      <div class="ui divider"></div>
-
-      <button
-        ng-repeat="page in pages"
-        ng-class="page == currentPage ? 'active pink' : ''"
-        ng-click="goToPage(page)"
-        class="ui icon basic page button">
-        {{page}}
-      </button>
-
-    </div>
+  <div class="ui stackable grid">
+    
     <div id="table-container" class="thirteen wide column">
       <div class="ui header">
         Users
@@ -76,7 +76,7 @@
             <th>E-mail address</th>
             <th>Business Org</th>
             <th>T-shirt Size</th>
-            <th>V/C</th>
+            <th>Verified / Completed Profile</th>
             <th>Profile</th>
             <th>Check-in / Make admin</th>
           </tr>
