@@ -76,9 +76,11 @@
             <th>E-mail address</th>
             <th>Business Org</th>
             <th>T-shirt Size</th>
-            <th>Verified / Completed Profile</th>
+            <th>Verified</th>
+            <th>Completed Profile</th>
             <th>Profile</th>
-            <th>Check-in / Make admin</th>
+            <th>Check-in</th>
+            <th>Make admin</th>
           </tr>
         </thead>
         <tbody>
@@ -106,10 +108,9 @@
               class="center aligned">
                 {{user.profile.shirtSize}}
             </td>
+            <!-- Verified -->
             <td
-              class="collapsing">
-
-              <!-- Verified -->
+              class="center">
               <i
                 ng-if="user.verified"
                 class="green check circle icon">
@@ -118,8 +119,11 @@
                 ng-if="!user.verified"
                 class="red remove circle icon">
               </i>
+            </td>
 
-              <!-- Submitted -->
+            <!-- Submitted -->
+            <td
+              class="center">
               <i
                 ng-if="user.status.completedProfile"
                 class="green check circle icon">
@@ -128,11 +132,10 @@
                 ng-if="!user.status.completedProfile"
                 class="red remove circle icon">
               </i>
-
             </td>
 
             <td
-              class="center aligned">
+              class="center">
                 <button
                   ng-click="goUser($event, user)"
                   class="ui circular mini basic icon button">
@@ -141,7 +144,7 @@
             </td>
 
             <td
-              class="center aligned">
+              class="center">
 
               <button
                 ng-click="toggleCheckIn($event, user, $index)"
@@ -156,7 +159,9 @@
                   class="green flag icon"></i>
 
               </button>
+            </td>
 
+            <td>
               <button
                 ng-click="toggleAdmin($event, user, $index)"
                 class="ui circular mini basic green icon button">
@@ -170,13 +175,10 @@
                   class="green spy icon"></i>
 
               </button>
-
             </td>
           </tr>
         </tbody>
       </table> 
-
     </div>
   </div>
-
 </div>
