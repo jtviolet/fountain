@@ -35,19 +35,15 @@ angular.module('reg')
           })
       }
 
-      /*
       if ($scope.user.teamCode){
         _populateTeammates();
       } else {
         _populateTeams();
       }
-      */
-     _populateTeammates();
-     _populateTeams();
 
-      $scope.joinTeam = function(){
+      $scope.joinTeam = function(user, team){
         UserService
-          .joinOrCreateTeam($scope.code)
+          .joinOrCreateTeam(team.name)
           .then(response => {
             $scope.error = null;
             $scope.user = response.data;
