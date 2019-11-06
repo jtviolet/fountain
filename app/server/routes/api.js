@@ -1,4 +1,5 @@
 var UserController = require('../controllers/UserController');
+var TeamController = require('../controllers/TeamController');
 var SettingsController = require('../controllers/SettingsController');
 
 var request = require('request');
