@@ -401,7 +401,8 @@ UserController.createOrJoinTeam = function(id, code, callback){
       verified: true
     },{
       $set: {
-        teamCode: code
+        teamCode: code,
+        isTeamLeader: (users.length === 0) // Set the user as admin if first person to join the team
       }
     }, {
       new: true

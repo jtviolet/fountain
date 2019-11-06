@@ -10,7 +10,7 @@ var TeamController = {};
  * @param  {Function} callback args(err, user)
  */
 TeamController.getAll = function (callback) {
-  User.find({}, 'teamCode isTeamLeader name', (err, users) => {
+  User.find({}, 'teamCode isTeamLeader profile.name', (err, users) => {
     if (err) {
       callback(err);
     } else {
@@ -18,17 +18,19 @@ TeamController.getAll = function (callback) {
       const res = {
         teams: []
       }
-      users.data.array.forEach(user => {
-        if (teams.has(user.teamCode)) {
-          teams.set(user.teamCode, {
-            members: teams.get(user.teamCode).members.push(user.name),
-            leader: user.isTeamLeader ? user.name : undefined 
-          });
-        } else {
-          teams.set(user.teamCode, { 
-            members: [user.name],
-            leader: user.isTeamLeader ? user.name : undefined 
-          });
+      users.forEach(user => {
+        if (user.teamCode) {
+          if (teams.has(user.teamCode)) {
+            teams.set(user.teamCode, {
+              members: teams.get(user.teamCode).members.push(user.profile.name),
+              leader: user.isTeamLeader ? user.profile.name : undefined 
+            });
+          } else {
+            teams.set(user.teamCode, { 
+              members: [user.profile.name],
+              leader: user.isTeamLeader ? user.profile.name : undefined 
+            });
+          }
         }
       });
       teams.forEach((value, key) => {
@@ -38,7 +40,7 @@ TeamController.getAll = function (callback) {
           leader: value.leader
         });
       });
-      callback(res);
+      callback(null, res);
     }
   });
 };
