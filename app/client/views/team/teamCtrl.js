@@ -5,8 +5,9 @@ angular.module('reg')
     'settings',
     'Utils',
     'UserService',
+    'TeamService',
     'TEAM',
-    function($scope, currentUser, settings, Utils, UserService, TEAM){
+    function($scope, currentUser, settings, Utils, UserService, TeamService, TEAM){
       // Get the current user's most recent data.
       var Settings = settings.data;
 
@@ -25,8 +26,19 @@ angular.module('reg')
           })
       }
 
+      function _populateTeams() {
+        TeamService
+          .getAll()
+          .then(response => {
+            $scope.error = null;
+            $scope.teams = response.data.teams;
+          })
+      }
+
       if ($scope.user.teamCode){
         _populateTeammates();
+      } else {
+        _populateTeams();
       }
 
       $scope.joinTeam = function(){

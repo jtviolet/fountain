@@ -4,49 +4,156 @@
   </div>
   <div class="ui stackable centered page grid">
     <div class="column">
-      <div
-        class="ui error message"
-        ng-show="error">
+      <div class="ui segment">
+        <div class="three wide column">
+          <div class="ui header">
+            Join a team
+          </div>
+          <div class="ui form">
+            <div class="field">
+              <div class="ui icon fluid input">
+                <input type="text" placeholder="Search..." ng-model="queryText" ng-model-options="{debounce: 300}">
+                <i class="search icon"></i>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="ui divider"></div>
+
+          <button ng-repeat="page in pages" ng-class="page == currentPage ? 'active pink' : ''"
+            ng-click="goToPage(page)" class="ui icon basic page button">
+            {{page}}
+          </button>
+
+        </div>
+        <div class="ui stackable grid">
+
+          <div id="table-container" class="thirteen wide column">
+            <div class="ui header">
+              Teams
+            </div>
+            <div class="ui long user modal">
+              <i class="close icon"></i>
+              <div class="content">
+
+                <div ng-repeat="section in selectedUser.sections">
+                  <div class="ui divider"></div>
+
+                  <h3> {{section.title}} </h3>
+
+                  <p ng-repeat="field in section.fields">
+                    <strong> {{field.name}}: </strong>
+
+                    <span ng-show="field.type === 'boolean'">
+                      <i class="red circle remove icon" ng-show="!field.value"></i>
+                      <i class="green circle check icon" ng-show="field.value"></i>
+                    </span>
+
+                    <span ng-if="field.type == null">
+                      {{field.value}}
+                    </span>
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="actions">
+                <div class="ui positive right labeled icon button">
+                  Nothing
+                  <i class="checkmark icon"></i>
+                </div>
+              </div>
+            </div>
+
+            <table class="ui celled selectable compact users table">
+              <thead>
+                <tr>
+                  <th>Team Name</th>
+                  <th>Team Leader</th>
+                  <th># of Members</th>
+                  <th>Join/Leave</th>
+                  <th>Approval Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr 
+                  ng-repeat="team in teams" 
+                  ng-class="rowClass(team)">
+                  <td class="center aligned">
+                    {{team.name}}
+                  </td>
+                  <td class="center aligned">
+                    {{team.leader}}
+                  </td>
+                  <td>
+                    <strong>
+                      {{team.members.length}}
+                      &nbsp;
+
+                    </strong>
+                  </td>
+                  <td class="center">
+                    Join/Leave
+                    <!--
+                    <button ng-click="toggleCheckIn($event, user, $index)"
+                      class="ui circular mini basic green icon button">
+
+                      <i ng-if="!user.status.checkedIn" class="flag outline icon"></i>
+
+                      <i ng-if="user.status.checkedIn" class="green flag icon"></i>
+
+                    </button>
+                    -->
+                  </td>
+                  <td>
+                    Approved
+                    <!--
+                    <strong>
+                      {{user.team.status}}
+                      &nbsp;
+
+                    </strong>
+                    -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="ui error message" ng-show="error">
         {{error}}
       </div>
 
       <div class="ui segment">
-        <div
-          ng-show="!user.teamCode && !regIsOpen">
+        <div ng-show="!user.teamCode && !regIsOpen">
           <p>
             {{ TEAM.NO_TEAM_REG_CLOSED }}
           </p>
         </div>
-        <div
-          class="ui form"
-          ng-show="!user.teamCode && regIsOpen">
+        <div class="ui form" ng-show="!user.teamCode && regIsOpen">
 
           <div class="title">
-            Join or Create a Team
+            ... or create a team
           </div>
 
           <br>
 
           <div class="field">
-            <input
-              class="ui input"
-              type="text"
-              placeholder="Choose your team name..."
-              ng-model="code">
+            <input class="ui input" type="text" placeholder="Choose your team name..." ng-model="code">
           </div>
 
           <div class="field">
-            <button
-              class="ui fluid pink button"
-              ng-click="joinTeam()">
-              Join or Create Team
+            <button class="ui fluid pink button" ng-click="joinTeam()">
+              Create Team
             </button>
           </div>
 
         </div>
 
-        <div
-          ng-show="user.teamCode">
+        <div ng-show="user.teamCode">
           <div class="form">
             <div class="title">
               Your Team Name:
@@ -67,25 +174,21 @@
             </div>
           </div>
 
-          <p
-            ng-repeat="user in teammates"
-            class="item">
+          <p ng-repeat="user in teammates" class="item">
             {{user.profile.name || 'Somebody (has not filled out their profile!)'}}
           </p>
 
-          <div
-            ng-show="regIsOpen">
+          <div ng-show="regIsOpen">
             <div class="ui divider"></div>
 
-            <button
-              class="ui fluid red button"
-              ng-click="leaveTeam()">Leave Team</button>
+            <button class="ui fluid red button" ng-click="leaveTeam()">Leave Team</button>
           </div>
 
         </div>
 
       </div>
     </div>
+
   </div>
 
 </div>

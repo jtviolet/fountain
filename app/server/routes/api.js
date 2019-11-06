@@ -289,6 +289,48 @@ module.exports = function(router) {
     UserController.removeAdminById(id, user, defaultResponse(req, res));
   });
 
+  /**
+   *  API!
+   */
+
+  // ---------------------------------------------
+  // Teams
+  // ---------------------------------------------
+
+  /**
+   *
+   * GET - Get all teams.
+   * ex. Paginate with ?page=0&size=100
+   */
+  router.get('/teams', function(req, res){
+    /*
+    var query = req.query;
+
+    if (query.page && query.size){
+
+      TeamController.getPage(query, defaultResponse(req, res));
+
+    } else {
+
+      TeamController.getAll(defaultResponse(req, res));
+
+    }
+    */
+
+   TeamController.getAll(defaultResponse(req, res));
+
+  });
+
+  /**
+   *
+   * GET - Get a specific team.
+   */
+  /*
+  router.get('/teams/:id', function(req, res){
+    TeamController.getById(req.params.id, defaultResponse(req, res));
+  });
+  */
+
 
   // ---------------------------------------------
   // Settings [ADMIN ONLY!]
