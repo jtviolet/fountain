@@ -5,11 +5,12 @@
   <div class="ui stackable centered page grid">
     <div class="column">
       <div ng-if="!user.teamCode" class="ui segment">
+        
         <div class="three wide column">
           <div class="ui form">
             <div class="field">
               <div class="ui icon fluid input">
-                <input type="text" placeholder="Search for a team..." ng-model="queryText" ng-model-options="{debounce: 300}">
+                <input type="text" placeholder="Search for a team..." ng-model="teamQueryText" ng-model-options="{debounce: 300}">
                 <i class="search icon"></i>
               </div>
             </div>
@@ -17,11 +18,6 @@
           </div>
 
           <div class="ui divider"></div>
-
-          <button ng-repeat="page in pages" ng-class="page == currentPage ? 'active pink' : ''"
-            ng-click="goToPage(page)" class="ui icon basic page button">
-            {{page}}
-          </button>
 
         </div>
         <div class="ui stackable grid">
