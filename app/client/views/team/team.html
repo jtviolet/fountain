@@ -84,7 +84,7 @@
                     </strong>
                   </td>
                   <td class="center aligned">
-                    <button ng-click="joinTeam(user, team)"
+                    <button ng-click="joinTeam(team)"
                       class="ui circular mini basic icon button">
 
                       <i class="green check circle icon"></i>
@@ -116,11 +116,11 @@
           <br>
 
           <div class="field">
-            <input class="ui input" type="text" placeholder="Choose your team name..." ng-model="code">
+            <input class="ui input" type="text" placeholder="Create a team..." ng-model="code">
           </div>
 
           <div class="field">
-            <button class="ui fluid pink button" ng-click="joinTeam()">
+            <button class="ui fluid pink button" ng-click="createTeam()">
               Create Team
             </button>
           </div>
