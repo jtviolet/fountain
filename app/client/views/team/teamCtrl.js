@@ -62,9 +62,21 @@ angular.module('reg')
         _populateTeammates();
       } 
 
-      $scope.joinTeam = function(user, team){
+      $scope.joinTeam = function(team){
         UserService
           .joinOrCreateTeam(team.name)
+          .then(response => {
+            $scope.error = null;
+            $scope.user = response.data;
+            _populateTeammates();
+          }, response => {
+            $scope.error = response.data.message;
+          });
+      };
+
+      $scope.createTeam = function(){
+        UserService
+          .joinOrCreateTeam($scope.code)
           .then(response => {
             $scope.error = null;
             $scope.user = response.data;
