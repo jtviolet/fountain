@@ -422,7 +422,8 @@ UserController.leaveTeam = function(id, callback){
     _id: id
   },{
     $set: {
-      teamCode: null
+      teamCode: null,
+      isTeamLeader: null
     }
   }, {
     new: true
