@@ -48,7 +48,7 @@ TeamController.getAll = function (callback) {
  * @param  {[type]}   size     size of the page
  * @param  {Function} callback args(err, {users, page, totalPages})
  */
-/*
+
 TeamController.getPage = function(query, callback){
   var page = query.page;
   var size = parseInt(query.size);
@@ -58,8 +58,6 @@ TeamController.getPage = function(query, callback){
   if (searchText.length > 0){
     var queries = [];
     var re = new RegExp(searchText, 'i');
-    queries.push({ email: re });
-    queries.push({ 'profile.name': re });
     queries.push({ 'teamCode': re });
 
     findQuery.$or = queries;
@@ -68,9 +66,9 @@ TeamController.getPage = function(query, callback){
   User
     .find(findQuery)
     .sort({
-      'profile.name': 'asc'
+      'teamCode': 'asc'
     })
-    .select('+status.admittedBy')
+    .select('teamCode profile.name')
     .skip(page * size)
     .limit(size)
     .exec(function (err, users){
@@ -78,23 +76,45 @@ TeamController.getPage = function(query, callback){
         return callback(err);
       }
 
-      User.count(findQuery).exec(function(err, count){
+      let teams = new Map();
+      const res = {
+        teams: []
+      }
+      users.forEach(user => {
+        if (user.teamCode) {
+          if (teams.has(user.teamCode)) {
+            teams.set(user.teamCode, {
+              members: teams.get(user.teamCode).members.concat([user.profile.name])
+            });
+          } else {
+            teams.set(user.teamCode, { 
+              members: [user.profile.name]
+            });
+          }
+        }
+      });
+      teams.forEach((value, key) => {
+        res.teams.push({
+          name: key,
+          members: value.members
+        });
+      });
+
+      User.distinct('teamCode', function(err, distinctTeams) {
 
         if (err){
           return callback(err);
         }
 
         return callback(null, {
-          users: users,
+          teams: res.teams,
           page: page,
           size: size,
-          totalPages: Math.ceil(count / size)
+          totalPages: Math.ceil(distinctTeams.length / size)
         });
       });
-
     });
 };
-*/
 
 /**
  * Get a user by id.

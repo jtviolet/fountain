@@ -21,6 +21,16 @@ angular.module('reg')
       getAll: function(){
         return $http.get(base);
       },
+
+      getPage: function(page, size, text){
+        return $http.get(teams + '?' + $.param(
+          {
+            text: text,
+            page: page ? page : 0,
+            size: size ? size : 50
+          })
+        );
+      },
     };
   }
   ]);
