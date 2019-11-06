@@ -13,7 +13,7 @@ angular.module('reg')
       // Get the current user's most recent data.
       var Settings = settings.data;
 
-      $scope.pages = [];
+      $scope.teamPages = [];
       $scope.teams = [];
 
       $scope.regIsOpen = Utils.isRegOpen(Settings);
@@ -31,7 +31,7 @@ angular.module('reg')
         for (var i = 0; i < data.totalPages; i++){
           p.push(i);
         }
-        $scope.pages = p;
+        $scope.teamPages = p;
       }
 
       function _populateTeammates() {
@@ -61,6 +61,13 @@ angular.module('reg')
       if ($scope.user.teamCode){
         _populateTeammates();
       } 
+
+      $scope.goToTeamPage = function(page){
+        $state.go('app.team', {
+          page: page,
+          size: $stateParams.size || 50
+        });
+      };
 
       $scope.joinTeam = function(team){
         UserService

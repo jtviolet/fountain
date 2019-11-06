@@ -5,12 +5,13 @@
   <div class="ui stackable centered page grid">
     <div class="column">
       <div ng-if="!user.teamCode" class="ui segment">
-        
+
         <div class="three wide column">
           <div class="ui form">
             <div class="field">
               <div class="ui icon fluid input">
-                <input type="text" placeholder="Search for a team..." ng-model="teamQueryText" ng-model-options="{debounce: 300}">
+                <input type="text" placeholder="Search for a team..." ng-model="teamQueryText"
+                  ng-model-options="{debounce: 300}">
                 <i class="search icon"></i>
               </div>
             </div>
@@ -18,6 +19,11 @@
           </div>
 
           <div class="ui divider"></div>
+
+          <button ng-repeat="page in teamPages" ng-class="page == currentPage ? 'active pink' : ''"
+            ng-click="goToTeamPage(page)" class="ui icon basic page button">
+            {{page}}
+          </button>
 
         </div>
         <div class="ui stackable grid">
@@ -69,10 +75,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr 
-                  ng-repeat="team in teams" 
-                  ng-if="team.members.length < TEAM.MAX_SIZE"
-                  ng-class="rowClass(team)">
+                <tr ng-repeat="team in teams" ng-if="team.members.length < TEAM.MAX_SIZE" ng-class="rowClass(team)">
                   <td class="center aligned">
                     {{team.name}}
                   </td>
@@ -84,8 +87,7 @@
                     </strong>
                   </td>
                   <td class="center aligned">
-                    <button ng-click="joinTeam(team)"
-                      class="ui circular mini basic icon button">
+                    <button ng-click="joinTeam(team)" class="ui circular mini basic icon button">
 
                       <i class="green check circle icon"></i>
 
