@@ -145,6 +145,12 @@ var schema = new mongoose.Schema({
     max: 140,
   },
 
+  isTeamLeader: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   verified: {
     type: Boolean,
     required: true,
