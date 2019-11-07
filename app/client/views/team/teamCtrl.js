@@ -44,9 +44,9 @@ angular.module('reg')
           })
       }
 
-      function _populateTeams() {
+      function _populateTeams(page, size) {
         TeamService
-        .getPage($stateParams.page, $stateParams.size, "")
+        .getPage(page, size, "")
         .then(response => {
           updatePage(response.data);
         });
@@ -55,14 +55,11 @@ angular.module('reg')
       if ($scope.user.teamCode){
         _populateTeammates();
       } else {
-        _populateTeams();
+        _populateTeams($stateParams.page, $stateParams.size);
       }
 
       $scope.goToTeamPage = function(page){
-        $state.go('app.team', {
-          page: page,
-          size: $stateParams.size || 50
-        });
+        _populateTeams(page, $scope.pageSize || 50)
       };
 
       $scope.joinTeam = function(team){
