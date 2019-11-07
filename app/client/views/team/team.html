@@ -10,7 +10,9 @@
           <div class="ui form">
             <div class="field">
               <div class="ui icon fluid input">
-                <input type="text" placeholder="Search for a team..." ng-model="teamQueryText"
+                <input type="text" placeholder="Search for a team..." 
+                  ng-model="formData.teamSearchQuery"
+                  ng-change="searchTeams()"
                   ng-model-options="{debounce: 300}">
                 <i class="search icon"></i>
               </div>
