@@ -1,34 +1,28 @@
 <div class="ui segment">
-    <div class="three wide column">
-        <div class="ui header">
-          Search
+  <div class="three wide column">
+    <div class="ui header">
+      Search
+    </div>
+    <div class="ui form">
+      <div class="field">
+        <div class="ui icon fluid input">
+          <input type="text" placeholder="Search..." ng-model="queryText" ng-model-options="{debounce: 300}">
+          <i class="search icon"></i>
         </div>
-        <div class="ui form">
-          <div class="field">
-            <div class="ui icon fluid input">
-              <input type="text"
-                     placeholder="Search..."
-                     ng-model="queryText"
-                     ng-model-options="{debounce: 300}">
-                <i class="search icon"></i>
-            </div>
-          </div>
-  
-        </div>
-  
-        <div class="ui divider"></div>
-  
-        <button
-          ng-repeat="page in pages"
-          ng-class="page == currentPage ? 'active pink' : ''"
-          ng-click="goToPage(page)"
-          class="ui icon basic page button">
-          {{page}}
-        </button>
-  
       </div>
+
+    </div>
+
+    <div class="ui divider"></div>
+
+    <button ng-repeat="page in pages" ng-class="page == currentPage ? 'active pink' : ''" ng-click="goToPage(page)"
+      class="ui icon basic page button">
+      {{page}}
+    </button>
+
+  </div>
   <div class="ui stackable grid">
-    
+
     <div id="table-container" class="thirteen wide column">
       <div class="ui header">
         Users
@@ -67,8 +61,7 @@
         </div>
       </div>
 
-      <table
-        class="ui celled selectable compact users table">
+      <table class="ui celled selectable compact users table">
         <thead>
           <tr>
             <th>Status</th>
@@ -84,13 +77,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            ng-click="goUser($event, user)"
-            ng-repeat="user in users"
-            ng-class="rowClass(user)">
-            <td
-              class="center aligned">
-                {{user.status.name.toUpperCase()}}
+          <tr ng-click="goUser($event, user)" ng-repeat="user in users" ng-class="rowClass(user)">
+            <td class="center aligned">
+              {{user.status.name.toUpperCase()}}
             </td>
             <td>
               <strong>
@@ -100,85 +89,57 @@
               </strong>
             </td>
             <td>{{user.email}}</td>
-            <td
-              class="center aligned">
-                {{user.profile.businessOrg}}
+            <td class="center aligned">
+              {{user.profile.businessOrg}}
             </td>
-            <td
-              class="center aligned">
-                {{user.profile.shirtSize}}
+            <td class="center aligned">
+              {{user.profile.shirtSize}}
             </td>
             <!-- Verified -->
-            <td
-              class="center">
-              <i
-                ng-if="user.verified"
-                class="green check circle icon">
+            <td class="center">
+              <i ng-if="user.verified" class="green check circle icon">
               </i>
-              <i
-                ng-if="!user.verified"
-                class="red remove circle icon">
+              <i ng-if="!user.verified" class="red remove circle icon">
               </i>
             </td>
 
             <!-- Submitted -->
-            <td
-              class="center">
-              <i
-                ng-if="user.status.completedProfile"
-                class="green check circle icon">
+            <td class="center">
+              <i ng-if="user.status.completedProfile" class="green check circle icon">
               </i>
-              <i
-                ng-if="!user.status.completedProfile"
-                class="red remove circle icon">
+              <i ng-if="!user.status.completedProfile" class="red remove circle icon">
               </i>
             </td>
 
-            <td
-              class="center">
-                <button
-                  ng-click="goUser($event, user)"
-                  class="ui circular mini basic icon button">
-                  <i class="linkify icon"></i>
-                </button>
+            <td class="center">
+              <button ng-click="goUser($event, user)" class="ui circular mini basic icon button">
+                <i class="linkify icon"></i>
+              </button>
             </td>
 
-            <td
-              class="center">
+            <td class="center">
 
-              <button
-                ng-click="toggleCheckIn($event, user, $index)"
-                class="ui circular mini basic green icon button">
+              <button ng-click="toggleCheckIn($event, user, $index)" class="ui circular mini basic green icon button">
 
-                <i
-                  ng-if="!user.status.checkedIn"
-                  class="flag outline icon"></i>
+                <i ng-if="!user.status.checkedIn" class="flag outline icon"></i>
 
-                <i
-                  ng-if="user.status.checkedIn"
-                  class="green flag icon"></i>
+                <i ng-if="user.status.checkedIn" class="green flag icon"></i>
 
               </button>
             </td>
 
             <td>
-              <button
-                ng-click="toggleAdmin($event, user, $index)"
-                class="ui circular mini basic green icon button">
+              <button ng-click="toggleAdmin($event, user, $index)" class="ui circular mini basic green icon button">
 
-                <i
-                  ng-if="!user.admin"
-                  class="spy outline icon"></i>
+                <i ng-if="!user.admin" class="spy outline icon"></i>
 
-                <i
-                  ng-if="user.admin"
-                  class="green spy icon"></i>
+                <i ng-if="user.admin" class="green spy icon"></i>
 
               </button>
             </td>
           </tr>
         </tbody>
-      </table> 
+      </table>
     </div>
   </div>
 </div>

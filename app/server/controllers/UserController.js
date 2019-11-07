@@ -336,7 +336,7 @@ UserController.verifyByToken = function(token, callback){
 };
 
 /**
- * Get a specific user's teammates. NAMES ONLY.
+ * Get a specific user's teammates. NAMES and EMAILS ONLY.
  * @param  {String}   id       id of the user we're looking for.
  * @param  {Function} callback args(err, users)
  */
@@ -358,7 +358,7 @@ UserController.getTeammates = function(id, callback){
       .find({
         teamCode: code
       })
-      .select('profile.name')
+      .select('profile.name email')
       .exec(callback);
   });
 };
@@ -401,7 +401,8 @@ UserController.createOrJoinTeam = function(id, code, callback){
       verified: true
     },{
       $set: {
-        teamCode: code
+        teamCode: code,
+        isTeamLeader: (users.length === 0) // Set the user as admin if first person to join the team
       }
     }, {
       new: true
@@ -421,7 +422,8 @@ UserController.leaveTeam = function(id, callback){
     _id: id
   },{
     $set: {
-      teamCode: null
+      teamCode: null,
+      isTeamLeader: null
     }
   }, {
     new: true
