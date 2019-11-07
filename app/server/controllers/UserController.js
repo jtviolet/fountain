@@ -336,7 +336,7 @@ UserController.verifyByToken = function(token, callback){
 };
 
 /**
- * Get a specific user's teammates. NAMES ONLY.
+ * Get a specific user's teammates. NAMES and EMAILS ONLY.
  * @param  {String}   id       id of the user we're looking for.
  * @param  {Function} callback args(err, users)
  */
@@ -358,7 +358,7 @@ UserController.getTeammates = function(id, callback){
       .find({
         teamCode: code
       })
-      .select('profile.name')
+      .select('profile.name email')
       .exec(callback);
   });
 };
