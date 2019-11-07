@@ -1,11 +1,12 @@
 var UserController = require('../controllers/UserController');
+var TeamController = require('../controllers/TeamController');
 var SettingsController = require('../controllers/SettingsController');
 
 var request = require('request');
 
-module.exports = function(router) {
+module.exports = function (router) {
 
-  function getToken(req){
+  function getToken(req) {
     return req.headers['x-access-token'];
   }
 
@@ -13,17 +14,17 @@ module.exports = function(router) {
    * Using the access token provided, check to make sure that
    * you are, indeed, an admin.
    */
-  function isAdmin(req, res, next){
+  function isAdmin(req, res, next) {
 
     var token = getToken(req);
 
-    UserController.getByToken(token, function(err, user){
+    UserController.getByToken(token, function (err, user) {
 
       if (err) {
         return res.status(500).send(err);
       }
 
-      if (user && user.admin){
+      if (user && user.admin) {
         req.user = user;
         return next();
       }
@@ -44,17 +45,17 @@ module.exports = function(router) {
    * That, or you're the admin, so you can do whatever you
    * want I suppose!
    */
-  function isOwnerOrAdmin(req, res, next){
+  function isOwnerOrAdmin(req, res, next) {
     var token = getToken(req);
     var userId = req.params.id;
 
-    UserController.getByToken(token, function(err, user){
+    UserController.getByToken(token, function (err, user) {
 
       if (err || !user) {
         return res.status(500).send(err);
       }
 
-      if (user._id == userId || user.admin){
+      if (user._id == userId || user.admin) {
         return next();
       }
       return res.status(400).send({
@@ -68,27 +69,27 @@ module.exports = function(router) {
    * @param  {[type]} res [description]
    * @return {[type]}     [description]
    */
-  function defaultResponse(req, res){
-    return function(err, data){
-      if (err){
+  function defaultResponse(req, res) {
+    return function (err, data) {
+      if (err) {
         // SLACK ALERT!
-        if (process.env.NODE_ENV === 'production'){
+        if (process.env.NODE_ENV === 'production') {
           request
             .post(process.env.SLACK_HOOK,
               {
                 form: {
                   payload: JSON.stringify({
                     "text":
-                    "``` \n" +
-                    "Request: \n " +
-                    req.method + ' ' + req.url +
-                    "\n ------------------------------------ \n" +
-                    "Body: \n " +
-                    JSON.stringify(req.body, null, 2) +
-                    "\n ------------------------------------ \n" +
-                    "\nError:\n" +
-                    JSON.stringify(err, null, 2) +
-                    "``` \n"
+                      "``` \n" +
+                      "Request: \n " +
+                      req.method + ' ' + req.url +
+                      "\n ------------------------------------ \n" +
+                      "Body: \n " +
+                      JSON.stringify(req.body, null, 2) +
+                      "\n ------------------------------------ \n" +
+                      "\nError:\n" +
+                      JSON.stringify(err, null, 2) +
+                      "``` \n"
                   })
                 }
               },
@@ -121,10 +122,10 @@ module.exports = function(router) {
    * GET - Get all users, or a page at a time.
    * ex. Paginate with ?page=0&size=100
    */
-  router.get('/users', isAdmin, function(req, res){
+  router.get('/users', isAdmin, function (req, res) {
     var query = req.query;
 
-    if (query.page && query.size){
+    if (query.page && query.size) {
 
       UserController.getPage(query, defaultResponse(req, res));
 
@@ -138,7 +139,7 @@ module.exports = function(router) {
   /**
    * [ADMIN ONLY]
    */
-  router.get('/users/stats', isAdmin, function(req, res){
+  router.get('/users/stats', isAdmin, function (req, res) {
     UserController.getStats(defaultResponse(req, res));
   });
 
@@ -147,7 +148,7 @@ module.exports = function(router) {
    *
    * GET - Get a specific user.
    */
-  router.get('/users/:id', isOwnerOrAdmin, function(req, res){
+  router.get('/users/:id', isOwnerOrAdmin, function (req, res) {
     UserController.getById(req.params.id, defaultResponse(req, res));
   });
 
@@ -156,11 +157,11 @@ module.exports = function(router) {
    *
    * PUT - Update a specific user's profile.
    */
-  router.put('/users/:id/profile', isOwnerOrAdmin, function(req, res){
+  router.put('/users/:id/profile', isOwnerOrAdmin, function (req, res) {
     var profile = req.body.profile;
     var id = req.params.id;
 
-    UserController.updateProfileById(id, profile , defaultResponse(req, res));
+    UserController.updateProfileById(id, profile, defaultResponse(req, res));
   });
 
   /**
@@ -168,7 +169,7 @@ module.exports = function(router) {
    *
    * PUT - Update a specific user's confirmation information.
    */
-  router.put('/users/:id/confirm', isOwnerOrAdmin, function(req, res){
+  router.put('/users/:id/confirm', isOwnerOrAdmin, function (req, res) {
     var confirmation = req.body.confirmation;
     var id = req.params.id;
 
@@ -180,7 +181,7 @@ module.exports = function(router) {
    *
    * POST - Decline an acceptance.
    */
-  router.post('/users/:id/decline', isOwnerOrAdmin, function(req, res){
+  router.post('/users/:id/decline', isOwnerOrAdmin, function (req, res) {
     var confirmation = req.body.confirmation;
     var id = req.params.id;
 
@@ -191,7 +192,7 @@ module.exports = function(router) {
    * Get a user's team member's names. Uses the code associated
    * with the user making the request.
    */
-  router.get('/users/:id/team', isOwnerOrAdmin, function(req, res){
+  router.get('/users/:id/team', isOwnerOrAdmin, function (req, res) {
     var id = req.params.id;
     UserController.getTeammates(id, defaultResponse(req, res));
   });
@@ -202,7 +203,7 @@ module.exports = function(router) {
    *   code: STRING
    * }
    */
-  router.put('/users/:id/team', isOwnerOrAdmin, function(req, res){
+  router.put('/users/:id/team', isOwnerOrAdmin, function (req, res) {
     var code = req.body.code;
     var id = req.params.id;
 
@@ -213,7 +214,7 @@ module.exports = function(router) {
   /**
    * Remove a user from a team.
    */
-  router.delete('/users/:id/team', isOwnerOrAdmin, function(req, res){
+  router.delete('/users/:id/team', isOwnerOrAdmin, function (req, res) {
     var id = req.params.id;
 
     UserController.leaveTeam(id, defaultResponse(req, res));
@@ -226,7 +227,7 @@ module.exports = function(router) {
    *   newPassword: STRING
    * }
    */
-  router.put('/users/:id/password', isOwnerOrAdmin, function(req, res){
+  router.put('/users/:id/password', isOwnerOrAdmin, function (req, res) {
     return res.status(304).send();
     // Currently disable.
     // var id = req.params.id;
@@ -246,7 +247,7 @@ module.exports = function(router) {
    *
    * Also attaches the user who did the admitting, for liabaility.
    */
-  router.post('/users/:id/admit', isAdmin, function(req, res){
+  router.post('/users/:id/admit', isAdmin, function (req, res) {
     // Accept the hacker. Admin only
     var id = req.params.id;
     var user = req.user;
@@ -256,7 +257,7 @@ module.exports = function(router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post('/users/:id/checkin', isAdmin, function(req, res){
+  router.post('/users/:id/checkin', isAdmin, function (req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.checkInById(id, user, defaultResponse(req, res));
@@ -265,7 +266,7 @@ module.exports = function(router) {
   /**
    * Check in a user. ADMIN ONLY, DUH
    */
-  router.post('/users/:id/checkout', isAdmin, function(req, res){
+  router.post('/users/:id/checkout', isAdmin, function (req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.checkOutById(id, user, defaultResponse(req, res));
@@ -274,7 +275,7 @@ module.exports = function(router) {
   /**
    * Make user an admin
    */
-  router.post('/users/:id/makeadmin', isAdmin, function(req, res){
+  router.post('/users/:id/makeadmin', isAdmin, function (req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.makeAdminById(id, user, defaultResponse(req, res));
@@ -283,11 +284,45 @@ module.exports = function(router) {
   /**
    * Demote user
    */
-  router.post('/users/:id/removeadmin', isAdmin, function(req, res){
+  router.post('/users/:id/removeadmin', isAdmin, function (req, res) {
     var id = req.params.id;
     var user = req.user;
     UserController.removeAdminById(id, user, defaultResponse(req, res));
   });
+
+  /**
+   *  API!
+   */
+
+  // ---------------------------------------------
+  // Teams
+  // ---------------------------------------------
+
+  /**
+   *
+   * GET - Get all teams.
+   * ex. Paginate with ?page=0&size=100
+   */
+  router.get('/teams', function (req, res) {
+    var query = req.query;
+
+    if (query.page && query.size) {
+      TeamController.getPage(query, defaultResponse(req, res));
+    } else {
+      TeamController.getAll(defaultResponse(req, res));
+    }
+
+  });
+
+  /**
+   *
+   * GET - Get a specific team.
+   */
+  /*
+  router.get('/teams/:id', function(req, res){
+    TeamController.getById(req.params.id, defaultResponse(req, res));
+  });
+  */
 
 
   // ---------------------------------------------
@@ -305,7 +340,7 @@ module.exports = function(router) {
    *   allowMinors: Boolean
    * }
    */
-  router.get('/settings', function(req, res){
+  router.get('/settings', function (req, res) {
     SettingsController.getPublicSettings(defaultResponse(req, res));
   });
 
@@ -315,7 +350,7 @@ module.exports = function(router) {
    *   text: String
    * }
    */
-  router.put('/settings/confirmation', isAdmin, function(req, res){
+  router.put('/settings/confirmation', isAdmin, function (req, res) {
     var text = req.body.text;
     SettingsController.updateField('confirmationText', text, defaultResponse(req, res));
   });
@@ -327,7 +362,7 @@ module.exports = function(router) {
    *   timeClose: Number
    * }
    */
-  router.put('/settings/times', isAdmin, function(req, res){
+  router.put('/settings/times', isAdmin, function (req, res) {
     var open = req.body.timeOpen;
     var close = req.body.timeClose;
     SettingsController.updateRegistrationTimes(open, close, defaultResponse(req, res));
@@ -340,7 +375,7 @@ module.exports = function(router) {
    *   emails: [String]
    * }
    */
-  router.get('/settings/whitelist', isAdmin, function(req, res){
+  router.get('/settings/whitelist', isAdmin, function (req, res) {
     SettingsController.getWhitelistedDomains(defaultResponse(req, res));
   });
 
@@ -352,7 +387,7 @@ module.exports = function(router) {
    * res: Settings
    *
    */
-  router.put('/settings/whitelist', isAdmin, function(req, res){
+  router.put('/settings/whitelist', isAdmin, function (req, res) {
     var emails = req.body.emails;
     SettingsController.updateWhitelistedDomains(emails, defaultResponse(req, res));
   });
