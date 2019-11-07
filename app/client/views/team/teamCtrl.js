@@ -13,6 +13,7 @@ angular.module('reg')
       // Get the current user's most recent data.
       var Settings = settings.data;
 
+      $scope.formData = {};
       $scope.teamPages = [];
       $scope.teams = [];
 
@@ -43,24 +44,19 @@ angular.module('reg')
           })
       }
 
-      TeamService
-        .getPage($stateParams.page, $stateParams.size, $stateParams.query)
+      function _populateTeams() {
+        TeamService
+        .getPage($stateParams.page, $stateParams.size, "")
         .then(response => {
           updatePage(response.data);
         });
-
-      function _populateTeams() {
-        TeamService
-          .getAll()
-          .then(response => {
-            $scope.error = null;
-            $scope.teams = response.data.teams;
-          })
       }
 
       if ($scope.user.teamCode){
         _populateTeammates();
-      } 
+      } else {
+        _populateTeams();
+      }
 
       $scope.goToTeamPage = function(page){
         $state.go('app.team', {
@@ -93,6 +89,14 @@ angular.module('reg')
           });
       };
 
+      $scope.searchTeams = function() {
+        TeamService
+          .getPage($stateParams.page, $stateParams.size, $scope.formData.teamSearchQuery)
+          .then(response => {
+            updatePage(response.data);
+          });
+      };
+
       $scope.leaveTeam = function(){
         UserService
           .leaveTeam()
@@ -102,15 +106,10 @@ angular.module('reg')
             $scope.teammates = [];
           }, response => {
             $scope.error = response.data.message;
+          }).then(() => {
+            $scope.formData.teamSearchQuery = "";
+            _populateTeams();
           });
       };
-
-      $scope.$watch('teamQueryText', function(queryText){
-        TeamService
-          .getPage($stateParams.page, $stateParams.size, queryText)
-          .then(response => {
-            updatePage(response.data);
-          });
-      });
 
     }]);
