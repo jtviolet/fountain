@@ -1,5 +1,5 @@
 <div id="stats">
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui red segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="users icon"></i>
       Users
@@ -57,7 +57,7 @@
       </div>
     </div>
   </div>
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui yellow segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="flag icon"></i>
       Teams
@@ -95,7 +95,7 @@
       </div>
     </div>
   </div>
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui green segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="shopping bag icon"></i>
       Swag
@@ -123,7 +123,7 @@
       XXL ({{stats.swag.shirtSizes['XXL']}})
     </div>
   </div>
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui blue segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="plug icon"></i>
       Hardware
@@ -145,7 +145,7 @@
       </div>
     </div>
   </div>
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui purple segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="laptop icon"></i>
       Software
@@ -167,12 +167,12 @@
       </div>
     </div>
   </div>
-  <div class="ui pink segment" ng-class="{'loading': loading}">
+  <div class="ui black segment" ng-class="{'loading': loading}">
     <div class="ui header">
       <i class="globe icon"></i>
       Locations
     </div>
-    <div class="ui blue segment" ng-class="{'loading': loading}" ng-repeat="location in stats.locations">
+    <div class="ui grey segment" ng-class="{'loading': loading}" ng-repeat="location in stats.locations">
       <div class="ui header">
         {{location.name}}
       </div>
