@@ -24,9 +24,11 @@
           <label> Full Name </label>
           <input type="text"
                  name="name"
-                 ng-model="user.profile.name">
+                 ng-model="user.profile.name"
+                 required>
         </div>
 
+      <!--
         <div class="field">
           <label> Business Org </label>
           <div id="businessOrg" class="ui search">
@@ -36,54 +38,30 @@
             <div class="results"></div>
           </div>
         </div>
+        -->
 
         <div class="field">
-          <label> Github </label>
-          <input type="text"
-                 name="github"
-                 placeholder="https://github.com/foobar"
-                 ng-model="user.profile.github">
-        </div>
-
-        <div class="field">
-          <label>
-            Will you be needing hardware?
-          </label>
-          <div class="ui checkbox">
-            <input type="checkbox" ng-model="user.profile.wantsHardware">
-            <label> Yes, I would like to use hardware in my hack. </label>
-          </div>
-        </div>
-
-        <div
-          class="field"
-          ng-show="user.profile.wantsHardware">
-          <label>
-            What kind of hardware would be useful for you?
-          </label>
-          <p>
-            We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything. We will publish a list of available hardware closer to the day of the event.
-          </p>
-          <input type="text" ng-model="user.profile.hardware">
-        </div>
-
-        <div class="field">
-          <label>
-            Will you be needing any FireEye software?
-          </label>
-          <div class="ui checkbox">
-            <input type="checkbox" ng-model="user.profile.wantsSoftware">
-            <label> Yes, I would like to use FireEye software in my hack. </label>
-          </div>
-        </div>
-
-        <div
-          class="field"
-          ng-show="user.profile.wantsSoftware">
-          <label>
-            What kind of FireEye software would be useful for you?
-          </label>
-          <input type="text" ng-model="user.profile.software">
+          <label> What location will you be attending from? </label>
+          <select
+            name="location"
+            ng-model="user.profile.location"
+            required>
+            <option value="Remote">Remote</option>
+            <option value="Milpitas">Milpitas</option>
+            <option value="Reston">Reston</option>
+            <option value="Alexandria">Alexandria</option>
+            <option value="Draper">Draper</option>
+            <option value="India">India</option>
+            <option value="Amsterdam">Amsterdam</option>
+            <option value="Dublin">Dublin</option>
+            <option value="Dallas">Dallas</option>
+            <option value="NYC">NYC</option>
+            <option value="Cork">Cork</option>
+            <option value="London">London</option>
+            <option value="Toronto">Toronto</option>
+            <option value="Sydney">Sydney</option>
+            <option value="Tokyo">Tokyo</option>
+          </select>
         </div>
 
         <div class="field">
@@ -109,6 +87,98 @@
             <option value="WXL">Women's X-Large</option>
             <option value="WXXL">Women's XX-Large</option>
           </select>
+        </div>
+
+        <div class="field">
+          <label>
+            Have you attended any hackathons previously, FireEye or otherwise?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.previouslyAttended">
+            <label> Yes </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing any FireEye hardware?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsFireeyeHardware">
+            <label> Yes, I would like to use FireEye hardware in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsFireeyeHardware">
+          <label>
+            What kind of FireEye hardware would be useful for you?
+          </label>
+          <p>
+            We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything.
+          </p>
+          <input type="text" ng-model="user.profile.fireeyeHardware">
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing any FireEye software?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsFireeyeSoftware">
+            <label> Yes, I would like to use FireEye software in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsFireeyeSoftware">
+          <label>
+            What kind of FireEye software would be useful for you?
+          </label>
+          <input type="text" ng-model="user.profile.fireeyeSoftware">
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing any third-party hardware?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsThirdpartyHardware">
+            <label> Yes, I would like to use third-party hardware in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsThirdpartyHardware">
+          <label>
+            What kind of third-party hardware would be useful for you?
+          </label>
+          <p>
+            We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything.
+          </p>
+          <input type="text" ng-model="user.profile.thirdpartyHardware">
+        </div>
+
+        <div class="field">
+          <label>
+            Will you be needing any third-party software?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.wantsThirdpartySoftware">
+            <label> Yes, I would like to use third-party software in my hack. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.wantsThirdpartySoftware">
+          <label>
+            What kind of third-party software would be useful for you?
+          </label>
+          <input type="text" ng-model="user.profile.thirdpartySoftware">
         </div>
 
         <div class="field">
@@ -172,6 +242,44 @@
                  name="signatureCodeOfConduct"
                  placeholder="Your Full Legal Name"
                  ng-model="user.profile.signatureCodeOfConduct">
+        </div>
+
+        <div class="field">
+          <label>
+            Do you have any food allergies?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.hasFoodAllergies">
+            <label> Yes, I have a food allergy. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.hasFoodAllergies">
+          <label>
+            What food allergy do you have?
+          </label>
+          <input type="text" ng-model="user.profile.foodAllergy">
+        </div>
+
+        <div class="field">
+          <label>
+            Do you have any dietary restrictions?
+          </label>
+          <div class="ui checkbox">
+            <input type="checkbox" ng-model="user.profile.hasDietaryRestriction">
+            <label> Yes, I have a dietary restriction. </label>
+          </div>
+        </div>
+
+        <div
+          class="field"
+          ng-show="user.profile.hasDietaryRestriction">
+          <label>
+            What dietary restriction do you have?
+          </label>
+          <input type="text" ng-model="user.profile.dietaryRestriction">
         </div>
 
         <div class="field">
