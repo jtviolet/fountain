@@ -13,30 +13,11 @@ var profile = {
     max: 100,
   },
 
-  businessOrg: {
+  location: {
     type: String,
-    min: 1,
-    max: 150,
-  },
-
-  github: {
-    type: String
-  },
-
-  wantsHardware: {
-    type: Boolean
-  },
-
-  hardware: {
-    type: String
-  },
-
-  wantsSoftware: {
-    type: Boolean
-  },
-
-  software: {
-    type: String
+    enum: {
+      values: "Remote Milpitas Reston Alexandria Draper India Amsterdam Dublin Dallas NYC Cork London Toronto Sydney Tokyo".split(' ')
+    }
   },
 
   shirtSize: {
@@ -44,6 +25,47 @@ var profile = {
     enum: {
       values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
     }
+  },
+
+  previouslyAttended: {
+    type: Boolean,
+    default: false
+  },
+
+  wantsFireeyeHardware: {
+    type: Boolean,
+    default: false
+  },
+
+  fireeyeHardware: {
+    type: String
+  },
+
+  wantsFireeyeSoftware: {
+    type: Boolean,
+    default: false
+  },
+
+  fireeyeSoftware: {
+    type: String
+  },
+
+  wantsThirdpartyHardware: {
+    type: Boolean,
+    default: false
+  },
+
+  thirdpartyHardware: {
+    type: String
+  },
+
+  wantsThirdpartySoftware: {
+    type: Boolean,
+    default: false
+  },
+
+  thirdpartySoftware: {
+    type: String
   },
 
   signatureLiability: {
@@ -55,6 +77,24 @@ var profile = {
   },
 
   signatureCodeOfConduct: {
+    type: String
+  },
+
+  hasFoodAllergies: {
+    type: Boolean,
+    default: false
+  },
+
+  foodAllergy: {
+    type: String
+  },
+
+  hasDietaryRestriction: {
+    type: Boolean,
+    default: false
+  },
+
+  dietaryRestriction: {
     type: String
   },
 
@@ -283,8 +323,8 @@ schema.statics.getByToken = function(token, callback){
 schema.statics.validateProfile = function(profile, cb){
   return cb(!(
     profile.name.length > 0 &&
-    profile.businessOrg.length > 0 &&
     ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL'].indexOf(profile.shirtSize) > -1 &&
+    ["Remote", "Milpitas", "Reston", "Alexandria", "Draper", "India", "Amsterdam", "Dublin", "Dallas", "NYC", "Cork", "London", "Toronto", "Sydney", "Tokyo"].indexOf(profile.location) > -1 &&
     profile.signatureLiability.length > 0 &&
     profile.signaturePhotoRelease.length > 0 &&
     profile.signatureCodeOfConduct.length > 0

@@ -77,12 +77,12 @@ angular.module('reg')
                 }
               ]
             },
-            businessOrg: {
-              identifier: 'businessOrg',
+            location: {
+              identifier: 'location',
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please select your business org.'
+                  prompt: 'Please let us know what location you will be working from!'
                 }
               ]
             },
