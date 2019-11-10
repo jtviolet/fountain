@@ -23,7 +23,7 @@
   </div>
   <div class="ui stackable grid">
 
-    <div id="table-container" class="thirteen wide column">
+    <div id="table-container" class="sixteen wide column">
       <div class="ui header">
         Users
       </div>
@@ -67,11 +67,14 @@
             <th>Status</th>
             <th>Name</th>
             <th>E-mail address</th>
-            <th>Business Org</th>
+            <th>Location</th>
             <th>T-shirt Size</th>
+            <th>FireEye Hardware</th>
+            <th>FireEye Software</th>
+            <th>Thirdparty Hardware</th>
+            <th>Thirdparty Software</th>
             <th>Verified</th>
             <th>Completed Profile</th>
-            <th>Profile</th>
             <th>Check-in</th>
             <th>Make admin</th>
           </tr>
@@ -90,13 +93,41 @@
             </td>
             <td>{{user.email}}</td>
             <td class="center aligned">
-              {{user.profile.businessOrg}}
+              {{user.profile.location}}
             </td>
             <td class="center aligned">
               {{user.profile.shirtSize}}
             </td>
+            <!-- Wants FireEye Hardware -->
+            <td class="center aligned">
+              <i ng-if="user.profile.wantsFireeyeHardware" class="green check circle icon">
+              </i>
+              <i ng-if="!user.profile.wantsFireeyeHardware" class="red remove circle icon">
+              </i>
+            </td>
+            <!-- Wants FireEye Software -->
+            <td class="center aligned">
+              <i ng-if="user.profile.wantsFireeyeSoftware" class="green check circle icon">
+              </i>
+              <i ng-if="!user.profile.wantsFireeyeSoftware" class="red remove circle icon">
+              </i>
+            </td>
+            <!-- Wants Thirdparty Hardware -->
+            <td class="center aligned">
+              <i ng-if="user.profile.wantsFireeyeHardware" class="green check circle icon">
+              </i>
+              <i ng-if="!user.profile.wantsFireeyeHardware" class="red remove circle icon">
+              </i>
+            </td>
+            <!-- Wants Thirdparty Software -->
+            <td class="center aligned">
+              <i ng-if="user.profile.wantsThirdpartySoftware" class="green check circle icon">
+              </i>
+              <i ng-if="!user.profile.wantsThirdpartySoftware" class="red remove circle icon">
+              </i>
+            </td>            
             <!-- Verified -->
-            <td class="center">
+            <td class="center aligned">
               <i ng-if="user.verified" class="green check circle icon">
               </i>
               <i ng-if="!user.verified" class="red remove circle icon">
@@ -104,20 +135,14 @@
             </td>
 
             <!-- Submitted -->
-            <td class="center">
+            <td class="center aligned">
               <i ng-if="user.status.completedProfile" class="green check circle icon">
               </i>
               <i ng-if="!user.status.completedProfile" class="red remove circle icon">
               </i>
             </td>
 
-            <td class="center">
-              <button ng-click="goUser($event, user)" class="ui circular mini basic icon button">
-                <i class="linkify icon"></i>
-              </button>
-            </td>
-
-            <td class="center">
+            <td class="center aligned">
 
               <button ng-click="toggleCheckIn($event, user, $index)" class="ui circular mini basic green icon button">
 
