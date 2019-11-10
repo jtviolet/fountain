@@ -349,10 +349,6 @@ schema.virtual('status.name').get(function(){
     return "completed";
   }
 
-  if (!this.verified){
-    return "unverified";
-  }
-
   return "incomplete";
 
 });
