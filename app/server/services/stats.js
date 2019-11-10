@@ -59,10 +59,57 @@ function calculateStats() {
       newStats.users.numberSignedUp = users.length;
 
       async.each(users, function (user, callback) {
-        newStats.users.numberVerified += user.verified ? 1 : 0
+        //////////////////////////////////////////////////////////////
+        // begin: calulate users stats (except total users, that's above)
+        //////////////////////////////////////////////////////////////
+        newStats.users.numberVerified += user.verified ? 1 : 0;
+        newStats.users.numberCompletedRegistration += user.status.completedProfile ? 1 : 0;
+        newStats.users.numberCheckedin += user.status.checkedIn ? 1 : 0;
+        newStats.users.numberPreviouslyAttendedHackathons += user.profile.previouslyAttended ? 1 : 0;
+        //////////////////////////////////////////////////////////////
+        // end: calulate users stats
+        //////////////////////////////////////////////////////////////
 
+        //////////////////////////////////////////////////////////////
+        // begin: calulate teams stats
+        //////////////////////////////////////////////////////////////
+        newStats.teams.numberTeams += user.teamCode ? 1 : 0;
+        newStats.teams.numberUsersWithoutTeams += user.teamCode ? 0 : 1;
+        //newStats.teams.numberTeamsOneUser
+        //newStats.teams.averageTeamSize
+        //////////////////////////////////////////////////////////////
+        // end: calulate teams stats
+        //////////////////////////////////////////////////////////////
 
-        // calulate each location's data
+        //////////////////////////////////////////////////////////////
+        // begin: calulate swag stats
+        //////////////////////////////////////////////////////////////
+        newStats.swag.shirtSizes[user.profile.shirtSize] += 1;
+        //////////////////////////////////////////////////////////////
+        // end: calulate swag stats
+        //////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////
+        // begin: calulate hardware stats
+        //////////////////////////////////////////////////////////////
+        newStats.hardware.numberUsersRequestingFireeyeHardware += user.profile.wantsFireeyeHardware ? 1 : 0;
+        newStats.hardware.numberUsersRequestingThirdpartyHardware += user.profile.wantsThirdpartyHardware ? 1 : 0;
+        //////////////////////////////////////////////////////////////
+        // end: calulate hardware stats
+        //////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////
+        // begin: calulate hardware stats
+        //////////////////////////////////////////////////////////////
+        newStats.software.numberUsersRequestingFireeyeSoftware += user.profile.wantsFireeyeSoftware ? 1 : 0;
+        newStats.software.numberUsersRequestingThirdpartySoftware += user.profile.wantsThirdpartySoftware ? 1 : 0;
+        //////////////////////////////////////////////////////////////
+        // end: calulate hardware stats
+        //////////////////////////////////////////////////////////////
+
+        //////////////////////////////////////////////////////////////
+        // begin: calulate location stats
+        //////////////////////////////////////////////////////////////
         let location = newStats.locations.find(location => { return location.name === user.profile.location });
         if (location) {
           // increment the stuff
@@ -114,7 +161,9 @@ function calculateStats() {
             newStats.locations.push(location);
           }
         }
-        ////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////
+        // end: calulate location stats
+        //////////////////////////////////////////////////////////////
 
 
         console.log('Stats updated!');
@@ -126,7 +175,7 @@ function calculateStats() {
 
 // Calculate once every five minutes.
 calculateStats();
-setInterval(calculateStats, 30000);
+setInterval(calculateStats, 10000);
 
 var Stats = {};
 
