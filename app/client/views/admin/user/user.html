@@ -2,8 +2,7 @@
 
   <div class="ui header">
     {{selectedUser.profile.name ? selectedUser.profile.name : selectedUser.email}}
-    <span
-      ng-show="selectedUser.admin">
+    <span ng-show="selectedUser.admin">
       (Admin)
     </span>
   </div>
@@ -11,134 +10,52 @@
 </div>
 
 <div class="ui botom attached segment">
-
   <div class="ui form">
+    <div class="divided title">Basic Information</div>
 
-    <fieldset ng-disabled="false">
-
-      <div class="ui header">
-        Basic Info
-      </div>
-
-      <div>
-          <strong> Status: </strong>
-          <span
-            class="ui label">
-            {{selectedUser.status.name.toUpperCase()}}
-          </span>
-      </div>
-
-      <div class="field">
-          <strong>
-              Checked-in by:
-          </strong>
-          {{selectedUser.status.checkedIn ? selectedUser.status.checkedInBy : 'Not Yet Checked-in'}}
-        </div>
-    
-      <div class="field">
-          <strong>
-            Created on:
-          </strong>
-          {{ selectedUser.timestamp | date : "medium" }}
-        </div>
-    
-      <div class="field">
-        <strong>
-          Last Updated:
-        </strong>
-        {{ selectedUser.lastUpdated | date : "medium" }}
-      </div>
-
-    </fieldset>
-
-  </div>
-
-  <div class="ui divider"></div>
-
-  <div class="ui form">
-
-    <fieldset ng-disabled="false">
-
-      <div class="ui header">
-       Profile
-      </div>
+    <fieldset ng-disabled="regIsClosed">
 
       <div class="field">
         <label> Email </label>
-        <input type="email"
-               name="email"
-               disabled="disabled"
-               ng-model="selectedUser.email">
-      </div>
-
-      <div class="field">
-        <label> Team </label>
-        <input type="text" disabled="disabled" ng-model="selectedUser.teamCode" />
+        <input type="email" name="email" disabled="disabled" ng-model="selectedUser.email">
       </div>
 
       <div class="field">
         <label> Full Name </label>
-        <input type="text"
-               name="name"
-               ng-model="selectedUser.profile.name">
+        <input type="text" name="name" ng-model="selectedUser.profile.name" required>
       </div>
 
-      <div class="field">
-          <label> Business Org </label>
-          <div id="businessOrg" class="ui search">
-            <div class="ui input">
-              <input class="prompt" type="text" placeholder="Business Org" name="businessOrg" ng-model="selectedUser.profile.businessOrg">                
-            </div>
-            <div class="results"></div>
-          </div>
+      <!--
+    <div class="field">
+      <label> Business Org </label>
+      <div id="businessOrg" class="ui search">
+        <div class="ui input">
+          <input class="prompt" type="text" placeholder="Business Org" name="businessOrg" ng-model="selectedUser.profile.businessOrg">                
         </div>
+        <div class="results"></div>
+      </div>
+    </div>
+    -->
 
       <div class="field">
-        <label> Github </label>
-        <input type="text"
-               name="github"
-               ng-model="selectedUser.profile.github">
-      </div>
-
-      <div class="field">
-        <label>
-          Will you be needing hardware?
-        </label>
-        <div class="ui checkbox">
-          <input type="checkbox" ng-model="selectedUser.profile.wantsHardware">
-          <label> Yes, I would like to use hardware in my hack. </label>
-        </div>
-      </div>
-
-      <div
-        class="field"
-        ng-show="selectedUser.profile.wantsHardware">
-        <label>
-          What kind of hardware would be useful for you?
-        </label>
-        <p>
-          We will have a hardware checkout, and we'll try our best to provide things that would be useful to you - however, we can't guarantee everything. We will publish a list of available hardware closer to the day of the event.
-        </p>
-        <input type="text" ng-model="selectedUser.profile.hardware">
-      </div>
-
-      <div class="field">
-        <label>
-          Will you be needing any FireEye software?
-        </label>
-        <div class="ui checkbox">
-          <input type="checkbox" ng-model="selectedUser.profile.wantsSoftware">
-          <label> Yes, I would like to use FireEye software in my hack. </label>
-        </div>
-      </div>
-
-      <div
-        class="field"
-        ng-show="selectedUser.profile.wantsSoftware">
-        <label>
-          What kind of FireEye software would be useful for you?
-        </label>
-        <input type="text" ng-model="selectedUser.profile.software">
+        <label> What location will you be attending from? </label>
+        <select name="location" ng-model="selectedUser.profile.location" required>
+          <option value="Remote">Remote</option>
+          <option value="Milpitas">Milpitas</option>
+          <option value="Reston">Reston</option>
+          <option value="Alexandria">Alexandria</option>
+          <option value="Draper">Draper</option>
+          <option value="India">India</option>
+          <option value="Amsterdam">Amsterdam</option>
+          <option value="Dublin">Dublin</option>
+          <option value="Dallas">Dallas</option>
+          <option value="NYC">NYC</option>
+          <option value="Cork">Cork</option>
+          <option value="London">London</option>
+          <option value="Toronto">Toronto</option>
+          <option value="Sydney">Sydney</option>
+          <option value="Tokyo">Tokyo</option>
+        </select>
       </div>
 
       <div class="field">
@@ -146,10 +63,7 @@
         <p>
           Let's get you some swag!
         </p>
-        <select
-          name="shirt"
-          ng-model="selectedUser.profile.shirtSize"
-          required>
+        <select name="shirt" ng-model="selectedUser.profile.shirtSize" required>
           <option value="">Shirt Size</option>
           <option value="XS">Unisex X-Small</option>
           <option value="S">Unisex Small</option>
@@ -167,11 +81,95 @@
       </div>
 
       <div class="field">
+        <label>
+          Have you attended any hackathons previously, FireEye or otherwise?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.previouslyAttended">
+          <label> Yes </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          Will you be needing any FireEye hardware?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.wantsFireeyeHardware">
+          <label> Yes, I would like to use FireEye hardware in my hack. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.wantsFireeyeHardware">
+        <label>
+          What kind of FireEye hardware would be useful for you?
+        </label>
+        <p>
+          We will have a hardware checkout, and we'll try our best to provide things that would be useful to you -
+          however, we can't guarantee everything.
+        </p>
+        <input type="text" ng-model="selectedUser.profile.fireeyeHardware">
+      </div>
+
+      <div class="field">
+        <label>
+          Will you be needing any FireEye software?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.wantsFireeyeSoftware">
+          <label> Yes, I would like to use FireEye software in my hack. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.wantsFireeyeSoftware">
+        <label>
+          What kind of FireEye software would be useful for you?
+        </label>
+        <input type="text" ng-model="selectedUser.profile.fireeyeSoftware">
+      </div>
+
+      <div class="field">
+        <label>
+          Will you be needing any third-party hardware?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.wantsThirdpartyHardware">
+          <label> Yes, I would like to use third-party hardware in my hack. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.wantsThirdpartyHardware">
+        <label>
+          What kind of third-party hardware would be useful for you?
+        </label>
+        <p>
+          We will have a hardware checkout, and we'll try our best to provide things that would be useful to you -
+          however, we can't guarantee everything.
+        </p>
+        <input type="text" ng-model="selectedUser.profile.thirdpartyHardware">
+      </div>
+
+      <div class="field">
+        <label>
+          Will you be needing any third-party software?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.wantsThirdpartySoftware">
+          <label> Yes, I would like to use third-party software in my hack. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.wantsThirdpartySoftware">
+        <label>
+          What kind of third-party software would be useful for you?
+        </label>
+        <input type="text" ng-model="selectedUser.profile.thirdpartySoftware">
+      </div>
+
+      <div class="field">
         <label> Liability Waiver </label>
         <p>
-          <a
-            target="_blank"
-            href="https://go.hackmit.org/liability-waiver">
+          <a target="_blank" href="https://go.hackmit.org/liability-waiver">
             Liability Waiver
           </a>
         </p>
@@ -181,18 +179,14 @@
         <p>
           By writing my name below, I affirm that I have read and accepted the terms of the liability waiver above.
         </p>
-        <input type="text"
-               name="signatureLiabilityWaiver"
-               placeholder="Your Full Legal Name"
-               ng-model="selectedUser.profile.signatureLiability">
+        <input type="text" name="signatureLiabilityWaiver" placeholder="Your Full Legal Name"
+          ng-model="selectedUser.profile.signatureLiability">
       </div>
 
       <div class="field">
         <label> Photo Release </label>
         <p>
-          <a
-            target="_blank"
-            href="https://go.hackmit.org/photo-release">
+          <a target="_blank" href="https://go.hackmit.org/photo-release">
             Photo Release
           </a>
         </p>
@@ -202,31 +196,60 @@
         <p>
           By writing my name below, I affirm that I have read and accepted the terms of the photo release above.
         </p>
-        <input type="text"
-               name="signaturePhotoRelease"
-               placeholder="Your Full Legal Name"
-               ng-model="selectedUser.profile.signaturePhotoRelease">
+        <input type="text" name="signaturePhotoRelease" placeholder="Your Full Legal Name"
+          ng-model="selectedUser.profile.signaturePhotoRelease">
       </div>
 
       <div class="field">
         <label> Code of Conduct </label>
         <p>
-          <a
-            target="_blank"
-            href="https://go.hackmit.org/code-of-conduct">
+          <a target="_blank" href="https://go.hackmit.org/code-of-conduct">
             Hackathon Code of Conduct
           </a>
         </p>
         <p>
-          It is extremely important to us that attendees follow a set of guidelines to make the event fun for everyone involved. Please read through and make sure you understand what we will be expecting of you.
+          It is extremely important to us that attendees follow a set of guidelines to make the event fun for
+          everyone involved. Please read through and make sure you understand what we will be expecting of you.
         </p>
         <p>
           By writing my name below, I affirm that I have read and will abide by the code of conduct detailed above.
         </p>
-        <input type="text"
-               name="signatureCodeOfConduct"
-               placeholder="Your Full Legal Name"
-               ng-model="selectedUser.profile.signatureCodeOfConduct">
+        <input type="text" name="signatureCodeOfConduct" placeholder="Your Full Legal Name"
+          ng-model="selectedUser.profile.signatureCodeOfConduct">
+      </div>
+
+      <div class="field">
+        <label>
+          Do you have any food allergies?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.hasFoodAllergies">
+          <label> Yes, I have a food allergy. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.hasFoodAllergies">
+        <label>
+          What food allergy do you have?
+        </label>
+        <input type="text" ng-model="selectedUser.profile.foodAllergy">
+      </div>
+
+      <div class="field">
+        <label>
+          Do you have any dietary restrictions?
+        </label>
+        <div class="ui checkbox">
+          <input type="checkbox" ng-model="selectedUser.profile.hasDietaryRestriction">
+          <label> Yes, I have a dietary restriction. </label>
+        </div>
+      </div>
+
+      <div class="field" ng-show="selectedUser.profile.hasDietaryRestriction">
+        <label>
+          What dietary restriction do you have?
+        </label>
+        <input type="text" ng-model="selectedUser.profile.dietaryRestriction">
       </div>
 
       <div class="field">
@@ -236,21 +259,19 @@
         <p>
           If there's anything else you need to let us know, tell us here!
         </p>
-        <textarea
-          ng-model="selectedUser.profile.notes"></textarea>
+        <textarea ng-model="selectedUser.profile.notes"></textarea>
       </div>
 
-      <div class="field">
-          <div
-            ng-click="updateProfile()"
-            class="ui positive right labeled icon button">
-            Update Profile
-            <i class="checkmark icon"></i>
-          </div>
-        </div>
+      <div class="field" ng-hide="regIsClosed">
+        <button type="submit" class="fluid ui purple button" ng-click="updateProfile()">
+          Submit
+        </button>
+      </div>
 
-      </fieldset>
-    </div>
+    </fieldset>
+  </div>
+</div>
 
-  <div class="ui divider"></div>
+<div class="ui divider"></div>
+</div>
 </div>
