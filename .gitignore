@@ -11,3 +11,4 @@ app/client/build/
 .python-version
 
 .env
+app.json
