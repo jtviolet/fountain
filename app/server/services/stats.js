@@ -1,10 +1,23 @@
 var _ = require('underscore');
 var async = require('async');
 var User = require('../models/User');
+const teamController = require('../controllers/TeamController');
 
 // In memory stats.
 var stats = {};
 function calculateStats() {
+  function median(values) {
+
+    values.sort(function (a, b) { return a - b; });
+
+    var half = Math.floor(values.length / 2);
+
+    if (values.length % 2)
+      return values[half];
+    else
+      return (values[half - 1] + values[half]) / 2.0;
+  }
+
   console.log('Calculating stats...');
   var newStats = {
     lastUpdated: 0,
@@ -19,7 +32,7 @@ function calculateStats() {
       numberTeams: 0,
       numberUsersWithoutTeams: 0,
       numberTeamsOneUser: 0,
-      averageTeamSize: 0
+      medianTeamSize: 0
     },
     swag: {
       shirtSizes: {
@@ -55,8 +68,27 @@ function calculateStats() {
       if (err || !users) {
         throw err;
       }
-
+      //calculate number of users signed up
       newStats.users.numberSignedUp = users.length;
+
+      var listTeamsBySize = [];
+
+      var teams = teamController.getAll((err, response) => {
+        newStats.teams.numberTeams = response.teams.length;
+
+        response.teams.forEach(team => {
+          listTeamsBySize.push(team.members.length);
+
+          //calculate number of teams with one user
+          if (team.members.length === 1) {
+            newStats.teams.numberTeamsOneUser++;
+          }
+        });
+        listTeamsBySize.sort((first, second) => {
+          return first - second;
+        });
+        newStats.teams.medianTeamSize = median(listTeamsBySize);
+      });
 
       async.each(users, function (user, callback) {
         //////////////////////////////////////////////////////////////
@@ -73,39 +105,28 @@ function calculateStats() {
         //////////////////////////////////////////////////////////////
         // begin: calulate teams stats
         //////////////////////////////////////////////////////////////
-        newStats.teams.numberTeams += user.teamCode ? 1 : 0;
         newStats.teams.numberUsersWithoutTeams += user.teamCode ? 0 : 1;
-        //newStats.teams.numberTeamsOneUser
-        //newStats.teams.averageTeamSize
-        //////////////////////////////////////////////////////////////
-        // end: calulate teams stats
-        //////////////////////////////////////////////////////////////
+
 
         //////////////////////////////////////////////////////////////
         // begin: calulate swag stats
         //////////////////////////////////////////////////////////////
         newStats.swag.shirtSizes[user.profile.shirtSize] += 1;
-        //////////////////////////////////////////////////////////////
-        // end: calulate swag stats
-        //////////////////////////////////////////////////////////////
+
 
         //////////////////////////////////////////////////////////////
         // begin: calulate hardware stats
         //////////////////////////////////////////////////////////////
         newStats.hardware.numberUsersRequestingFireeyeHardware += user.profile.wantsFireeyeHardware ? 1 : 0;
         newStats.hardware.numberUsersRequestingThirdpartyHardware += user.profile.wantsThirdpartyHardware ? 1 : 0;
-        //////////////////////////////////////////////////////////////
-        // end: calulate hardware stats
-        //////////////////////////////////////////////////////////////
+
 
         //////////////////////////////////////////////////////////////
         // begin: calulate hardware stats
         //////////////////////////////////////////////////////////////
         newStats.software.numberUsersRequestingFireeyeSoftware += user.profile.wantsFireeyeSoftware ? 1 : 0;
         newStats.software.numberUsersRequestingThirdpartySoftware += user.profile.wantsThirdpartySoftware ? 1 : 0;
-        //////////////////////////////////////////////////////////////
-        // end: calulate hardware stats
-        //////////////////////////////////////////////////////////////
+
 
         //////////////////////////////////////////////////////////////
         // begin: calulate location stats
