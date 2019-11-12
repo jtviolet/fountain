@@ -1,5 +1,6 @@
 // Connect to mongodb
 var mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 var database = process.env.DATABASE || { url: "mongodb://localhost:27017" };
 var User = require('../app/server/models/User');
 
@@ -28,11 +29,11 @@ for (var i = 0; i < users; i++) {
   var newUser = new User();
   var firstName = capFirst(name1[getRandomInt(0, name1.length + 1)]);
   var lastName = capFirst(name2[getRandomInt(0, name2.length + 1)]);
-  var username = firstName + lastName;
+  var username = (firstName + lastName).toLowerCase();
   var domain = domains[getRandomInt(0, domains.length)];
-  newUser.email = username + domain;
+  newUser.email = (username + domain);
   console.log("Creating user: " + username+domain);
-  newUser.password = "123456_" + username;
+  newUser.password = bcrypt.hashSync("123456_" + username, bcrypt.genSaltSync(8));
   var teamCode = teams[getRandomInt(0, name1.length)];
   newUser.teamCode = teams[getRandomInt(0, teams.length)];
   newUser.verified = bools[getRandomInt(0, bools.length)];
