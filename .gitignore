@@ -9,3 +9,5 @@ app/client/build/
 # macOS
 .DS_Store
 .python-version
+
+.env
