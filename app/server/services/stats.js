@@ -175,7 +175,7 @@ function calculateStats() {
               numberNeedingSoftware: (user.profile.wantsFireeyeSoftware || user.profile.wantsThirdpartySoftware) ? 1 : 0
             }
 
-            if (user.profile.shirtSizes) {
+            if (user.profile.shirtSize) {
               location.shirtSizes[user.profile.shirtSize] = 1;
             }
 
