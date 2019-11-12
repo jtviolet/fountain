@@ -215,6 +215,7 @@ UserController.getPage = function(query, callback){
     queries.push({ email: re });
     queries.push({ 'profile.name': re });
     queries.push({ 'teamCode': re });
+    queries.push({ 'profile.location': re });
 
     findQuery.$or = queries;
   }
