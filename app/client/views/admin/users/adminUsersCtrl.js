@@ -67,7 +67,20 @@ angular.module('reg')
       $scope.toggleCheckIn = function($event, user, index) {
         $event.stopPropagation();
 
-        if (!user.status.checkedIn){
+        if (!user.verified) {
+          swal({
+            title: "Whoa, wait a minute!",
+            text: "This person has not verified their email address.  Please ask them to login to the Hackathon portal and resend the email verification.",
+            icon: "error",
+            buttons: {
+              cancel: {
+                text: "Go back",
+                value: null,
+                visible: true
+              }
+            }
+          })
+        } else if (!user.status.checkedIn){
           swal({
             title: "Whoa, wait a minute!",
             text: "You are about to check in " + user.profile.name + "!",
