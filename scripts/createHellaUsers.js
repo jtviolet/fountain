@@ -34,7 +34,6 @@ for (var i = 0; i < users; i++) {
   newUser.email = (username + domain);
   console.log("Creating user: " + username+domain);
   newUser.password = bcrypt.hashSync("123456_" + username, bcrypt.genSaltSync(8));
-  var teamCode = teams[getRandomInt(0, name1.length)];
   newUser.teamCode = teams[getRandomInt(0, teams.length)];
   newUser.verified = bools[getRandomInt(0, bools.length)];
 
@@ -50,7 +49,7 @@ for (var i = 0; i < users; i++) {
     location: locations[getRandomInt(0, locations.length + 1)],
     shirtSize: shirtSizes[getRandomInt(0, shirtSizes.length + 1)],
     previouslyAttended: bools[getRandomInt(0, bools.length)],
-    wantsFireEyeHardware: wantsFireeyeHardware,
+    wantsFireeyeHardware,
     fireeyeHardware: wantsFireeyeHardware ? name1[getRandomInt(0, name1.length + 1)] : "",
     wantsFireeyeSoftware: wantsFireeyeSoftware,
     fireeyeSoftware: wantsFireeyeSoftware ? name1[getRandomInt(0, name1.length + 1)] : "",
