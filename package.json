@@ -2,7 +2,6 @@
   "name": "fountain",
   "description": "mean stack registration system for internal hackathons",
   "version": "0.0.1",
-  "private": "true",
   "dependencies": {
     "gulp": "^3.9.1",
     "gulp-clean-css": "^4.0.0",

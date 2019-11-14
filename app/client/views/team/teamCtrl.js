@@ -54,6 +54,7 @@ angular.module('reg')
 
       if ($scope.user.teamCode){
         _populateTeammates();
+        _populateTeams($stateParams.page, $stateParams.size);
       } else {
         _populateTeams($stateParams.page, $stateParams.size);
       }
@@ -71,6 +72,8 @@ angular.module('reg')
             _populateTeammates();
           }, response => {
             $scope.error = response.data.message;
+          }).then(() => {
+            _populateTeams();
           });
       };
 
