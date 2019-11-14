@@ -33,7 +33,7 @@
   },
   "scripts": {
     "mongo": "mongod --dbpath db",
-    "start": "node app.js",
+    "start": "gulp build && node app.js",
     "dev": "nodemon app.js",
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
