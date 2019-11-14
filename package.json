@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
+    "gulp": "^3.9.1",
     "angular": "^1.7.5",
     "angular-ui-router": "^1.0.20",
     "async": "^2.6.1",
