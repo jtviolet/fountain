@@ -113,20 +113,17 @@ function calculateStats() {
         //////////////////////////////////////////////////////////////
         newStats.swag.shirtSizes[user.profile.shirtSize] += 1;
 
-
         //////////////////////////////////////////////////////////////
         // begin: calulate hardware stats
         //////////////////////////////////////////////////////////////
         newStats.hardware.numberUsersRequestingFireeyeHardware += user.profile.wantsFireeyeHardware ? 1 : 0;
         newStats.hardware.numberUsersRequestingThirdpartyHardware += user.profile.wantsThirdpartyHardware ? 1 : 0;
 
-
         //////////////////////////////////////////////////////////////
         // begin: calulate hardware stats
         //////////////////////////////////////////////////////////////
         newStats.software.numberUsersRequestingFireeyeSoftware += user.profile.wantsFireeyeSoftware ? 1 : 0;
         newStats.software.numberUsersRequestingThirdpartySoftware += user.profile.wantsThirdpartySoftware ? 1 : 0;
-
 
         //////////////////////////////////////////////////////////////
         // begin: calulate location stats
@@ -187,11 +184,12 @@ function calculateStats() {
         //////////////////////////////////////////////////////////////
 
 
-        console.log('Stats updated!');
         newStats.lastUpdated = new Date();
         stats = newStats;
       });
     });
+
+  console.log('stats updated');
 }
 
 // Calculate once every five minutes.
