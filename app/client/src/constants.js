@@ -12,5 +12,5 @@ angular.module('reg')
     })
     .constant('TEAM',{
         NO_TEAM_REG_CLOSED: 'Unfortunately, it\'s too late to enter the lottery with a team.\nHowever, you can still form teams on your own before or during the event!',
-        MAX_SIZE: process.env.TEAM_MAX_SIZE || 6
+        MAX_SIZE: process.env.TEAM_MAX_SIZE || 2
     });

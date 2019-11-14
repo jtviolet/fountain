@@ -86,6 +86,9 @@ angular.module('reg')
             _populateTeammates();
           }, response => {
             $scope.error = response.data.message;
+          }).then(() => {
+            $scope.formData.teamSearchQuery = "";
+            _populateTeams();
           });
       };
 
