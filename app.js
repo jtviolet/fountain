@@ -2,6 +2,7 @@
 require('dotenv').load({silent: true});
 
 var express         = require('express');
+const serverless    = require('serverless-http');
 
 // Middleware!
 var bodyParser      = require('body-parser');
@@ -44,5 +45,7 @@ app.use('/auth', authRouter);
 require('./app/server/routes')(app);
 
 // listen (start app with node server.js) ======================================
-app.listen(port);
-console.log("App listening on port " + port);
+// app.listen(port);
+// console.log("App listening on port " + port);
+
+module.exports.handler = serverless(app);

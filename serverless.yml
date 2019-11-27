@@ -1,0 +1,20 @@
+service: fireeye-hackathon-2019
+provider:
+  name: aws
+  profile: delta12-ops-admin
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-2
+  memorySize: 128
+functions:
+  app:
+    handler: app/app.handler
+    events: 
+      - http: 
+          path: /
+          method: ANY
+          cors: true
+      - http: 
+          path: /{proxy+}
+          method: ANY
+          cors: true
