@@ -59,7 +59,7 @@
     "AppLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/fireeye-hackathon-2019-dev-app"
+        "LogGroupName": "/aws/lambda/fireeye-hackathon-2020-dev-app"
       }
     },
     "IamRoleLambdaExecution": {
@@ -88,7 +88,7 @@
                 "-",
                 [
                   "dev",
-                  "fireeye-hackathon-2019",
+                  "fireeye-hackathon-2020",
                   "lambda"
                 ]
               ]
@@ -103,7 +103,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fireeye-hackathon-2019-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fireeye-hackathon-2020-dev*:*"
                     }
                   ]
                 },
@@ -114,7 +114,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fireeye-hackathon-2019-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fireeye-hackathon-2020-dev*:*:*"
                     }
                   ]
                 }
@@ -127,7 +127,7 @@
           "Fn::Join": [
             "-",
             [
-              "fireeye-hackathon-2019",
+              "fireeye-hackathon-2020",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -145,9 +145,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fireeye-hackathon-2019/dev/1574864887851-2019-11-27T14:28:07.851Z/fireeye-hackathon-2019.zip"
+          "S3Key": "serverless/fireeye-hackathon-2020/dev/1574881392284-2019-11-27T19:03:12.284Z/fireeye-hackathon-2020.zip"
         },
-        "FunctionName": "fireeye-hackathon-2019-dev-app",
+        "FunctionName": "fireeye-hackathon-2020-dev-app",
         "Handler": "app/app.handler",
         "MemorySize": 256,
         "Role": {
@@ -164,39 +164,24 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersioniphR9P5tLH2GgySf0gHNAOdIewrG7XB7guVc9RKBp4": {
+    "AppLambdaVersionihkAinDSSVT06kGJLdNPGbNdj8gu1edDEYXxP0saW8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "MMMX3K+Bp3iTxhrj66lCy4zM9ByZb0xCk8oJGMImTjU="
+        "CodeSha256": "Yw1dn3lpf+vCcjTzjVk7TO5HI3OyAqZlUpIR8xVL6qI="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-fireeye-hackathon-2019",
+        "Name": "dev-fireeye-hackathon-2020",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
           ]
-        }
-      }
-    },
-    "ApiGatewayResourceProxyVar": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Fn::GetAtt": [
-            "ApiGatewayRestApi",
-            "RootResourceId"
-          ]
-        },
-        "PathPart": "{proxy+}",
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
         }
       }
     },
@@ -250,53 +235,6 @@
         }
       }
     },
-    "ApiGatewayMethodProxyVarOptions": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "OPTIONS",
-        "MethodResponses": [
-          {
-            "StatusCode": "200",
-            "ResponseParameters": {
-              "method.response.header.Access-Control-Allow-Origin": true,
-              "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true,
-              "method.response.header.Access-Control-Allow-Credentials": true
-            },
-            "ResponseModels": {}
-          }
-        ],
-        "RequestParameters": {},
-        "Integration": {
-          "Type": "MOCK",
-          "RequestTemplates": {
-            "application/json": "{statusCode:200}"
-          },
-          "ContentHandling": "CONVERT_TO_TEXT",
-          "IntegrationResponses": [
-            {
-              "StatusCode": "200",
-              "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'",
-                "method.response.header.Access-Control-Allow-Credentials": "'false'"
-              },
-              "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
-              }
-            }
-          ]
-        },
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceProxyVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        }
-      }
-    },
     "ApiGatewayMethodAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -343,50 +281,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayMethodProxyVarAny": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "HttpMethod": "ANY",
-        "RequestParameters": {},
-        "ResourceId": {
-          "Ref": "ApiGatewayResourceProxyVar"
-        },
-        "RestApiId": {
-          "Ref": "ApiGatewayRestApi"
-        },
-        "ApiKeyRequired": false,
-        "AuthorizationType": "NONE",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":apigateway:",
-                {
-                  "Ref": "AWS::Region"
-                },
-                ":lambda:path/2015-03-31/functions/",
-                {
-                  "Fn::GetAtt": [
-                    "AppLambdaFunction",
-                    "Arn"
-                  ]
-                },
-                "/invocations"
-              ]
-            ]
-          }
-        },
-        "MethodResponses": []
-      }
-    },
-    "ApiGatewayDeployment1574864873664": {
+    "ApiGatewayDeployment1574881377680": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -396,9 +291,7 @@
       },
       "DependsOn": [
         "ApiGatewayMethodOptions",
-        "ApiGatewayMethodProxyVarOptions",
-        "ApiGatewayMethodAny",
-        "ApiGatewayMethodProxyVarAny"
+        "ApiGatewayMethodAny"
       ]
     },
     "AppLambdaPermissionApiGateway": {
@@ -448,7 +341,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersioniphR9P5tLH2GgySf0gHNAOdIewrG7XB7guVc9RKBp4"
+        "Ref": "AppLambdaVersionihkAinDSSVT06kGJLdNPGbNdj8gu1edDEYXxP0saW8"
       }
     },
     "ServiceEndpoint": {

@@ -98,6 +98,22 @@ Edit the configuration file in `.env` for your setup, and then run the applicati
 gulp server
 ```
 
+### Deploying to AWS Lambda
+You will need to first install the serverless framework:
+```
+npm install -g serverless
+```
+
+Make sure you delete your node_modules folder and then run the following docker command to build all of the native node modules for Amazon's Linux.
+```
+docker run --rm -v "$PWD":/var/task lambci/lambda:build-nodejs10.x npm install
+```
+
+Then run serverless deploy
+```
+serverless deploy
+```
+
 # Customizing for your event
 ### Copy
 If you’d like to customize the text that users see on their dashboards, edit them at `client/src/constants.js`.
