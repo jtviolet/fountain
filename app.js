@@ -1,6 +1,9 @@
 // Load the dotfiles.
 require('dotenv').load({silent: true});
 
+const fs = require('fs');
+const certFileBuf = fs.readFileSync('./rds-combined-ca-bundle.pem');
+
 var express         = require('express');
 const serverless    = require('serverless-http');
 
@@ -19,7 +22,13 @@ var adminConfig     = require('./config/admin');
 var app             = express();
 
 // Connect to mongodb
-mongoose.connect(database);
+mongoose.connect(database, { 
+  sslCA: certFileBuf,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Connection to DB successful'))
+.catch((err) => console.error(err,'Error'));
 
 app.use(morgan('dev'));
 

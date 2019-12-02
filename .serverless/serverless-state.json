@@ -11,7 +11,31 @@
       "profile": "delta12-ops-admin",
       "runtime": "nodejs10.x",
       "region": "us-east-2",
-      "memorySize": 256,
+      "memorySize": 512,
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "lambda:InvokeFunction"
+          ],
+          "Resource": "*"
+        }
+      ],
+      "vpc": {
+        "securityGroupIds": [
+          {
+            "Ref": "LambdaSecurityGroup"
+          }
+        ],
+        "subnetIds": [
+          {
+            "Ref": "PrivateSubnet1"
+          },
+          {
+            "Ref": "PrivateSubnet2"
+          }
+        ]
+      },
       "versionFunctions": true,
       "remoteFunctionData": null,
       "compiledCloudFormationTemplate": {
@@ -133,6 +157,9 @@
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/fireeye-hackathon-2020-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
                       }
                     ]
                   }
@@ -151,7 +178,21 @@
                     "lambdaRole"
                   ]
                 ]
-              }
+              },
+              "ManagedPolicyArns": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                    ]
+                  ]
+                }
+              ]
             }
           },
           "AppLambdaFunction": {
@@ -161,11 +202,11 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fireeye-hackathon-2020/dev/1574881392284-2019-11-27T19:03:12.284Z/fireeye-hackathon-2020.zip"
+                "S3Key": "serverless/fireeye-hackathon-2020/dev/1575314854421-2019-12-02T19:27:34.421Z/fireeye-hackathon-2020.zip"
               },
               "FunctionName": "fireeye-hackathon-2020-dev-app",
               "Handler": "app/app.handler",
-              "MemorySize": 256,
+              "MemorySize": 512,
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -173,21 +214,36 @@
                 ]
               },
               "Runtime": "nodejs10.x",
-              "Timeout": 6
+              "Timeout": 6,
+              "VpcConfig": {
+                "SecurityGroupIds": [
+                  {
+                    "Ref": "LambdaSecurityGroup"
+                  }
+                ],
+                "SubnetIds": [
+                  {
+                    "Ref": "PrivateSubnet1"
+                  },
+                  {
+                    "Ref": "PrivateSubnet2"
+                  }
+                ]
+              }
             },
             "DependsOn": [
               "AppLogGroup",
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionihkAinDSSVT06kGJLdNPGbNdj8gu1edDEYXxP0saW8": {
+          "AppLambdaVersionUV1fF2Q9Ugx4dJ6pDc4U02CLDDhpIRcFhVIEUCNQk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "Yw1dn3lpf+vCcjTzjVk7TO5HI3OyAqZlUpIR8xVL6qI="
+              "CodeSha256": "9UQbwpTbrwU1EnzcxXJuqhKgPqf9ALmSUlV66few+qY="
             }
           },
           "ApiGatewayRestApi": {
@@ -198,6 +254,21 @@
                 "Types": [
                   "EDGE"
                 ]
+              }
+            }
+          },
+          "ApiGatewayResourceProxyVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "{proxy+}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
               }
             }
           },
@@ -251,6 +322,53 @@
               }
             }
           },
+          "ApiGatewayMethodProxyVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
           "ApiGatewayMethodAny": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
@@ -297,7 +415,50 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1574881377680": {
+          "ApiGatewayMethodProxyVarAny": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "ANY",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AppLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1575314840043": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -307,7 +468,9 @@
             },
             "DependsOn": [
               "ApiGatewayMethodOptions",
-              "ApiGatewayMethodAny"
+              "ApiGatewayMethodProxyVarOptions",
+              "ApiGatewayMethodAny",
+              "ApiGatewayMethodProxyVarAny"
             ]
           },
           "AppLambdaPermissionApiGateway": {
@@ -346,6 +509,222 @@
                 ]
               }
             }
+          },
+          "Vpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+              "CidrBlock": "10.0.0.0/16"
+            }
+          },
+          "PrivateSubnet1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2a",
+              "CidrBlock": "10.0.1.0/24",
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "PrivateSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2b",
+              "CidrBlock": "10.0.2.0/24",
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "PublicSubnet1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+              "AvailabilityZone": "us-east-2c",
+              "CidrBlock": "10.0.21.0/24",
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "LambdaSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+              "GroupName": "fireeye-hackathon-2020-dev-lambda",
+              "GroupDescription": "Allow all outbound traffic, no inbound",
+              "SecurityGroupIngress": [
+                {
+                  "IpProtocol": -1,
+                  "CidrIp": "127.0.0.1/32"
+                }
+              ],
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "DbSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+              "GroupName": "fireeye-hackathon-2020-dev-db",
+              "GroupDescription": "Allow local inbound to port 27017, no outbound",
+              "SecurityGroupIngress": [
+                {
+                  "CidrIp": "10.0.0.0/16",
+                  "IpProtocol": "tcp",
+                  "FromPort": 27017,
+                  "ToPort": 27017
+                }
+              ],
+              "SecurityGroupEgress": [
+                {
+                  "IpProtocol": -1,
+                  "CidrIp": "127.0.0.1/32"
+                }
+              ],
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "DbSubnetGroup": {
+            "Type": "AWS::DocDB::DBSubnetGroup",
+            "Properties": {
+              "DBSubnetGroupName": "fireeye-hackathon-2020-dev",
+              "DBSubnetGroupDescription": "Private database subnet group",
+              "SubnetIds": [
+                {
+                  "Ref": "PrivateSubnet1"
+                },
+                {
+                  "Ref": "PrivateSubnet2"
+                }
+              ]
+            }
+          },
+          "DatabaseCluster": {
+            "Type": "AWS::DocDB::DBCluster",
+            "Properties": {
+              "BackupRetentionPeriod": 1,
+              "DBClusterIdentifier": "fireeye-hackathon-2020-dev",
+              "MasterUsername": "hackathonadmin",
+              "MasterUserPassword": "hackathon2020zulu",
+              "StorageEncrypted": true,
+              "DBSubnetGroupName": {
+                "Ref": "DbSubnetGroup"
+              },
+              "VpcSecurityGroupIds": [
+                {
+                  "Ref": "DbSecurityGroup"
+                }
+              ]
+            }
+          },
+          "Eip": {
+            "Type": "AWS::EC2::EIP",
+            "Properties": {
+              "Domain": "vpc"
+            }
+          },
+          "NatGateway": {
+            "Type": "AWS::EC2::NatGateway",
+            "Properties": {
+              "AllocationId": {
+                "Fn::GetAtt": [
+                  "Eip",
+                  "AllocationId"
+                ]
+              },
+              "SubnetId": {
+                "Ref": "PublicSubnet1"
+              }
+            }
+          },
+          "PrivateRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "PrivateRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+              "RouteTableId": {
+                "Ref": "PrivateRouteTable"
+              },
+              "DestinationCidrBlock": "0.0.0.0/0",
+              "NatGatewayId": {
+                "Ref": "NatGateway"
+              }
+            }
+          },
+          "SubnetRouteTableAssociationPrivate1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+              "SubnetId": {
+                "Ref": "PrivateSubnet1"
+              },
+              "RouteTableId": {
+                "Ref": "PrivateRouteTable"
+              }
+            }
+          },
+          "SubnetRouteTableAssociationPrivate2": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+              "SubnetId": {
+                "Ref": "PrivateSubnet2"
+              },
+              "RouteTableId": {
+                "Ref": "PrivateRouteTable"
+              }
+            }
+          },
+          "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway"
+          },
+          "VPCGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+              "VpcId": {
+                "Ref": "Vpc"
+              },
+              "InternetGatewayId": {
+                "Ref": "InternetGateway"
+              }
+            }
+          },
+          "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+              "VpcId": {
+                "Ref": "Vpc"
+              }
+            }
+          },
+          "PublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "Properties": {
+              "RouteTableId": {
+                "Ref": "PublicRouteTable"
+              },
+              "DestinationCidrBlock": "0.0.0.0/0",
+              "GatewayId": {
+                "Ref": "InternetGateway"
+              }
+            }
+          },
+          "SubnetRouteTableAssociationPublic1": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+              "SubnetId": {
+                "Ref": "PublicSubnet1"
+              },
+              "RouteTableId": {
+                "Ref": "PublicRouteTable"
+              }
+            }
           }
         },
         "Outputs": {
@@ -357,7 +736,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionihkAinDSSVT06kGJLdNPGbNdj8gu1edDEYXxP0saW8"
+              "Ref": "AppLambdaVersionUV1fF2Q9Ugx4dJ6pDc4U02CLDDhpIRcFhVIEUCNQk"
             }
           },
           "ServiceEndpoint": {
@@ -451,8 +830,7 @@
             }
           }
         }
-      },
-      "vpc": {}
+      }
     },
     "pluginsData": {},
     "functions": {
@@ -484,22 +862,269 @@
               },
               "integration": "AWS_PROXY"
             }
+          },
+          {
+            "http": {
+              "path": "{proxy+}",
+              "method": "any",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "ANY"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
           }
         ],
         "name": "fireeye-hackathon-2020-dev-app",
         "package": {},
-        "memory": 256,
+        "memory": 512,
         "timeout": 6,
         "runtime": "nodejs10.x",
         "vpc": {}
       }
+    },
+    "resources": {
+      "Resources": {
+        "Vpc": {
+          "Type": "AWS::EC2::VPC",
+          "Properties": {
+            "CidrBlock": "10.0.0.0/16"
+          }
+        },
+        "PrivateSubnet1": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": "us-east-2a",
+            "CidrBlock": "10.0.1.0/24",
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "PrivateSubnet2": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": "us-east-2b",
+            "CidrBlock": "10.0.2.0/24",
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "PublicSubnet1": {
+          "Type": "AWS::EC2::Subnet",
+          "Properties": {
+            "AvailabilityZone": "us-east-2c",
+            "CidrBlock": "10.0.21.0/24",
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "LambdaSecurityGroup": {
+          "Type": "AWS::EC2::SecurityGroup",
+          "Properties": {
+            "GroupName": "fireeye-hackathon-2020-dev-lambda",
+            "GroupDescription": "Allow all outbound traffic, no inbound",
+            "SecurityGroupIngress": [
+              {
+                "IpProtocol": -1,
+                "CidrIp": "127.0.0.1/32"
+              }
+            ],
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "DbSecurityGroup": {
+          "Type": "AWS::EC2::SecurityGroup",
+          "Properties": {
+            "GroupName": "fireeye-hackathon-2020-dev-db",
+            "GroupDescription": "Allow local inbound to port 27017, no outbound",
+            "SecurityGroupIngress": [
+              {
+                "CidrIp": "10.0.0.0/16",
+                "IpProtocol": "tcp",
+                "FromPort": 27017,
+                "ToPort": 27017
+              }
+            ],
+            "SecurityGroupEgress": [
+              {
+                "IpProtocol": -1,
+                "CidrIp": "127.0.0.1/32"
+              }
+            ],
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "DbSubnetGroup": {
+          "Type": "AWS::DocDB::DBSubnetGroup",
+          "Properties": {
+            "DBSubnetGroupName": "fireeye-hackathon-2020-dev",
+            "DBSubnetGroupDescription": "Private database subnet group",
+            "SubnetIds": [
+              {
+                "Ref": "PrivateSubnet1"
+              },
+              {
+                "Ref": "PrivateSubnet2"
+              }
+            ]
+          }
+        },
+        "DatabaseCluster": {
+          "Type": "AWS::DocDB::DBCluster",
+          "Properties": {
+            "BackupRetentionPeriod": 1,
+            "DBClusterIdentifier": "fireeye-hackathon-2020-dev",
+            "MasterUsername": "hackathonadmin",
+            "MasterUserPassword": "hackathon2020zulu",
+            "StorageEncrypted": true,
+            "DBSubnetGroupName": {
+              "Ref": "DbSubnetGroup"
+            },
+            "VpcSecurityGroupIds": [
+              {
+                "Ref": "DbSecurityGroup"
+              }
+            ]
+          }
+        },
+        "Eip": {
+          "Type": "AWS::EC2::EIP",
+          "Properties": {
+            "Domain": "vpc"
+          }
+        },
+        "NatGateway": {
+          "Type": "AWS::EC2::NatGateway",
+          "Properties": {
+            "AllocationId": {
+              "Fn::GetAtt": [
+                "Eip",
+                "AllocationId"
+              ]
+            },
+            "SubnetId": {
+              "Ref": "PublicSubnet1"
+            }
+          }
+        },
+        "PrivateRouteTable": {
+          "Type": "AWS::EC2::RouteTable",
+          "Properties": {
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "PrivateRoute": {
+          "Type": "AWS::EC2::Route",
+          "Properties": {
+            "RouteTableId": {
+              "Ref": "PrivateRouteTable"
+            },
+            "DestinationCidrBlock": "0.0.0.0/0",
+            "NatGatewayId": {
+              "Ref": "NatGateway"
+            }
+          }
+        },
+        "SubnetRouteTableAssociationPrivate1": {
+          "Type": "AWS::EC2::SubnetRouteTableAssociation",
+          "Properties": {
+            "SubnetId": {
+              "Ref": "PrivateSubnet1"
+            },
+            "RouteTableId": {
+              "Ref": "PrivateRouteTable"
+            }
+          }
+        },
+        "SubnetRouteTableAssociationPrivate2": {
+          "Type": "AWS::EC2::SubnetRouteTableAssociation",
+          "Properties": {
+            "SubnetId": {
+              "Ref": "PrivateSubnet2"
+            },
+            "RouteTableId": {
+              "Ref": "PrivateRouteTable"
+            }
+          }
+        },
+        "InternetGateway": {
+          "Type": "AWS::EC2::InternetGateway"
+        },
+        "VPCGatewayAttachment": {
+          "Type": "AWS::EC2::VPCGatewayAttachment",
+          "Properties": {
+            "VpcId": {
+              "Ref": "Vpc"
+            },
+            "InternetGatewayId": {
+              "Ref": "InternetGateway"
+            }
+          }
+        },
+        "PublicRouteTable": {
+          "Type": "AWS::EC2::RouteTable",
+          "Properties": {
+            "VpcId": {
+              "Ref": "Vpc"
+            }
+          }
+        },
+        "PublicRoute": {
+          "Type": "AWS::EC2::Route",
+          "Properties": {
+            "RouteTableId": {
+              "Ref": "PublicRouteTable"
+            },
+            "DestinationCidrBlock": "0.0.0.0/0",
+            "GatewayId": {
+              "Ref": "InternetGateway"
+            }
+          }
+        },
+        "SubnetRouteTableAssociationPublic1": {
+          "Type": "AWS::EC2::SubnetRouteTableAssociation",
+          "Properties": {
+            "SubnetId": {
+              "Ref": "PublicSubnet1"
+            },
+            "RouteTableId": {
+              "Ref": "PublicRouteTable"
+            }
+          }
+        }
+      },
+      "Outputs": {}
     },
     "serviceFilename": "serverless.yml",
     "layers": {},
     "artifact": "/Users/colin.mckibben/Documents/github/fountain/.serverless/fireeye-hackathon-2020.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1574881392284-2019-11-27T19:03:12.284Z",
+    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1575314854421-2019-12-02T19:27:34.421Z",
     "artifact": "fireeye-hackathon-2020.zip"
   }
 }

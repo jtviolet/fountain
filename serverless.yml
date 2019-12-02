@@ -5,7 +5,18 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-east-2
-  memorySize: 256
+  memorySize: 512
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+  vpc:
+    securityGroupIds:
+      - Ref: LambdaSecurityGroup
+    subnetIds:
+      - Ref: PrivateSubnet1
+      - Ref: PrivateSubnet2
 functions:
   app:
     handler: app/app.handler
@@ -14,3 +25,163 @@ functions:
           path: /
           method: ANY
           cors: true
+      - http: 
+          path: /{proxy+}
+          method: ANY
+          cors: true
+resources:
+  Resources:
+    Vpc:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: 10.0.0.0/16
+
+    PrivateSubnet1:
+      Type: AWS::EC2::Subnet
+      Properties:
+        AvailabilityZone: us-east-2a
+        CidrBlock: 10.0.1.0/24
+        VpcId:
+          Ref: Vpc
+    PrivateSubnet2:
+      Type: AWS::EC2::Subnet
+      Properties:
+        AvailabilityZone: us-east-2b
+        CidrBlock: 10.0.2.0/24
+        VpcId:
+          Ref: Vpc
+
+    PublicSubnet1:
+      Type: AWS::EC2::Subnet
+      Properties:
+        AvailabilityZone: us-east-2c
+        CidrBlock: 10.0.21.0/24
+        VpcId:
+          Ref: Vpc
+
+    LambdaSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupName: ${self:service}-${self:provider.stage}-lambda
+        GroupDescription: Allow all outbound traffic, no inbound
+        SecurityGroupIngress:
+          - IpProtocol: -1
+            CidrIp: 127.0.0.1/32
+        VpcId:
+          Ref: Vpc
+
+    DbSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupName: ${self:service}-${self:provider.stage}-db
+        GroupDescription: Allow local inbound to port 27017, no outbound
+        SecurityGroupIngress:
+          - CidrIp: 10.0.0.0/16
+            IpProtocol: tcp
+            FromPort: 27017
+            ToPort: 27017
+        SecurityGroupEgress:
+          - IpProtocol: -1
+            CidrIp: 127.0.0.1/32
+        VpcId:
+          Ref: Vpc
+    DbSubnetGroup:
+      Type: "AWS::DocDB::DBSubnetGroup"
+      Properties:
+        DBSubnetGroupName: ${self:service}-${self:provider.stage}
+        DBSubnetGroupDescription: Private database subnet group
+        SubnetIds:
+          - Ref: PrivateSubnet1
+          - Ref: PrivateSubnet2
+    DatabaseCluster:
+      Type: AWS::DocDB::DBCluster
+      Properties: 
+        BackupRetentionPeriod: 1
+        DBClusterIdentifier: ${self:service}-${self:provider.stage}
+        MasterUsername: hackathonadmin
+        MasterUserPassword: <change me>
+        StorageEncrypted: true
+        DBSubnetGroupName:
+          Ref: DbSubnetGroup
+        VpcSecurityGroupIds:
+          - Ref: DbSecurityGroup
+    # DatabaseInstance:
+    #   Type: "AWS::DocDB::DBInstance"
+    #   Properties:
+    #     AutoMinorVersionUpgrade: true
+    #     AvailabilityZone: "us-east-2a"
+    #     DBClusterIdentifier: ${self:service}-${self:provider.stage}
+    #     DBInstanceClass: "db.r5.large"
+    #     PreferredMaintenanceWindow: "sat:06:54-sat:07:24"
+
+    Eip:
+      Type: AWS::EC2::EIP
+      Properties:
+        Domain: vpc
+    NatGateway:
+      Type: AWS::EC2::NatGateway
+      Properties:
+        AllocationId:
+          Fn::GetAtt:
+            - Eip
+            - AllocationId
+        SubnetId:
+          Ref: PublicSubnet1
+    PrivateRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId:
+          Ref: Vpc
+    PrivateRoute:
+      Type: AWS::EC2::Route
+      Properties:
+        RouteTableId:
+          Ref: PrivateRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        NatGatewayId:
+          Ref: NatGateway
+    SubnetRouteTableAssociationPrivate1:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId:
+          Ref: PrivateSubnet1
+        RouteTableId:
+          Ref: PrivateRouteTable
+    SubnetRouteTableAssociationPrivate2:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId:
+          Ref: PrivateSubnet2
+        RouteTableId:
+          Ref: PrivateRouteTable
+
+    InternetGateway:
+      Type: AWS::EC2::InternetGateway
+    VPCGatewayAttachment:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId:
+          Ref: Vpc
+        InternetGatewayId:
+          Ref: InternetGateway
+    PublicRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId:
+          Ref: Vpc
+    PublicRoute:
+      Type: AWS::EC2::Route
+      Properties:
+        RouteTableId:
+          Ref: PublicRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId:
+          Ref: InternetGateway
+    SubnetRouteTableAssociationPublic1:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId:
+          Ref: PublicSubnet1
+        RouteTableId:
+          Ref: PublicRouteTable
+    

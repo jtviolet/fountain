@@ -104,7 +104,17 @@ You will need to first install the serverless framework:
 npm install -g serverless
 ```
 
-Make sure you delete your node_modules folder and then run the following docker command to build all of the native node modules for Amazon's Linux.
+Remove the node_modules directory, and reinstall to get the dependencies for your local computer:
+```
+npm install
+```
+
+Then, build the project:
+```
+gulp build
+```
+
+Make sure you delete your node_modules folder and then run the following docker command to build all of the native node modules for Amazon's Linux (https://github.com/lambci/docker-lambda)
 ```
 docker run --rm -v "$PWD":/var/task lambci/lambda:build-nodejs10.x npm install
 ```

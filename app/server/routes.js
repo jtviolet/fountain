@@ -1,13 +1,15 @@
+const path = require('path');
+
 module.exports = function(app) {
 
   // Application ------------------------------------------
   app.get('/', function(req, res){
-    res.sendfile('./app/client/index.html');
+    res.sendFile(path.join(__dirname, '../client', 'index.html'));
   });
 
   // Wildcard all other GET requests to the angular app
   app.get('*', function(req, res){
-    res.sendfile('./app/client/index.html');
+    res.sendFile(path.join(__dirname, '../client', 'index.html'));
   });
 
 };
