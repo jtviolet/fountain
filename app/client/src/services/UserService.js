@@ -2,9 +2,10 @@ angular.module('reg')
   .factory('UserService', [
   '$http',
   'Session',
-  function($http, Session){
+  'CONFIG',
+  function($http, Session, CONFIG){
 
-    var users = '/dev/api/users';
+    var users = `${CONFIG.STAGE_ENDPOINT}/api/users`;
     var base = users + '/';
 
     return {

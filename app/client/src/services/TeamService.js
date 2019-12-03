@@ -2,9 +2,10 @@ angular.module('reg')
   .factory('TeamService', [
   '$http',
   'Session',
-  function($http, Session){
+  'CONFIG',
+  function($http, Session, CONFIG){
 
-    var teams = '/dev/api/teams';
+    var teams = `${CONFIG.STAGE_ENDPOINT}/api/teams`;
     var base = teams + '/';
 
     return {

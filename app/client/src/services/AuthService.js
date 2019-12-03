@@ -7,10 +7,11 @@ angular.module('reg')
     '$state',
     '$window',
     'Session',
-    function($http, $rootScope, $state, $window, Session) {
+    'CONFIG',
+    function($http, $rootScope, $state, $window, Session, CONFIG) {
       var authService = {};
 
-      var base = '/dev/auth/';
+      var base = `${CONFIG.STAGE_ENDPOINT}/auth/`;
 
       function loginSuccess(data, cb){
         // Winner winner you get a token
