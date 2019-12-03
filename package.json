@@ -3,15 +3,8 @@
   "description": "mean stack registration system for internal hackathons",
   "version": "0.0.1",
   "dependencies": {
+    "compression": "^1.7.4",
     "serverless-http": "^2.3.0",
-    "gulp": "^3.9.1",
-    "gulp-clean-css": "^4.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-ng-annotate": "^2.1.0",
-    "gulp-nodemon": "^2.4.2",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
     "angular": "^1.7.5",
     "angular-ui-router": "^1.0.20",
     "async": "^2.6.1",
@@ -41,14 +34,21 @@
   },
   "scripts": {
     "mongo": "mongod --dbpath db",
-    "start": "gulp build && node app.js",
+    "start": "node app.js",
     "dev": "nodemon app.js",
     "watch": "gulp server",
     "prod": "gulp build && node app.js",
     "config": "cp .env.config .env"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-ng-annotate": "^2.1.0",
+    "gulp-nodemon": "^2.4.2",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.2"
   },
   "engines": {
     "node": "10.14.1"

@@ -99,7 +99,7 @@ resources:
         BackupRetentionPeriod: 1
         DBClusterIdentifier: ${self:service}-${self:provider.stage}
         MasterUsername: hackathonadmin
-        MasterUserPassword: <change me>
+        MasterUserPassword: hackathon2020zulu
         StorageEncrypted: true
         DBSubnetGroupName:
           Ref: DbSubnetGroup

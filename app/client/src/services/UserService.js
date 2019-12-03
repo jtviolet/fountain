@@ -4,7 +4,7 @@ angular.module('reg')
   'Session',
   function($http, Session){
 
-    var users = '/api/users';
+    var users = '/dev/api/users';
     var base = users + '/';
 
     return {

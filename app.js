@@ -11,13 +11,11 @@ const serverless    = require('serverless-http');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var morgan          = require('morgan');
+const compression   = require('compression');
 
 var mongoose        = require('mongoose');
-var port            = process.env.PORT || 3000;
+// var port            = process.env.PORT || 3000;
 var database        = process.env.DATABASE || process.env.MONGODB_URI || "mongodb://localhost:27017";
-
-var settingsConfig  = require('./config/settings');
-var adminConfig     = require('./config/admin');
 
 var app             = express();
 
@@ -31,6 +29,7 @@ mongoose.connect(database, {
 .catch((err) => console.error(err,'Error'));
 
 app.use(morgan('dev'));
+app.use(compression());
 
 app.use(bodyParser.urlencoded({
   extended: true
