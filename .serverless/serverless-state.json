@@ -24,6 +24,16 @@
           "Effect": "Allow",
           "Action": "secretsmanager:GetSecretValue",
           "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:dev/hackathon/db/admin-current-4pM1YO"
+        },
+        {
+          "Effect": "Allow",
+          "Action": "secretsmanager:GetSecretValue",
+          "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/admin-user-ClzowL"
+        },
+        {
+          "Effect": "Allow",
+          "Action": "secretsmanager:GetSecretValue",
+          "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/verification-email-account-zYbRGq"
         }
       ],
       "vpc": {
@@ -168,6 +178,12 @@
                       },
                       {
                         "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][1]"
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][2]"
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][3]"
                       }
                     ]
                   }
@@ -210,7 +226,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fireeye-hackathon-2020/dev/1575491104106-2019-12-04T20:25:04.106Z/fireeye-hackathon-2020.zip"
+                "S3Key": "serverless/fireeye-hackathon-2020/dev/1575497346631-2019-12-04T22:09:06.631Z/fireeye-hackathon-2020.zip"
               },
               "FunctionName": "fireeye-hackathon-2020-dev-app",
               "Handler": "app/app.handler",
@@ -244,14 +260,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersionZ9dai98NM8205SkP0IBcyy7muLJ9Qvqvv9MfUFXIDw": {
+          "AppLambdaVersioniBp9uGVkbvdQPpm9ad4ps9LmB8lFESV0wl3Jd2AM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "PW6D883ExSt53FVlADJiBBQYVFAbOKdZpCHtj98/f7w="
+              "CodeSha256": "jV+rJqZcsd0pOHq18HNqdMqaD9XxTkgQ3vmN2rI8oLo="
             }
           },
           "ApiGatewayRestApi": {
@@ -462,7 +478,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1575491088034": {
+          "ApiGatewayDeployment1575497329359": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -623,6 +639,18 @@
               ]
             }
           },
+          "DatabaseInstance": {
+            "Type": "AWS::DocDB::DBInstance",
+            "DependsOn": "DatabaseCluster",
+            "Properties": {
+              "AutoMinorVersionUpgrade": true,
+              "AvailabilityZone": "us-east-2b",
+              "DBClusterIdentifier": "fireeye-hackathon-2020-dev",
+              "DBInstanceClass": "db.r5.large",
+              "DBInstanceIdentifier": "fireeye-hackathon-2020-dev-01",
+              "PreferredMaintenanceWindow": "sat:06:54-sat:07:24"
+            }
+          },
           "Eip": {
             "Type": "AWS::EC2::EIP",
             "Properties": {
@@ -740,7 +768,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionZ9dai98NM8205SkP0IBcyy7muLJ9Qvqvv9MfUFXIDw"
+              "Ref": "AppLambdaVersioniBp9uGVkbvdQPpm9ad4ps9LmB8lFESV0wl3Jd2AM"
             }
           },
           "ServiceEndpoint": {
@@ -1019,6 +1047,18 @@
             ]
           }
         },
+        "DatabaseInstance": {
+          "Type": "AWS::DocDB::DBInstance",
+          "DependsOn": "DatabaseCluster",
+          "Properties": {
+            "AutoMinorVersionUpgrade": true,
+            "AvailabilityZone": "us-east-2b",
+            "DBClusterIdentifier": "fireeye-hackathon-2020-dev",
+            "DBInstanceClass": "db.r5.large",
+            "DBInstanceIdentifier": "fireeye-hackathon-2020-dev-01",
+            "PreferredMaintenanceWindow": "sat:06:54-sat:07:24"
+          }
+        },
         "Eip": {
           "Type": "AWS::EC2::EIP",
           "Properties": {
@@ -1134,7 +1174,7 @@
     "artifact": "/Users/colin.mckibben/Documents/github/fountain/.serverless/fireeye-hackathon-2020.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1575491104106-2019-12-04T20:25:04.106Z",
+    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1575497346631-2019-12-04T22:09:06.631Z",
     "artifact": "fireeye-hackathon-2020.zip"
   }
 }

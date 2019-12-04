@@ -14,6 +14,12 @@ provider:
     - Effect: Allow
       Action: secretsmanager:GetSecretValue
       Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:dev/hackathon/db/admin-current-4pM1YO"
+    - Effect: Allow
+      Action: secretsmanager:GetSecretValue
+      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/admin-user-ClzowL"
+    - Effect: Allow
+      Action: secretsmanager:GetSecretValue
+      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/verification-email-account-zYbRGq"
   vpc:
     securityGroupIds:
       - Ref: LambdaSecurityGroup
@@ -113,14 +119,16 @@ resources:
           Ref: DbSubnetGroup
         VpcSecurityGroupIds:
           - Ref: DbSecurityGroup
-    # DatabaseInstance:
-    #   Type: "AWS::DocDB::DBInstance"
-    #   Properties:
-    #     AutoMinorVersionUpgrade: true
-    #     AvailabilityZone: "us-east-2a"
-    #     DBClusterIdentifier: ${self:service}-${self:provider.stage}
-    #     DBInstanceClass: "db.r5.large"
-    #     PreferredMaintenanceWindow: "sat:06:54-sat:07:24"
+    DatabaseInstance:
+      Type: "AWS::DocDB::DBInstance"
+      DependsOn: DatabaseCluster
+      Properties:
+        AutoMinorVersionUpgrade: true
+        AvailabilityZone: "us-east-2b"
+        DBClusterIdentifier: ${self:service}-${self:provider.stage}
+        DBInstanceClass: "db.r5.large"
+        DBInstanceIdentifier: ${self:service}-${self:provider.stage}-01
+        PreferredMaintenanceWindow: "sat:06:54-sat:07:24"
 
     Eip:
       Type: AWS::EC2::EIP
