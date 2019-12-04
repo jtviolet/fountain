@@ -202,7 +202,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/fireeye-hackathon-2020/dev/1575395444025-2019-12-03T17:50:44.025Z/fireeye-hackathon-2020.zip"
+                "S3Key": "serverless/fireeye-hackathon-2020/dev/1575399792088-2019-12-03T19:03:12.088Z/fireeye-hackathon-2020.zip"
               },
               "FunctionName": "fireeye-hackathon-2020-dev-app",
               "Handler": "app/app.handler",
@@ -236,14 +236,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "AppLambdaVersion9kOE92s18z4CFDjSCoub3hvx8tbC44o92hirjYW2IE": {
+          "AppLambdaVersiond0x95jxWxDa6Tn3bhyvtIeczeNgvkYGdKspLG3NClUw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "YDvrUR78lI2WG9++qoLhEmi8BodPrliJ46e01209AeA="
+              "CodeSha256": "6HaznT04o1nzr29dlRJ4Hvcax1EQWBqonmn22WovxVI="
             }
           },
           "ApiGatewayRestApi": {
@@ -458,7 +458,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1575395428371": {
+          "ApiGatewayDeployment1575399777048": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -736,7 +736,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersion9kOE92s18z4CFDjSCoub3hvx8tbC44o92hirjYW2IE"
+              "Ref": "AppLambdaVersiond0x95jxWxDa6Tn3bhyvtIeczeNgvkYGdKspLG3NClUw"
             }
           },
           "ServiceEndpoint": {
@@ -1124,7 +1124,7 @@
     "artifact": "/Users/colin.mckibben/Documents/github/fountain/.serverless/fireeye-hackathon-2020.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1575395444025-2019-12-03T17:50:44.025Z",
+    "artifactDirectoryName": "serverless/fireeye-hackathon-2020/dev/1575399792088-2019-12-03T19:03:12.088Z",
     "artifact": "fireeye-hackathon-2020.zip"
   }
 }
