@@ -11,6 +11,9 @@ provider:
       Action:
         - lambda:InvokeFunction
       Resource: "*"
+    - Effect: Allow
+      Action: secretsmanager:GetSecretValue
+      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:dev/hackathon/db/admin-current-4pM1YO"
   vpc:
     securityGroupIds:
       - Ref: LambdaSecurityGroup

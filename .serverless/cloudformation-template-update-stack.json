@@ -124,6 +124,11 @@
                     "lambda:InvokeFunction"
                   ],
                   "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "secretsmanager:GetSecretValue",
+                  "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:dev/hackathon/db/admin-current-4pM1YO"
                 }
               ]
             }
@@ -166,7 +171,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575474851560-2019-12-04T15:54:11.560Z/fireeye-hackathon-2020.zip"
+          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575491104106-2019-12-04T20:25:04.106Z/fireeye-hackathon-2020.zip"
         },
         "FunctionName": "fireeye-hackathon-2020-dev-app",
         "Handler": "app/app.handler",
@@ -200,14 +205,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersiontJTWw3BQvhhVVagjThcakmL207ZD1fitw3kI41euHE": {
+    "AppLambdaVersionZ9dai98NM8205SkP0IBcyy7muLJ9Qvqvv9MfUFXIDw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "3IsM8uzmaqCtmVSDzxq8GrClQ9MVcEucx0hKj3Tmang="
+        "CodeSha256": "PW6D883ExSt53FVlADJiBBQYVFAbOKdZpCHtj98/f7w="
       }
     },
     "ApiGatewayRestApi": {
@@ -247,8 +252,7 @@
             "ResponseParameters": {
               "method.response.header.Access-Control-Allow-Origin": true,
               "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true,
-              "method.response.header.Access-Control-Allow-Credentials": true
+              "method.response.header.Access-Control-Allow-Methods": true
             },
             "ResponseModels": {}
           }
@@ -266,8 +270,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'",
-                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
               },
               "ResponseTemplates": {
                 "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
@@ -297,8 +300,7 @@
             "ResponseParameters": {
               "method.response.header.Access-Control-Allow-Origin": true,
               "method.response.header.Access-Control-Allow-Headers": true,
-              "method.response.header.Access-Control-Allow-Methods": true,
-              "method.response.header.Access-Control-Allow-Credentials": true
+              "method.response.header.Access-Control-Allow-Methods": true
             },
             "ResponseModels": {}
           }
@@ -316,8 +318,7 @@
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'",
-                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'"
               },
               "ResponseTemplates": {
                 "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
@@ -422,7 +423,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1575474833935": {
+    "ApiGatewayDeployment1575491088034": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -700,7 +701,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersiontJTWw3BQvhhVVagjThcakmL207ZD1fitw3kI41euHE"
+        "Ref": "AppLambdaVersionZ9dai98NM8205SkP0IBcyy7muLJ9Qvqvv9MfUFXIDw"
       }
     },
     "ServiceEndpoint": {

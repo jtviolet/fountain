@@ -60,6 +60,8 @@ client.getSecretValue({ SecretId: secretName }, function (err, data) {
       // We can't find the resource that you asked for.
       // Deal with the exception here, and/or rethrow at your discretion.
       throw err;
+    else
+      throw err;
   }
   else {
     // Decrypts secret using the associated KMS CMK.
