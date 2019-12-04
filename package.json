@@ -3,6 +3,7 @@
   "description": "mean stack registration system for internal hackathons",
   "version": "0.0.1",
   "dependencies": {
+    "aws-sdk": "^2.584.0",
     "compression": "^1.7.4",
     "serverless-http": "^2.3.0",
     "angular": "^1.7.5",

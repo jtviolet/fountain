@@ -17,6 +17,11 @@ provider:
     subnetIds:
       - Ref: PrivateSubnet1
       - Ref: PrivateSubnet2
+package:
+  exclude:
+    - secrets.yml
+custom:
+  dbCredentials: ${ssm:/aws/reference/secretsmanager/dev/hackathon/db/admin-current~true}
 functions:
   app:
     handler: app/app.handler
@@ -98,8 +103,8 @@ resources:
       Properties: 
         BackupRetentionPeriod: 1
         DBClusterIdentifier: ${self:service}-${self:provider.stage}
-        MasterUsername: hackathonadmin
-        MasterUserPassword: hackathon2020zulu
+        MasterUsername: ${self:custom.dbCredentials.username}
+        MasterUserPassword: ${self:custom.dbCredentials.password}
         StorageEncrypted: true
         DBSubnetGroupName:
           Ref: DbSubnetGroup
