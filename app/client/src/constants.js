@@ -2,7 +2,7 @@ const angular = require('angular');
 
 angular.module('reg')
     .constant('EVENT_INFO', {
-        NAME: 'FireEye Hackathon 2019',
+        NAME: 'FireEye Hackathon 2020',
     })
     .constant('DASHBOARD', {
         INCOMPLETE_TITLE: 'You still need to complete your profile!',

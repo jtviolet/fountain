@@ -5,7 +5,7 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-east-2
-  memorySize: 512
+  memorySize: 256
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -29,9 +29,6 @@ provider:
     subnetIds:
       - Ref: PrivateSubnet1
       - Ref: PrivateSubnet2
-package:
-  exclude:
-    - secrets.yml
 custom:
   dbCredentials: ${ssm:/aws/reference/secretsmanager/dev/hackathon/db/admin-current~true}
 functions:
@@ -56,23 +53,35 @@ resources:
     PrivateSubnet1:
       Type: AWS::EC2::Subnet
       Properties:
-        AvailabilityZone: us-east-2a
+        AvailabilityZone:
+          Fn::Select:
+           - 0
+           - Fn::GetAZs: ""
         CidrBlock: 10.0.1.0/24
+        MapPublicIpOnLaunch: false
         VpcId:
           Ref: Vpc
     PrivateSubnet2:
       Type: AWS::EC2::Subnet
       Properties:
-        AvailabilityZone: us-east-2b
+        AvailabilityZone:
+          Fn::Select:
+           - 1
+           - Fn::GetAZs: ""
         CidrBlock: 10.0.2.0/24
+        MapPublicIpOnLaunch: false
         VpcId:
           Ref: Vpc
 
     PublicSubnet1:
       Type: AWS::EC2::Subnet
       Properties:
-        AvailabilityZone: us-east-2c
+        AvailabilityZone:
+          Fn::Select:
+           - 0
+           - Fn::GetAZs: ""
         CidrBlock: 10.0.21.0/24
+        MapPublicIpOnLaunch: true
         VpcId:
           Ref: Vpc
 
@@ -135,10 +144,12 @@ resources:
 
     Eip:
       Type: AWS::EC2::EIP
+      DependsOn: Vpc
       Properties:
         Domain: vpc
     NatGateway:
       Type: AWS::EC2::NatGateway
+      DependsOn: Eip
       Properties:
         AllocationId:
           Fn::GetAtt:
@@ -190,6 +201,7 @@ resources:
           Ref: Vpc
     PublicRoute:
       Type: AWS::EC2::Route
+      DependsOn: VPCGatewayAttachment
       Properties:
         RouteTableId:
           Ref: PublicRouteTable

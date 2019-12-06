@@ -15,8 +15,8 @@ const compression = require('compression');
 
 var mongoose = require('mongoose');
 
-var settingsConfig  = require('./config/settings');
-var adminConfig     = require('./config/admin');
+var settingsConfig = require('./config/settings');
+var adminConfig = require('./config/admin');
 
 var app = express();
 
@@ -39,34 +39,30 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_JWT_SECRET }, function (err
   }
 });
 
-// Load the password for the email account that sends out verification emails
-client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_EMAIL_PASSWORD }, function (err, data) {
-  if (err) {
-    throw err;
-  }
-  else {
-    const secret = JSON.parse(data.SecretString);
-    process.env['EMAIL_PASS'] = secret.password;
-  }
-});
-
 // Load the mongo DB credentials and connect to the database
-client.getSecretValue({ SecretId: process.env.AWS_SM_DATABASE_CREDENTIALS }, function (err, data) {
-  if (err) {
-    throw err;
-  }
-  else {
-    const secret = JSON.parse(data.SecretString);
-    // Connect to mongodb
-    const database = `mongodb://${secret.username}:${secret.password}@${process.env.DB_HOST}:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0`
-    mongoose.connect(database, {
-      sslCA: certFileBuf,
-      useNewUrlParser: true
-    })
-      .then(() => console.log('Connection to DB successful'))
-      .catch((err) => console.error(err, 'Error'));
-  }
-});
+if (process.env.LOCAL_DB) {
+  mongoose.connect(process.env.LOCAL_DB)
+    .then(() => console.log('Connection to DB successful'))
+    .catch((err) => console.error(err, 'Error'));
+} else {
+  client.getSecretValue({ SecretId: process.env.AWS_SM_DATABASE_CREDENTIALS }, function (err, data) {
+    if (err) {
+      throw err;
+    }
+    else {
+      const secret = JSON.parse(data.SecretString);
+      // Connect to mongodb
+      const database = `mongodb://${secret.username}:${secret.password}@${process.env.DB_HOST}:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0`
+      mongoose.connect(database, {
+        sslCA: certFileBuf,
+        useNewUrlParser: true
+      })
+        .then(() => console.log('Connection to DB successful'))
+        .catch((err) => console.error(err, 'Error'));
+    }
+  });
+}
+
 
 app.use(morgan('dev'));
 app.use(compression());

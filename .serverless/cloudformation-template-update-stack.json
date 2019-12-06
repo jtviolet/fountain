@@ -186,11 +186,11 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575577446730-2019-12-05T20:24:06.730Z/fireeye-hackathon-2020.zip"
+          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575661892189-2019-12-06T19:51:32.189Z/fireeye-hackathon-2020.zip"
         },
         "FunctionName": "fireeye-hackathon-2020-dev-app",
         "Handler": "app/app.handler",
-        "MemorySize": 512,
+        "MemorySize": 256,
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -220,14 +220,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionoPpN8HYchzoD70BQY4PSt5qzdmNmsZKHhEDLqXYLI0": {
+    "AppLambdaVersionUXmVnJq8IY4JR1JF6tbeQXdRQYYDS2ZzYxa1816g": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "oNwpRhfI0vy27qry/45PaxxPRj9jB6C2b9fJdWYIQDk="
+        "CodeSha256": "6XzrLVJL3OkQDs5tHj+GNbDyC322YfeYc0CDl7M+9go="
       }
     },
     "ApiGatewayRestApi": {
@@ -438,7 +438,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1575577428849": {
+    "ApiGatewayDeployment1575661875246": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -499,8 +499,16 @@
     "PrivateSubnet1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "AvailabilityZone": "us-east-2a",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
         "CidrBlock": "10.0.1.0/24",
+        "MapPublicIpOnLaunch": false,
         "VpcId": {
           "Ref": "Vpc"
         }
@@ -509,8 +517,16 @@
     "PrivateSubnet2": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "AvailabilityZone": "us-east-2b",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
         "CidrBlock": "10.0.2.0/24",
+        "MapPublicIpOnLaunch": false,
         "VpcId": {
           "Ref": "Vpc"
         }
@@ -519,8 +535,16 @@
     "PublicSubnet1": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
-        "AvailabilityZone": "us-east-2c",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
         "CidrBlock": "10.0.21.0/24",
+        "MapPublicIpOnLaunch": true,
         "VpcId": {
           "Ref": "Vpc"
         }
@@ -613,12 +637,14 @@
     },
     "Eip": {
       "Type": "AWS::EC2::EIP",
+      "DependsOn": "Vpc",
       "Properties": {
         "Domain": "vpc"
       }
     },
     "NatGateway": {
       "Type": "AWS::EC2::NatGateway",
+      "DependsOn": "Eip",
       "Properties": {
         "AllocationId": {
           "Fn::GetAtt": [
@@ -697,6 +723,7 @@
     },
     "PublicRoute": {
       "Type": "AWS::EC2::Route",
+      "DependsOn": "VPCGatewayAttachment",
       "Properties": {
         "RouteTableId": {
           "Ref": "PublicRouteTable"
@@ -728,7 +755,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionoPpN8HYchzoD70BQY4PSt5qzdmNmsZKHhEDLqXYLI0"
+        "Ref": "AppLambdaVersionUXmVnJq8IY4JR1JF6tbeQXdRQYYDS2ZzYxa1816g"
       }
     },
     "ServiceEndpoint": {
