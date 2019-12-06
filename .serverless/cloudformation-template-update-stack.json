@@ -139,6 +139,11 @@
                   "Effect": "Allow",
                   "Action": "secretsmanager:GetSecretValue",
                   "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/verification-email-account-zYbRGq"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": "secretsmanager:GetSecretValue",
+                  "Resource": "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/jwt-secret-0BON7s"
                 }
               ]
             }
@@ -181,7 +186,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575497346631-2019-12-04T22:09:06.631Z/fireeye-hackathon-2020.zip"
+          "S3Key": "serverless/fireeye-hackathon-2020/dev/1575577446730-2019-12-05T20:24:06.730Z/fireeye-hackathon-2020.zip"
         },
         "FunctionName": "fireeye-hackathon-2020-dev-app",
         "Handler": "app/app.handler",
@@ -215,14 +220,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersioniBp9uGVkbvdQPpm9ad4ps9LmB8lFESV0wl3Jd2AM": {
+    "AppLambdaVersionoPpN8HYchzoD70BQY4PSt5qzdmNmsZKHhEDLqXYLI0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "jV+rJqZcsd0pOHq18HNqdMqaD9XxTkgQ3vmN2rI8oLo="
+        "CodeSha256": "oNwpRhfI0vy27qry/45PaxxPRj9jB6C2b9fJdWYIQDk="
       }
     },
     "ApiGatewayRestApi": {
@@ -433,7 +438,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1575497329359": {
+    "ApiGatewayDeployment1575577428849": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -723,7 +728,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersioniBp9uGVkbvdQPpm9ad4ps9LmB8lFESV0wl3Jd2AM"
+        "Ref": "AppLambdaVersionoPpN8HYchzoD70BQY4PSt5qzdmNmsZKHhEDLqXYLI0"
       }
     },
     "ServiceEndpoint": {

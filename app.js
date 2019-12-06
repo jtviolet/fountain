@@ -15,6 +15,9 @@ const compression = require('compression');
 
 var mongoose = require('mongoose');
 
+var settingsConfig  = require('./config/settings');
+var adminConfig     = require('./config/admin');
+
 var app = express();
 
 // Load the AWS SDK
@@ -26,15 +29,13 @@ var client = new AWS.SecretsManager({
   region: region
 });
 
-// Load the credentials for the initial admin user of the registration portal
-client.getSecretValue({ SecretId: process.env.AWS_SM_ADMIN_USER }, function (err, data) {
+// Load the JWT Secret
+client.getSecretValue({ SecretId: process.env.AWS_SM_JWT_SECRET }, function (err, data) {
   if (err) {
     throw err;
   }
   else {
-    const secret = JSON.parse(data.SecretString);
-    process.env['ADMIN_EMAIL'] = secret.email;
-    process.env['ADMIN_PASS'] = secret.password;
+    process.env['JWT_SECRET'] = data.SecretString;
   }
 });
 
@@ -60,8 +61,7 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_DATABASE_CREDENTIALS }, fun
     const database = `mongodb://${secret.username}:${secret.password}@${process.env.DB_HOST}:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0`
     mongoose.connect(database, {
       sslCA: certFileBuf,
-      useNewUrlParser: true,
-      useUnifiedTopology: true
+      useNewUrlParser: true
     })
       .then(() => console.log('Connection to DB successful'))
       .catch((err) => console.error(err, 'Error'));
@@ -93,6 +93,7 @@ app.use('/auth', authRouter);
 require('./app/server/routes')(app);
 
 // listen (start app with node server.js) ======================================
+// const port = process.env.PORT || 3000;
 // app.listen(port);
 // console.log("App listening on port " + port);
 

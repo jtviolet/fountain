@@ -2,7 +2,6 @@ var mongoose   = require('mongoose'),
     bcrypt     = require('bcrypt'),
     validator  = require('validator'),
     jwt        = require('jsonwebtoken');
-    JWT_SECRET = process.env.JWT_SECRET;
 
 var profile = {
 
@@ -235,11 +234,11 @@ schema.methods.checkPassword = function(password) {
 
 // Token stuff
 schema.methods.generateEmailVerificationToken = function(){
-  return jwt.sign(this.email, JWT_SECRET);
+  return jwt.sign(this.email, process.env.JWT_SECRET);
 };
 
 schema.methods.generateAuthToken = function(){
-  return jwt.sign(this._id, JWT_SECRET);
+  return jwt.sign(this._id, process.env.JWT_SECRET);
 };
 
 /**
@@ -254,7 +253,7 @@ schema.methods.generateAuthToken = function(){
 schema.methods.generateTempAuthToken = function(){
   return jwt.sign({
     id: this._id
-  }, JWT_SECRET, {
+  }, process.env.JWT_SECRET, {
     expiresInMinutes: 60,
   });
 };
@@ -273,7 +272,7 @@ schema.statics.generateHash = function(password) {
  * @param  {Function} cb    args(err, email)
  */
 schema.statics.verifyEmailVerificationToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, email) {
+  jwt.verify(token, process.env.JWT_SECRET, function(err, email) {
     return callback(err, email);
   });
 };
@@ -284,7 +283,7 @@ schema.statics.verifyEmailVerificationToken = function(token, callback){
  * @param  {Function} callback args(err, id)
  */
 schema.statics.verifyTempAuthToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, payload){
+  jwt.verify(token, process.env.JWT_SECRET, function(err, payload){
 
     if (err || !payload){
       return callback(err);
@@ -312,7 +311,7 @@ schema.statics.findOneByEmail = function(email){
  * @param  {Function} callback args(err, user)
  */
 schema.statics.getByToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, id){
+  jwt.verify(token, process.env.JWT_SECRET, function(err, id){
     if (err) {
       return callback(err);
     }

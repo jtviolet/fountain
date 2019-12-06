@@ -20,6 +20,9 @@ provider:
     - Effect: Allow
       Action: secretsmanager:GetSecretValue
       Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/verification-email-account-zYbRGq"
+    - Effect: Allow
+      Action: secretsmanager:GetSecretValue
+      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/jwt-secret-0BON7s"
   vpc:
     securityGroupIds:
       - Ref: LambdaSecurityGroup
