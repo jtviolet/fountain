@@ -16,4 +16,5 @@ angular.module('reg')
     })
     .constant('CONFIG', {
         STAGE_ENDPOINT: '/dev'
+        // STAGE_ENDPOINT: ''
     })

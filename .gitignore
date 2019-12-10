@@ -11,3 +11,6 @@ app/client/build/
 .python-version
 
 .env
+
+# Serverless framework
+.serverless

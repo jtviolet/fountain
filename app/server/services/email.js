@@ -35,21 +35,20 @@ var client = new AWS.SecretsManager({
 var controller = {};
 
 // Load the password for the email account that sends out verification emails
-client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_EMAIL_PASSWORD }, function (err, data) {
+client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_SES_EMAIL_CREDENTIALS }, function (err, data) {
   if (err) {
     throw err;
   }
   else {
     const secret = JSON.parse(data.SecretString);
-    process.env['EMAIL_PASS'] = secret.password;
 
     var options = {
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
       secure: process.env.EMAIL_PORT == 465, // true for 465, false for other ports
       auth: {
-        user: EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: secret.username,
+        pass: secret.password
       }
     };
 
@@ -78,6 +77,7 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_EMAIL_PASSWORD },
       data.twitterHandle = TWITTER_HANDLE;
       data.facebookHandle = FACEBOOK_HANDLE;
 
+      console.log("Sending email");
       email.send({
         locals: data,
         message: {
@@ -86,10 +86,12 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_EMAIL_PASSWORD },
         },
         template: path.join(__dirname, "..", "emails", templateName),
       }).then(res => {
+        console.log(`Email sent: ${res}`);
         if (callback) {
           callback(undefined, res)
         }
       }).catch(err => {
+        console.error(`Unable to send email: ${err}`);
         if (callback) {
           callback(err, undefined);
         }

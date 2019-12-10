@@ -4,7 +4,7 @@ provider:
   profile: delta12-ops-admin
   runtime: nodejs10.x
   stage: dev
-  region: us-east-2
+  region: us-west-2
   memorySize: 256
   iamRoleStatements:
     - Effect: Allow
@@ -12,17 +12,21 @@ provider:
         - lambda:InvokeFunction
       Resource: "*"
     - Effect: Allow
-      Action: secretsmanager:GetSecretValue
-      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:dev/hackathon/db/admin-current-4pM1YO"
+      Action:
+        - ses:SendRawEmail
+      Resource: "*"
     - Effect: Allow
       Action: secretsmanager:GetSecretValue
-      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/admin-user-ClzowL"
+      Resource: "arn:aws:secretsmanager:us-west-2:664974833211:secret:hackathon/dev/db/admin-OIdMUq"
     - Effect: Allow
       Action: secretsmanager:GetSecretValue
-      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/verification-email-account-zYbRGq"
+      Resource: "arn:aws:secretsmanager:us-west-2:664974833211:secret:hackathon/dev/admin-user-HOnYgZ"
     - Effect: Allow
       Action: secretsmanager:GetSecretValue
-      Resource: "arn:aws:secretsmanager:us-east-2:664974833211:secret:hackathon/dev/jwt-secret-0BON7s"
+      Resource: "arn:aws:secretsmanager:us-west-2:664974833211:secret:hackathon/dev/ses-email-verification-credentials-5pprsI"
+    - Effect: Allow
+      Action: secretsmanager:GetSecretValue
+      Resource: "arn:aws:secretsmanager:us-west-2:664974833211:secret:hackathon/dev/jwt-secret-HdoAl2"
   vpc:
     securityGroupIds:
       - Ref: LambdaSecurityGroup
@@ -136,7 +140,10 @@ resources:
       DependsOn: DatabaseCluster
       Properties:
         AutoMinorVersionUpgrade: true
-        AvailabilityZone: "us-east-2b"
+        AvailabilityZone:
+          Fn::Select:
+            - 1
+            - Fn::GetAZs: ""
         DBClusterIdentifier: ${self:service}-${self:provider.stage}
         DBInstanceClass: "db.r5.large"
         DBInstanceIdentifier: ${self:service}-${self:provider.stage}-01
