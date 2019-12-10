@@ -34,7 +34,7 @@ provider:
       - Ref: PrivateSubnet1
       - Ref: PrivateSubnet2
 custom:
-  dbCredentials: ${ssm:/aws/reference/secretsmanager/dev/hackathon/db/admin-current~true}
+  dbCredentials: ${ssm:/aws/reference/secretsmanager/hackathon/dev/db/admin~true}
 functions:
   app:
     handler: app/app.handler
