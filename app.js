@@ -93,4 +93,15 @@ require('./app/server/routes')(app);
 // app.listen(port);
 // console.log("App listening on port " + port);
 
-module.exports.handler = serverless(app);
+// Basic serverless setup
+// module.exports.handler = serverless(app);
+
+// Serverless setup that "freezes" the DocumentDB connection pool so we can reuse it.
+// This should increase database performance.
+const handler = serverless(app);
+module.exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  const result = await handler(event, context);
+  return result;
+};

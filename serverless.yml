@@ -5,7 +5,8 @@ provider:
   runtime: nodejs10.x
   stage: dev
   region: us-west-2
-  memorySize: 256
+  endpointType: REGIONAL
+  memorySize: 1408
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -36,6 +37,8 @@ provider:
       - Ref: PrivateSubnet2
 custom:
   dbCredentials: ${ssm:/aws/reference/secretsmanager/hackathon/dev/db/admin~true}
+  domainName: 'hackathon.fireeye.dev'
+  certArn: 'arn:aws:acm:us-west-2:664974833211:certificate/96cd8111-a882-4bfb-87d4-e40d08f170d1'
 functions:
   app:
     handler: app/app.handler
@@ -50,6 +53,24 @@ functions:
           cors: true
 resources:
   Resources:
+    CustomDomainApiGateway:
+      Type: 'AWS::ApiGateway::DomainName'
+      Properties:
+        DomainName: ${self:custom.domainName}
+        EndpointConfiguration:
+          Types:
+            - REGIONAL
+        RegionalCertificateArn: '${self:custom.certArn}'
+    CustomDomainBasePathMapping:
+      Type: AWS::ApiGateway::BasePathMapping
+      DependsOn:
+        - 'ApiGatewayDeployment${sls:instanceId}'
+      Properties:
+        DomainName: ${self:custom.domainName}
+        BasePath: ''
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Stage: ${self:provider.stage}
     Vpc:
       Type: AWS::EC2::VPC
       Properties:
@@ -223,4 +244,10 @@ resources:
           Ref: PublicSubnet1
         RouteTableId:
           Ref: PublicRouteTable
-    
+  Outputs:
+    ApiGatewayTargetDomainName:
+      Description: 'Regional endpoint domain name'
+      Value:
+        'Fn::GetAtt':
+          - CustomDomainApiGateway
+          - RegionalDomainName

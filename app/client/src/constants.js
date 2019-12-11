@@ -15,6 +15,6 @@ angular.module('reg')
         MAX_SIZE: 6
     })
     .constant('CONFIG', {
-        STAGE_ENDPOINT: '/dev'
-        // STAGE_ENDPOINT: ''
+        // STAGE_ENDPOINT: '/dev'
+        STAGE_ENDPOINT: ''
     })
