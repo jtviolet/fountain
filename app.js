@@ -89,8 +89,8 @@ app.use('/auth', authRouter);
 require('./app/server/routes')(app);
 
 // listen (start app with node server.js) ======================================
-const port = process.env.PORT || 3000;
-app.listen(port);
-console.log("App listening on port " + port);
+// const port = process.env.PORT || 3000;
+// app.listen(port);
+// console.log("App listening on port " + port);
 
-// module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);

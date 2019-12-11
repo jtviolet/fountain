@@ -170,14 +170,12 @@ UserController.createUser = function(email, password, callback) {
         // Send over a verification email
         var verificationToken = newUser.generateEmailVerificationToken();
         Mailer.sendVerificationEmail(email, verificationToken);
-
-        return callback(
-          null,
-          {
+        Mailer.sendVerificationEmail(email, verificationToken, (err, info) => {
+          return callback(err, {
             token: token,
             user: newUser
-          }
-        );
+          });
+        });
       }
 
     });
@@ -446,8 +444,9 @@ UserController.sendVerificationEmailById = function(id, callback){
         return callback(err);
       }
       var token = user.generateEmailVerificationToken();
-      Mailer.sendVerificationEmail(user.email, token);
-      return callback(err, user);
+      Mailer.sendVerificationEmail(user.email, token, (err, info) => {
+        return callback(err, user);
+      });
   });
 };
 
@@ -466,7 +465,9 @@ UserController.sendPasswordResetEmail = function(email, callback){
       }
 
       var token = user.generateTempAuthToken();
-      Mailer.sendPasswordResetEmail(email, token, callback);
+      Mailer.sendPasswordResetEmail(email, token, (err, info) => {
+        return callback(err, user);
+      });
     });
 };
 
@@ -546,9 +547,10 @@ UserController.resetPassword = function(token, password, callback){
           return callback(err);
         }
 
-        Mailer.sendPasswordChangedEmail(user.email);
-        return callback(null, {
-          message: 'Password successfully reset!'
+        Mailer.sendPasswordChangedEmail(user.email, (err, info) => {
+          return callback(err, {
+            message: 'Password successfully reset!'
+          });
         });
       });
   });

@@ -13,6 +13,7 @@ provider:
       Resource: "*"
     - Effect: Allow
       Action:
+        - ses:SendEmail
         - ses:SendRawEmail
       Resource: "*"
     - Effect: Allow

@@ -24,8 +24,8 @@ if (EMAIL_HEADER_IMAGE.indexOf("https") == -1) {
 var NODE_ENV = process.env.NODE_ENV;
 
 // Load the AWS SDK
-var AWS = require('aws-sdk'),
-  region = process.env.AWS_REGION;
+var AWS = require('aws-sdk');
+var region = process.env.AWS_REGION;
 
 // Create a Secrets Manager client
 var client = new AWS.SecretsManager({
@@ -54,7 +54,6 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_SES_EMAIL_CREDENT
 
     let transporter = nodemailer.createTransport(options);
 
-
     controller.transporter = transporter;
 
     function sendOne(templateName, options, data, callback) {
@@ -77,7 +76,6 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_SES_EMAIL_CREDENT
       data.twitterHandle = TWITTER_HANDLE;
       data.facebookHandle = FACEBOOK_HANDLE;
 
-      console.log("Sending email");
       email.send({
         locals: data,
         message: {

@@ -130,6 +130,7 @@ module.exports = function(router){
           if (err || !user){
             return res.status(400).send();
           }
+          console.log(`Sending 200 response back`)
           return res.status(200).send();
         });
       } else {
