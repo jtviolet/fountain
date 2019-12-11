@@ -10,7 +10,5 @@ app/client/build/
 .DS_Store
 .python-version
 
-.env
-
 # Serverless framework
 .serverless
