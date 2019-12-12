@@ -35,8 +35,12 @@ angular.module('reg')
 
       $scope.register = function(){
         resetError();
-        AuthService.register(
-          $scope.email, $scope.password, onSuccess, onError);
+        if (!$scope.email || !$scope.password) {
+          $scope.error = 'Please provide an email address and password before registering'
+        } else {
+          AuthService.register(
+            $scope.email, $scope.password, onSuccess, onError);
+        }
       };
 
       $scope.setLoginState = function(state) {

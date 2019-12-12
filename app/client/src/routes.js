@@ -77,6 +77,10 @@ angular.module('reg')
           }
         },
       })
+      .state('app.about', {
+        url: "/about",
+        templateUrl: "views/about/about.html",
+      })
       .state('app.profile', {
         url: "/profile",
         templateUrl: "views/profile/profile.html",

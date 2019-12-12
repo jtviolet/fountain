@@ -107,7 +107,7 @@ UserController.loginWithPassword = function(email, password, callback){
       }
       if (!user) {
         return callback({
-          message: "We couldn't find you!"
+          message: "We couldn't find you!  Try registering first."
         });
       }
       if (!user.checkPassword(password)) {
