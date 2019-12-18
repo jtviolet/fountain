@@ -11,8 +11,8 @@ var ROOT_URL = process.env.ROOT_URL;
 
 var HACKATHON_NAME = process.env.HACKATHON_NAME;
 var EMAIL_ADDRESS = process.env.EMAIL_ADDRESS;
-var TWITTER_HANDLE = process.env.TWITTER_HANDLE;
-var FACEBOOK_HANDLE = process.env.FACEBOOK_HANDLE;
+// var TWITTER_HANDLE = process.env.TWITTER_HANDLE;
+// var FACEBOOK_HANDLE = process.env.FACEBOOK_HANDLE;
 
 var EMAIL_USER = process.env.EMAIL_USER;
 var EMAIL_CONTACT = process.env.EMAIL_CONTACT;
@@ -73,8 +73,9 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_SES_EMAIL_CREDENT
       data.emailHeaderImage = EMAIL_HEADER_IMAGE;
       data.emailAddress = EMAIL_ADDRESS;
       data.hackathonName = HACKATHON_NAME;
-      data.twitterHandle = TWITTER_HANDLE;
-      data.facebookHandle = FACEBOOK_HANDLE;
+      // data.twitterHandle = TWITTER_HANDLE;
+      // data.facebookHandle = FACEBOOK_HANDLE;
+      data.copyright = process.env.COPYRIGHT;
 
       email.send({
         locals: data,

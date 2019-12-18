@@ -6,11 +6,13 @@ angular.module('reg')
     'settings',
     'Utils',
     'AuthService',
-    function($scope, $http, $state, settings, Utils, AuthService){
+    'EVENT_INFO',
+    function($scope, $http, $state, settings, Utils, AuthService, EVENT_INFO){
 
       // Is registration open?
       var Settings = settings.data;
       $scope.regIsOpen = Utils.isRegOpen(Settings);
+      $scope.hackathonName = EVENT_INFO.NAME;
 
       // Start state for login
       $scope.loginState = 'login';
