@@ -31,6 +31,20 @@
 
     <div
       ui-sref-active="active"
+      ui-sref="app.about"
+      class="item">
+      About
+    </div>
+
+    <div
+      ui-sref-active="active"
+      ui-sref="app.projects"
+      class="item">
+      Project Ideas
+    </div>
+
+    <div
+      ui-sref-active="active"
       ui-sref="app.team"
       ng-show="!currentUser.status.declined"
       class="item">
@@ -43,13 +57,6 @@
       class="item"
       ng-show="currentUser.admin">
       Admin
-    </div>
-
-    <div
-      ui-sref-active="active"
-      ui-sref="app.about"
-      class="item">
-      About
     </div>
 
   </div>
