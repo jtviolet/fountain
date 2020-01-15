@@ -64,7 +64,7 @@ client.getSecretValue({ SecretId: process.env.AWS_SM_HACKATHON_SES_EMAIL_CREDENT
 
       const email = new Email({
         message: {
-          from: EMAIL_ADDRESS
+          from: EMAIL_USER
         },
         send: true,
         transport: transporter
