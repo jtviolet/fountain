@@ -13,7 +13,60 @@ var name2 = ["people", "history", "way", "art", "world", "information", "map", "
 
 var domains = ["@fireeye.com", "@mandiant.com", "@verodin.com", "@test.com"]
 var teams = ["Black Cats", "Resovoir Dogs", "Tequila Mocking Bird", "Bottle Boys", "Cereal Killers", "Bad Intentions", "e-LEMON-ators", "Sons of Pitches", "Hoops I Did It Again", "Chafing the Dream"]
-var locations = ["Remote", "Milpitas", "Reston", "Alexandria", "Draper", "India", "Amsterdam", "Dublin", "Dallas", "NYC", "Cork", "London", "Toronto", "Sydney", "Tokyo"]
+var locations = ["Remote",
+  "Alexandria",
+  "Amsterdam",
+  "Bangalore",
+  "Bangkok",
+  "Boston",
+  "Bucharest",
+  "Cebu City",
+  "Charlotte",
+  "Charlottesville",
+  "Chicago",
+  "Cork",
+  "Dallas",
+  "Denver",
+  "Doha",
+  "Draper",
+  "Dubai",
+  "Dublin",
+  "El Segundo",
+  "Herndon",
+  "Hong Kong",
+  "India",
+  "Istanbul",
+  "Kiev",
+  "Kildare",
+  "London",
+  "McLean",
+  "Milan",
+  "Milpitas",
+  "Mumbai",
+  "Munich",
+  "Nagoya",
+  "New Delhi",
+  "NYC",
+  "Osaka",
+  "Paris",
+  "Portland",
+  "Pune",
+  "Reston",
+  "Riyadh",
+  "San Diego",
+  "San Francisco",
+  "Selangor",
+  "Seoul",
+  "Shanghai",
+  "Singapore",
+  "State College",
+  "Stockholm",
+  "Sydney",
+  "Taipei City",
+  "Tokyo",
+  "Toronto",
+  "Warsaw",
+  "Westborough"]
 var shirtSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL']
 var bools = [true, false]
 
@@ -32,7 +85,7 @@ for (var i = 0; i < users; i++) {
   var username = (firstName + lastName).toLowerCase();
   var domain = domains[getRandomInt(0, domains.length)];
   newUser.email = (username + domain);
-  console.log("Creating user: " + username+domain);
+  console.log("Creating user: " + username + domain);
   newUser.password = bcrypt.hashSync("123456_" + username, bcrypt.genSaltSync(8));
   newUser.teamCode = teams[getRandomInt(0, teams.length)];
   newUser.verified = bools[getRandomInt(0, bools.length)];

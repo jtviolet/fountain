@@ -1,7 +1,7 @@
-var mongoose   = require('mongoose'),
-    bcrypt     = require('bcrypt'),
-    validator  = require('validator'),
-    jwt        = require('jsonwebtoken');
+var mongoose = require('mongoose'),
+  bcrypt = require('bcrypt'),
+  validator = require('validator'),
+  jwt = require('jsonwebtoken');
 
 var profile = {
 
@@ -15,7 +15,62 @@ var profile = {
   location: {
     type: String,
     enum: {
-      values: "Remote Milpitas Reston Alexandria Draper India Amsterdam Dublin Dallas NYC Cork London Toronto Sydney Tokyo".split(' ')
+      values: [
+        "Remote",
+        "Alexandria",
+        "Amsterdam",
+        "Bangalore",
+        "Bangkok",
+        "Boston",
+        "Bucharest",
+        "Cebu City",
+        "Charlotte",
+        "Charlottesville",
+        "Chicago",
+        "Cork",
+        "Dallas",
+        "Denver",
+        "Doha",
+        "Draper",
+        "Dubai",
+        "Dublin",
+        "El Segundo",
+        "Herndon",
+        "Hong Kong",
+        "India",
+        "Istanbul",
+        "Kiev",
+        "Kildare",
+        "London",
+        "McLean",
+        "Milan",
+        "Milpitas",
+        "Mumbai",
+        "Munich",
+        "Nagoya",
+        "New Delhi",
+        "NYC",
+        "Osaka",
+        "Paris",
+        "Portland",
+        "Pune",
+        "Reston",
+        "Riyadh",
+        "San Diego",
+        "San Francisco",
+        "Selangor",
+        "Seoul",
+        "Shanghai",
+        "Singapore",
+        "State College",
+        "Stockholm",
+        "Sydney",
+        "Taipei City",
+        "Tokyo",
+        "Toronto",
+        "Warsaw",
+        "Westborough"
+      ]
     }
   },
 
@@ -146,13 +201,13 @@ var status = {
 var schema = new mongoose.Schema({
 
   email: {
-      type: String,
-      required: true,
-      unique: true,
-      validate: [
-        validator.isEmail,
-        'Invalid Email',
-      ]
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      validator.isEmail,
+      'Invalid Email',
+    ]
   },
 
   password: {
@@ -228,16 +283,16 @@ schema.set('toObject', {
 //=========================================
 
 // checking if this password matches
-schema.methods.checkPassword = function(password) {
+schema.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 // Token stuff
-schema.methods.generateEmailVerificationToken = function(){
+schema.methods.generateEmailVerificationToken = function () {
   return jwt.sign(this.email, process.env.JWT_SECRET);
 };
 
-schema.methods.generateAuthToken = function(){
+schema.methods.generateAuthToken = function () {
   return jwt.sign(this._id, process.env.JWT_SECRET);
 };
 
@@ -250,7 +305,7 @@ schema.methods.generateAuthToken = function(){
  *   exp: expiration ms
  * }
  */
-schema.methods.generateTempAuthToken = function(){
+schema.methods.generateTempAuthToken = function () {
   return jwt.sign({
     id: this._id
   }, process.env.JWT_SECRET, {
@@ -262,7 +317,7 @@ schema.methods.generateTempAuthToken = function(){
 // Static Methods
 //=========================================
 
-schema.statics.generateHash = function(password) {
+schema.statics.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 };
 
@@ -271,8 +326,8 @@ schema.statics.generateHash = function(password) {
  * @param  {[type]}   token token
  * @param  {Function} cb    args(err, email)
  */
-schema.statics.verifyEmailVerificationToken = function(token, callback){
-  jwt.verify(token, process.env.JWT_SECRET, function(err, email) {
+schema.statics.verifyEmailVerificationToken = function (token, callback) {
+  jwt.verify(token, process.env.JWT_SECRET, function (err, email) {
     return callback(err, email);
   });
 };
@@ -282,14 +337,14 @@ schema.statics.verifyEmailVerificationToken = function(token, callback){
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
-schema.statics.verifyTempAuthToken = function(token, callback){
-  jwt.verify(token, process.env.JWT_SECRET, function(err, payload){
+schema.statics.verifyTempAuthToken = function (token, callback) {
+  jwt.verify(token, process.env.JWT_SECRET, function (err, payload) {
 
-    if (err || !payload){
+    if (err || !payload) {
       return callback(err);
     }
 
-    if (!payload.exp || Date.now() >= payload.exp * 1000){
+    if (!payload.exp || Date.now() >= payload.exp * 1000) {
       return callback({
         message: 'Token has expired.'
       });
@@ -299,7 +354,7 @@ schema.statics.verifyTempAuthToken = function(token, callback){
   });
 };
 
-schema.statics.findOneByEmail = function(email){
+schema.statics.findOneByEmail = function (email) {
   return this.findOne({
     email: email.toLowerCase()
   });
@@ -310,24 +365,77 @@ schema.statics.findOneByEmail = function(email){
  * @param  {String}   token    User's authentication token.
  * @param  {Function} callback args(err, user)
  */
-schema.statics.getByToken = function(token, callback){
-  jwt.verify(token, process.env.JWT_SECRET, function(err, id){
+schema.statics.getByToken = function (token, callback) {
+  jwt.verify(token, process.env.JWT_SECRET, function (err, id) {
     if (err) {
       return callback(err);
     }
-    this.findOne({_id: id}, callback);
+    this.findOne({ _id: id }, callback);
   }.bind(this));
 };
 
-schema.statics.validateProfile = function(profile, cb){
+schema.statics.validateProfile = function (profile, cb) {
   return cb(!(
     profile.name.length > 0 &&
     ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL'].indexOf(profile.shirtSize) > -1 &&
-    ["Remote", "Milpitas", "Reston", "Alexandria", "Draper", "India", "Amsterdam", "Dublin", "Dallas", "NYC", "Cork", "London", "Toronto", "Sydney", "Tokyo"].indexOf(profile.location) > -1 &&
-    profile.signatureLiability.length > 0 &&
-    profile.signaturePhotoRelease.length > 0 &&
-    profile.signatureCodeOfConduct.length > 0
-    ));
+    ["Remote",
+    "Alexandria",
+    "Amsterdam",
+    "Bangalore",
+    "Bangkok",
+    "Boston",
+    "Bucharest",
+    "Cebu City",
+    "Charlotte",
+    "Charlottesville",
+    "Chicago",
+    "Cork",
+    "Dallas",
+    "Denver",
+    "Doha",
+    "Draper",
+    "Dubai",
+    "Dublin",
+    "El Segundo",
+    "Herndon",
+    "Hong Kong",
+    "India",
+    "Istanbul",
+    "Kiev",
+    "Kildare",
+    "London",
+    "McLean",
+    "Milan",
+    "Milpitas",
+    "Mumbai",
+    "Munich",
+    "Nagoya",
+    "New Delhi",
+    "NYC",
+    "Osaka",
+    "Paris",
+    "Portland",
+    "Pune",
+    "Reston",
+    "Riyadh",
+    "San Diego",
+    "San Francisco",
+    "Selangor",
+    "Seoul",
+    "Shanghai",
+    "Singapore",
+    "State College",
+    "Stockholm",
+    "Sydney",
+    "Taipei City",
+    "Tokyo",
+    "Toronto",
+    "Warsaw",
+    "Westborough"].indexOf(profile.location) > -1
+    // profile.signatureLiability.length > 0 &&
+    // profile.signaturePhotoRelease.length > 0 &&
+    // profile.signatureCodeOfConduct.length > 0
+  ));
 };
 
 //=========================================
@@ -338,13 +446,13 @@ schema.statics.validateProfile = function(profile, cb){
  * Has the user completed their profile?
  * This provides a verbose explanation of their furthest state.
  */
-schema.virtual('status.name').get(function(){
+schema.virtual('status.name').get(function () {
 
   if (this.status.checkedIn) {
     return 'checkedin';
   }
 
-  if (this.status.completedProfile){
+  if (this.status.completedProfile) {
     return "completed";
   }
 
