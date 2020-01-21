@@ -61,6 +61,9 @@ TeamController.getPage = function(query, callback){
     queries.push({ 'teamCode': re });
 
     findQuery.$or = queries;
+  } else {
+    // If no search text specified, get all teams that don't have a null teamCode
+    findQuery = { 'teamCode': { '$ne': null }};
   }
 
   User
