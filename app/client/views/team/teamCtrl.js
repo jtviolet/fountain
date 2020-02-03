@@ -9,7 +9,7 @@ angular.module('reg')
     'UserService',
     'TeamService',
     'TEAM',
-    function($scope, $state, $stateParams, currentUser, settings, Utils, UserService, TeamService, TEAM){
+    function ($scope, $state, $stateParams, currentUser, settings, Utils, UserService, TeamService, TEAM) {
       // Get the current user's most recent data.
       var Settings = settings.data;
 
@@ -23,13 +23,13 @@ angular.module('reg')
 
       $scope.TEAM = TEAM;
 
-      function updatePage(data){
+      function updatePage(data) {
         $scope.teams = data.teams;
         $scope.currentPage = data.page;
         $scope.pageSize = data.size;
 
         var p = [];
-        for (var i = 0; i < data.totalPages; i++){
+        for (var i = 0; i < data.totalPages; i++) {
           p.push(i);
         }
         $scope.teamPages = p;
@@ -46,24 +46,25 @@ angular.module('reg')
 
       function _populateTeams(page, size) {
         TeamService
-        .getPage(page, size, "")
-        .then(response => {
-          updatePage(response.data);
-        });
+          //.getPage(page, size, "")
+          .getAll()
+          .then(response => {
+            updatePage(response.data);
+          });
       }
 
-      if ($scope.user.teamCode){
+      if ($scope.user.teamCode) {
         _populateTeammates();
         _populateTeams($stateParams.page, $stateParams.size);
       } else {
         _populateTeams($stateParams.page, $stateParams.size);
       }
 
-      $scope.goToTeamPage = function(page){
+      $scope.goToTeamPage = function (page) {
         _populateTeams(page, $scope.pageSize || 50)
       };
 
-      $scope.joinTeam = function(team){
+      $scope.joinTeam = function (team) {
         UserService
           .joinOrCreateTeam(team.name)
           .then(response => {
@@ -77,7 +78,7 @@ angular.module('reg')
           });
       };
 
-      $scope.createTeam = function(){
+      $scope.createTeam = function () {
         UserService
           .joinOrCreateTeam($scope.code)
           .then(response => {
@@ -92,15 +93,26 @@ angular.module('reg')
           });
       };
 
-      $scope.searchTeams = function() {
-        TeamService
-          .getPage($stateParams.page, $stateParams.size, $scope.formData.teamSearchQuery)
-          .then(response => {
-            updatePage(response.data);
-          });
+      $scope.searchTeams = function () {
+        // If there is a search query with text, do a getPage
+        if ($scope.formData.teamSearchQuery.trim())
+          TeamService
+            .getPage($stateParams.page, $stateParams.size, $scope.formData.teamSearchQuery)
+            .then(response => {
+              updatePage(response.data);
+            });
+        else {
+          // No search query, so get all teams
+          TeamService
+            //.getPage(page, size, "")
+            .getAll()
+            .then(response => {
+              updatePage(response.data);
+            });
+        }
       };
 
-      $scope.leaveTeam = function(){
+      $scope.leaveTeam = function () {
         UserService
           .leaveTeam()
           .then(response => {
