@@ -1,11 +1,7 @@
 // Load the dotfiles.
 require('dotenv').load({ silent: true });
 
-const fs = require('fs');
-const certFileBuf = fs.readFileSync('./rds-combined-ca-bundle.pem');
-
 var express = require('express');
-const serverless = require('serverless-http');
 
 // Middleware!
 var bodyParser = require('body-parser');
@@ -14,55 +10,15 @@ var morgan = require('morgan');
 const compression = require('compression');
 
 var mongoose = require('mongoose');
+var database = process.env.DATABASE || process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 var settingsConfig = require('./config/settings');
 var adminConfig = require('./config/admin');
 
 var app = express();
 
-// Load the AWS SDK
-var AWS = require('aws-sdk'),
-  region = process.env.AWS_REGION;
-
-// Create a Secrets Manager client
-var client = new AWS.SecretsManager({
-  region: region
-});
-
-// Load the JWT Secret
-client.getSecretValue({ SecretId: process.env.AWS_SM_JWT_SECRET }, function (err, data) {
-  if (err) {
-    throw err;
-  }
-  else {
-    process.env['JWT_SECRET'] = data.SecretString;
-  }
-});
-
-// Load the mongo DB credentials and connect to the database
-if (process.env.LOCAL_DB) {
-  mongoose.connect(process.env.LOCAL_DB)
-    .then(() => console.log('Connection to DB successful'))
-    .catch((err) => console.error(err, 'Error'));
-} else {
-  client.getSecretValue({ SecretId: process.env.AWS_SM_DATABASE_CREDENTIALS }, function (err, data) {
-    if (err) {
-      throw err;
-    }
-    else {
-      const secret = JSON.parse(data.SecretString);
-      // Connect to mongodb
-      const database = `mongodb://${secret.username}:${secret.password}@${process.env.DB_HOST}:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0`
-      mongoose.connect(database, {
-        sslCA: certFileBuf,
-        useNewUrlParser: true
-      })
-        .then(() => console.log('Connection to DB successful'))
-        .catch((err) => console.error(err, 'Error'));
-    }
-  });
-}
-
+// Connect to mongodb
+mongoose.connect(database);
 
 app.use(morgan('dev'));
 app.use(compression());
@@ -89,19 +45,6 @@ app.use('/auth', authRouter);
 require('./app/server/routes')(app);
 
 // listen (start app with node server.js) ======================================
-// const port = process.env.PORT || 3000;
-// app.listen(port);
-// console.log("App listening on port " + port);
-
-// Basic serverless setup
-// module.exports.handler = serverless(app);
-
-// Serverless setup that "freezes" the DocumentDB connection pool so we can reuse it.
-// This should increase database performance.
-const handler = serverless(app);
-module.exports.handler = async (event, context) => {
-  context.callbackWaitsForEmptyEventLoop = false;
-
-  const result = await handler(event, context);
-  return result;
-};
+const port = process.env.PORT || 3000;
+app.listen(port);
+console.log("App listening on port " + port);
