@@ -1,10 +1,9 @@
 angular.module('reg')
   .factory('SettingsService', [
   '$http',
-  'CONFIG',
-  function($http, CONFIG){
+  function($http){
 
-    var base = `${CONFIG.STAGE_ENDPOINT}/api/settings/`;
+    var base = '/api/settings/';
 
     return {
       getPublicSettings: function(){
