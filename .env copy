@@ -19,10 +19,10 @@ ADMIN_PASS='party'
 
 # Used to send verification, registration, and confirmation emails
 EMAIL_CONTACT='Hackathon Team <team@example.com>'
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_USER='foo@bar.com'
-EMAIL_PASS='password'
-EMAIL_PORT='465'
+EMAIL_HOST='smtp.office365.com'
+EMAIL_USER='colin.mckibben@sailpoint.com'
+EMAIL_PASS=''
+EMAIL_PORT='587'
 EMAIL_HEADER_IMAGE='https://s3.amazonaws.com/hackmit-assets/Banner_600.jpg'
 
 # Information linked at the bottom of emails

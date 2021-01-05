@@ -12,3 +12,5 @@ app/client/build/
 
 # Serverless framework
 .serverless
+
+.env
