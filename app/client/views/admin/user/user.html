@@ -37,7 +37,7 @@
     </div>
     -->
 
-      <div class="field">
+      <!-- <div class="field">
         <label> What location will you be attending from? </label>
         <select name="location" ng-model="selectedUser.profile.location" required>
           <option value="Remote">Remote</option>
@@ -116,11 +116,11 @@
           <option value="WXL">Women's X-Large</option>
           <option value="WXXL">Women's XX-Large</option>
         </select>
-      </div>
+      </div> -->
 
       <div class="field">
         <label>
-          Have you attended any hackathons previously, FireEye or otherwise?
+          Have you attended any hackathons previously?
         </label>
         <div class="ui checkbox">
           <input type="checkbox" ng-model="selectedUser.profile.previouslyAttended">
@@ -128,7 +128,7 @@
         </div>
       </div>
 
-      <div class="field">
+      <!-- <div class="field">
         <label>
           Will you be needing any FireEye hardware?
         </label>
@@ -288,7 +288,7 @@
           What dietary restriction do you have?
         </label>
         <input type="text" ng-model="selectedUser.profile.dietaryRestriction">
-      </div>
+      </div> -->
 
       <div class="field">
         <label>
@@ -301,7 +301,7 @@
       </div>
 
       <div class="field" ng-hide="regIsClosed">
-        <button type="submit" class="fluid ui purple button" ng-click="updateProfile()">
+        <button type="submit" class="fluid ui pink button" ng-click="updateProfile()">
           Submit
         </button>
       </div>

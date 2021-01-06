@@ -77,51 +77,51 @@ angular.module('reg')
                 }
               ]
             },
-            location: {
-              identifier: 'location',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please let us know what location you will be working from!'
-                }
-              ]
-            },
-            shirtSize: {
-              identifier: 'shirtSize',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please give us a shirt size!'
-                }
-              ]
-            },
-            signatureLiability: {
-              identifier: 'signatureLiabilityWaiver',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
-                }
-              ]
-            },
-            signaturePhotoRelease: {
-              identifier: 'signaturePhotoRelease',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
-                }
-              ]
-            },
-            signatureCodeOfConduct: {
-              identifier: 'signatureCodeOfConduct',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Please type your digital signature.'
-                }
-              ]
-            }
+            // location: {
+            //   identifier: 'location',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please let us know what location you will be working from!'
+            //     }
+            //   ]
+            // },
+            // shirtSize: {
+            //   identifier: 'shirtSize',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please give us a shirt size!'
+            //     }
+            //   ]
+            // },
+            // signatureLiability: {
+            //   identifier: 'signatureLiabilityWaiver',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please type your digital signature.'
+            //     }
+            //   ]
+            // },
+            // signaturePhotoRelease: {
+            //   identifier: 'signaturePhotoRelease',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please type your digital signature.'
+            //     }
+            //   ]
+            // },
+            // signatureCodeOfConduct: {
+            //   identifier: 'signatureCodeOfConduct',
+            //   rules: [
+            //     {
+            //       type: 'empty',
+            //       prompt: 'Please type your digital signature.'
+            //     }
+            //   ]
+            // }
           }
         });
       }

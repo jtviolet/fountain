@@ -81,10 +81,10 @@ angular.module('reg')
         url: "/about",
         templateUrl: "views/about/about.html",
       })
-      .state('app.projects', {
-        url: "/projects",
-        templateUrl: "views/projects/projects.html",
-      })
+      // .state('app.projects', {
+      //   url: "/projects",
+      //   templateUrl: "views/projects/projects.html",
+      // })
       .state('app.profile', {
         url: "/profile",
         templateUrl: "views/profile/profile.html",

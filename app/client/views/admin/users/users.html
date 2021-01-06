@@ -67,12 +67,12 @@
             <th>Status</th>
             <th>Name</th>
             <th>E-mail address</th>
-            <th>Location</th>
+            <!-- <th>Location</th>
             <th>T-shirt Size</th>
             <th>FireEye Hardware</th>
             <th>FireEye Software</th>
             <th>Thirdparty Hardware</th>
-            <th>Thirdparty Software</th>
+            <th>Thirdparty Software</th> -->
             <th>Verified</th>
             <th>Completed Profile</th>
             <th>Check-in</th>
@@ -92,40 +92,36 @@
               </strong>
             </td>
             <td>{{user.email}}</td>
-            <td class="center aligned">
+            <!-- <td class="center aligned">
               {{user.profile.location}}
             </td>
             <td class="center aligned">
               {{user.profile.shirtSize}}
             </td>
-            <!-- Wants FireEye Hardware -->
             <td class="center aligned">
               <i ng-if="user.profile.wantsFireeyeHardware" class="green check circle icon">
               </i>
               <i ng-if="!user.profile.wantsFireeyeHardware" class="red remove circle icon">
               </i>
             </td>
-            <!-- Wants FireEye Software -->
             <td class="center aligned">
               <i ng-if="user.profile.wantsFireeyeSoftware" class="green check circle icon">
               </i>
               <i ng-if="!user.profile.wantsFireeyeSoftware" class="red remove circle icon">
               </i>
             </td>
-            <!-- Wants Thirdparty Hardware -->
             <td class="center aligned">
               <i ng-if="user.profile.wantsFireeyeHardware" class="green check circle icon">
               </i>
               <i ng-if="!user.profile.wantsFireeyeHardware" class="red remove circle icon">
               </i>
             </td>
-            <!-- Wants Thirdparty Software -->
             <td class="center aligned">
               <i ng-if="user.profile.wantsThirdpartySoftware" class="green check circle icon">
               </i>
               <i ng-if="!user.profile.wantsThirdpartySoftware" class="red remove circle icon">
               </i>
-            </td>            
+            </td>             -->
             <!-- Verified -->
             <td class="center aligned">
               <i ng-if="user.verified" class="green check circle icon">

@@ -12,150 +12,150 @@ var profile = {
     max: 100,
   },
 
-  location: {
-    type: String,
-    enum: {
-      values: [
-        "Remote",
-        "Alexandria",
-        "Amsterdam",
-        "Bangalore",
-        "Bangkok",
-        "Boston",
-        "Bucharest",
-        "Cebu City",
-        "Charlotte",
-        "Charlottesville",
-        "Chicago",
-        "Cork",
-        "Dallas",
-        "Denver",
-        "Doha",
-        "Draper",
-        "Dubai",
-        "Dublin",
-        "El Segundo",
-        "Herndon",
-        "Hong Kong",
-        "Istanbul",
-        "Kiev",
-        "Kildare",
-        "London",
-        "McLean",
-        "Milan",
-        "Milpitas",
-        "Mumbai",
-        "Munich",
-        "Nagoya",
-        "New Delhi",
-        "NYC",
-        "Osaka",
-        "Paris",
-        "Portland",
-        "Pune",
-        "Reston",
-        "Riyadh",
-        "San Diego",
-        "San Francisco",
-        "Selangor",
-        "Seoul",
-        "Shanghai",
-        "Singapore",
-        "State College",
-        "Stockholm",
-        "Sydney",
-        "Taipei City",
-        "Tokyo",
-        "Toronto",
-        "Warsaw",
-        "Westborough"
-      ]
-    }
-  },
+  // location: {
+  //   type: String,
+  //   enum: {
+  //     values: [
+  //       "Remote",
+  //       "Alexandria",
+  //       "Amsterdam",
+  //       "Bangalore",
+  //       "Bangkok",
+  //       "Boston",
+  //       "Bucharest",
+  //       "Cebu City",
+  //       "Charlotte",
+  //       "Charlottesville",
+  //       "Chicago",
+  //       "Cork",
+  //       "Dallas",
+  //       "Denver",
+  //       "Doha",
+  //       "Draper",
+  //       "Dubai",
+  //       "Dublin",
+  //       "El Segundo",
+  //       "Herndon",
+  //       "Hong Kong",
+  //       "Istanbul",
+  //       "Kiev",
+  //       "Kildare",
+  //       "London",
+  //       "McLean",
+  //       "Milan",
+  //       "Milpitas",
+  //       "Mumbai",
+  //       "Munich",
+  //       "Nagoya",
+  //       "New Delhi",
+  //       "NYC",
+  //       "Osaka",
+  //       "Paris",
+  //       "Portland",
+  //       "Pune",
+  //       "Reston",
+  //       "Riyadh",
+  //       "San Diego",
+  //       "San Francisco",
+  //       "Selangor",
+  //       "Seoul",
+  //       "Shanghai",
+  //       "Singapore",
+  //       "State College",
+  //       "Stockholm",
+  //       "Sydney",
+  //       "Taipei City",
+  //       "Tokyo",
+  //       "Toronto",
+  //       "Warsaw",
+  //       "Westborough"
+  //     ]
+  //   }
+  // },
 
-  shirtSize: {
-    type: String,
-    enum: {
-      values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
-    }
-  },
+  // shirtSize: {
+  //   type: String,
+  //   enum: {
+  //     values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
+  //   }
+  // },
 
   previouslyAttended: {
     type: Boolean,
     default: false
   },
 
-  wantsFireeyeHardware: {
-    type: Boolean,
-    default: false
-  },
+  // wantsFireeyeHardware: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  fireeyeHardware: {
-    type: String
-  },
+  // fireeyeHardware: {
+  //   type: String
+  // },
 
-  wantsFireeyeSoftware: {
-    type: Boolean,
-    default: false
-  },
+  // wantsFireeyeSoftware: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  fireeyeSoftware: {
-    type: String
-  },
+  // fireeyeSoftware: {
+  //   type: String
+  // },
 
-  wantsThirdpartyHardware: {
-    type: Boolean,
-    default: false
-  },
+  // wantsThirdpartyHardware: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  thirdpartyHardware: {
-    type: String
-  },
+  // thirdpartyHardware: {
+  //   type: String
+  // },
 
-  wantsThirdpartySoftware: {
-    type: Boolean,
-    default: false
-  },
+  // wantsThirdpartySoftware: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  thirdpartySoftware: {
-    type: String
-  },
+  // thirdpartySoftware: {
+  //   type: String
+  // },
 
-  signatureLiability: {
-    type: String
-  },
+  // signatureLiability: {
+  //   type: String
+  // },
 
-  signaturePhotoRelease: {
-    type: String
-  },
+  // signaturePhotoRelease: {
+  //   type: String
+  // },
 
-  signatureCodeOfConduct: {
-    type: String
-  },
+  // signatureCodeOfConduct: {
+  //   type: String
+  // },
 
-  hasFoodAllergies: {
-    type: Boolean,
-    default: false
-  },
+  // hasFoodAllergies: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  foodAllergy: {
-    type: String
-  },
+  // foodAllergy: {
+  //   type: String
+  // },
 
-  hasDietaryRestriction: {
-    type: Boolean,
-    default: false
-  },
+  // hasDietaryRestriction: {
+  //   type: Boolean,
+  //   default: false
+  // },
 
-  dietaryRestriction: {
-    type: String
-  },
+  // dietaryRestriction: {
+  //   type: String
+  // },
 
-  description: {
-    type: String,
-    min: 0,
-    max: 300
-  },
+  // description: {
+  //   type: String,
+  //   min: 0,
+  //   max: 300
+  // },
 
   notes: {
     type: String,
@@ -375,61 +375,62 @@ schema.statics.getByToken = function (token, callback) {
 
 schema.statics.validateProfile = function (profile, cb) {
   return cb(!(
-    profile.name.length > 0 &&
-    ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL'].indexOf(profile.shirtSize) > -1 &&
-    ["Remote",
-    "Alexandria",
-    "Amsterdam",
-    "Bangalore",
-    "Bangkok",
-    "Boston",
-    "Bucharest",
-    "Cebu City",
-    "Charlotte",
-    "Charlottesville",
-    "Chicago",
-    "Cork",
-    "Dallas",
-    "Denver",
-    "Doha",
-    "Draper",
-    "Dubai",
-    "Dublin",
-    "El Segundo",
-    "Herndon",
-    "Hong Kong",
-    "Istanbul",
-    "Kiev",
-    "Kildare",
-    "London",
-    "McLean",
-    "Milan",
-    "Milpitas",
-    "Mumbai",
-    "Munich",
-    "Nagoya",
-    "New Delhi",
-    "NYC",
-    "Osaka",
-    "Paris",
-    "Portland",
-    "Pune",
-    "Reston",
-    "Riyadh",
-    "San Diego",
-    "San Francisco",
-    "Selangor",
-    "Seoul",
-    "Shanghai",
-    "Singapore",
-    "State College",
-    "Stockholm",
-    "Sydney",
-    "Taipei City",
-    "Tokyo",
-    "Toronto",
-    "Warsaw",
-    "Westborough"].indexOf(profile.location) > -1
+    profile.name.length > 0 
+    // &&
+    // ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'WXS', 'WS', 'WM', 'WL', 'WXL', 'WXXL'].indexOf(profile.shirtSize) > -1 &&
+    // ["Remote",
+    // "Alexandria",
+    // "Amsterdam",
+    // "Bangalore",
+    // "Bangkok",
+    // "Boston",
+    // "Bucharest",
+    // "Cebu City",
+    // "Charlotte",
+    // "Charlottesville",
+    // "Chicago",
+    // "Cork",
+    // "Dallas",
+    // "Denver",
+    // "Doha",
+    // "Draper",
+    // "Dubai",
+    // "Dublin",
+    // "El Segundo",
+    // "Herndon",
+    // "Hong Kong",
+    // "Istanbul",
+    // "Kiev",
+    // "Kildare",
+    // "London",
+    // "McLean",
+    // "Milan",
+    // "Milpitas",
+    // "Mumbai",
+    // "Munich",
+    // "Nagoya",
+    // "New Delhi",
+    // "NYC",
+    // "Osaka",
+    // "Paris",
+    // "Portland",
+    // "Pune",
+    // "Reston",
+    // "Riyadh",
+    // "San Diego",
+    // "San Francisco",
+    // "Selangor",
+    // "Seoul",
+    // "Shanghai",
+    // "Singapore",
+    // "State College",
+    // "Stockholm",
+    // "Sydney",
+    // "Taipei City",
+    // "Tokyo",
+    // "Toronto",
+    // "Warsaw",
+    // "Westborough"].indexOf(profile.location) > -1
     // profile.signatureLiability.length > 0 &&
     // profile.signaturePhotoRelease.length > 0 &&
     // profile.signatureCodeOfConduct.length > 0
