@@ -365,9 +365,10 @@ UserController.getTeammates = function(id, callback){
  * Given a team code and id, join a team.
  * @param  {String}   id       Id of the user joining/creating
  * @param  {String}   code     Code of the proposed team
+ * @param  {String}   timezone Timezone of the team
  * @param  {Function} callback args(err, users)
  */
-UserController.createOrJoinTeam = function(id, code, callback){
+UserController.createOrJoinTeam = function(id, code, timezone, callback){
 
   if (!code){
     return callback({
@@ -384,7 +385,7 @@ UserController.createOrJoinTeam = function(id, code, callback){
   User.find({
     teamCode: code
   })
-  .select('profile.name')
+  .select('profile.name teamTimezone')
   .exec(function(err, users){
     // Check to see if this team is joinable (< team max size)
     if (users.length >= maxTeamSize){
@@ -400,6 +401,7 @@ UserController.createOrJoinTeam = function(id, code, callback){
     },{
       $set: {
         teamCode: code,
+        teamTimezone: (users.length > 0 ? users[0].teamTimezone : timezone), // If not the first person to join team, adopt the timezone of the team.  Otherwise, set the timezone to what the user specified.
         isTeamLeader: (users.length === 0) // Set the user as admin if first person to join the team
       }
     }, {
@@ -421,6 +423,7 @@ UserController.leaveTeam = function(id, callback){
   },{
     $set: {
       teamCode: null,
+      teamTimezone: null,
       isTeamLeader: null
     }
   }, {

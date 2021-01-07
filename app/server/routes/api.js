@@ -205,9 +205,10 @@ module.exports = function (router) {
    */
   router.put('/users/:id/team', isOwnerOrAdmin, function (req, res) {
     var code = req.body.code;
+    var timezone = req.body.timezone;
     var id = req.params.id;
 
-    UserController.createOrJoinTeam(id, code, defaultResponse(req, res));
+    UserController.createOrJoinTeam(id, code, timezone, defaultResponse(req, res));
 
   });
 

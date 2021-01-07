@@ -23,6 +23,10 @@ angular.module('reg')
 
       $scope.TEAM = TEAM;
 
+      $scope.data = {
+        timezone: 'CST'
+      }
+
       function updatePage(data) {
         $scope.teams = data.teams;
         $scope.currentPage = data.page;
@@ -80,7 +84,7 @@ angular.module('reg')
 
       $scope.createTeam = function () {
         UserService
-          .joinOrCreateTeam($scope.code)
+          .joinOrCreateTeam($scope.code, $scope.data.timezone)
           .then(response => {
             $scope.error = null;
             $scope.user = response.data;

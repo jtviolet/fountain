@@ -10,7 +10,7 @@ var TeamController = {};
  * @param  {Function} callback args(err, user)
  */
 TeamController.getAll = function (callback) {
-  User.find({}, 'teamCode profile.name', (err, users) => {
+  User.find({}, 'teamCode teamTimezone profile.name email', (err, users) => {
     if (err) {
       callback(err);
     } else {
@@ -26,7 +26,9 @@ TeamController.getAll = function (callback) {
             });
           } else {
             teams.set(user.teamCode, { 
-              members: [user.profile.name]
+              members: [user.profile.name],
+              contact: user.email,
+              timezone: user.teamTimezone
             });
           }
         }
@@ -34,7 +36,9 @@ TeamController.getAll = function (callback) {
       teams.forEach((value, key) => {
         res.teams.push({
           name: key,
-          members: value.members
+          members: value.members,
+          contact: value.contact,
+          timezone: value.timezone
         });
       });
       callback(null, res);
@@ -71,7 +75,7 @@ TeamController.getPage = function(query, callback){
     .sort({
       'teamCode': 'asc'
     })
-    .select('teamCode profile.name')
+    .select('teamCode teamTimezone profile.name')
     .skip(page * size)
     .limit(size)
     .exec(function (err, users){
@@ -91,7 +95,8 @@ TeamController.getPage = function(query, callback){
             });
           } else {
             teams.set(user.teamCode, { 
-              members: [user.profile.name]
+              members: [user.profile.name],
+              timezone: user.teamTimezone
             });
           }
         }
@@ -99,7 +104,8 @@ TeamController.getPage = function(query, callback){
       teams.forEach((value, key) => {
         res.teams.push({
           name: key,
-          members: value.members
+          members: value.members,
+          timezone: value.teamTimezone
         });
       });
 

@@ -240,6 +240,12 @@ var schema = new mongoose.Schema({
     max: 140,
   },
 
+  teamTimezone: {
+    type: String,
+    min: 0,
+    max: 10,
+  },
+
   verified: {
     type: Boolean,
     required: true,

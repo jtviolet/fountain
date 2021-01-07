@@ -43,9 +43,10 @@ angular.module('reg')
       // ------------------------
       // Team
       // ------------------------
-      joinOrCreateTeam: function(code){
+      joinOrCreateTeam: function(code, timezone){
         return $http.put(base + Session.getUserId() + '/team', {
-          code: code
+          code: code,
+          timezone: timezone
         });
       },
 

@@ -21,7 +21,45 @@
           <br>
 
           <div class="field">
-            <input class="ui input" type="text" placeholder="Create a team..." ng-model="code">
+            <label for="code">Team name: </label> 
+            <input class="ui input" type="text" placeholder="Team name..." ng-model="code">
+          </div>
+
+          <div class="field">
+            <label for="timezone">Timezone: </label> 
+            <select class="ui input" ng-model="data.timezone">
+              <option value="GMT">GMT	Greenwich Mean Time</option>
+              <option value="ECT">ECT	European Central Time	GMT+1:00</option>
+              <option value="EET">EET	Eastern European Time	GMT+2:00</option>
+              <option value="ART">ART	(Arabic) Egypt Standard Time	GMT+2:00</option>
+              <option value="EAT">EAT	Eastern African Time	GMT+3:00</option>
+              <option value="MET">MET	Middle East Time	GMT+3:30</option>
+              <option value="NET">NET	Near East Time	GMT+4:00</option>
+              <option value="PLT">PLT	Pakistan Lahore Time	GMT+5:00</option>
+              <option value="IST">IST	India Standard Time	GMT+5:30</option>
+              <option value="BST">BST	Bangladesh Standard Time	GMT+6:00</option>
+              <option value="VST">VST	Vietnam Standard Time	GMT+7:00</option>
+              <option value="CTT">CTT	China Taiwan Time	GMT+8:00</option>
+              <option value="JST">JST	Japan Standard Time	GMT+9:00</option>
+              <option value="ACT">ACT	Australia Central Time	GMT+9:30</option>
+              <option value="AET">AET	Australia Eastern Time	GMT+10:00</option>
+              <option value="SST">SST	Solomon Standard Time	GMT+11:00</option>
+              <option value="NST">NST	New Zealand Standard Time	GMT+12:00</option>
+              <option value="MIT">MIT	Midway Islands Time	GMT-11:00</option>
+              <option value="HST">HST	Hawaii Standard Time	GMT-10:00</option>
+              <option value="AST">AST	Alaska Standard Time	GMT-9:00</option>
+              <option value="PST">PST	Pacific Standard Time	GMT-8:00</option>
+              <option value="PNT">PNT	Phoenix Standard Time	GMT-7:00</option>
+              <option value="MST">MST	Mountain Standard Time	GMT-7:00</option>
+              <option value="CST">CST	Central Standard Time	GMT-6:00</option>
+              <option value="EST">EST	Eastern Standard Time	GMT-5:00</option>
+              <option value="IET">IET	Indiana Eastern Standard Time	GMT-5:00</option>
+              <option value="PRT">PRT	Puerto Rico and US Virgin Islands Time	GMT-4:00</option>
+              <option value="CNT">CNT	Canada Newfoundland Time	GMT-3:30</option>
+              <option value="AGT">AGT	Argentina Standard Time	GMT-3:00</option>
+              <option value="BET">BET	Brazil Eastern Time	GMT-3:00</option>
+              <option value="CAT">CAT	Central African Time	GMT-1:00</option>
+            </select>
           </div>
 
           <div class="field">
@@ -43,13 +81,23 @@
             {{user.teamCode}}
           </div>
 
+          <div class="form">
+            <div class="title">
+              Your Team's Timezone:
+            </div>
+          </div>
+          <br>
+          <div class="subheader">
+            {{user.teamTimezone}}
+          </div>
+
           <br />
 
           <div class="ui divider"></div>
 
           <div class="form">
             <div class="title">
-              Your Team:
+              Your Teammates:
             </div>
           </div>
 
@@ -131,6 +179,8 @@
                 <tr>
                   <th>Team Name</th>
                   <th># of Members</th>
+                  <th>Contact Email</th>
+                  <th>Timezone</th>
                   <th>Join</th>
                 </tr>
               </thead>
@@ -145,6 +195,16 @@
                       &nbsp;
 
                     </strong>
+                  </td>
+                  <td class="center aligned">
+                    <strong>
+                      {{team.contact}}
+                      &nbsp;
+
+                    </strong>
+                  </td>
+                  <td class="center aligned">
+                    {{team.timezone}}
                   </td>
                   <td class="center aligned">
                     <button ng-click="joinTeam(team)" ng-if="team.members.length < TEAM.MAX_SIZE && user.teamCode !== team.name"
