@@ -81,6 +81,10 @@ angular.module('reg')
         url: "/about",
         templateUrl: "views/about/about.html",
       })
+      .state('app.submission', {
+        url: "/submission",
+        templateUrl: "views/submission/submission.html",
+      })
       // .state('app.projects', {
       //   url: "/projects",
       //   templateUrl: "views/projects/projects.html",

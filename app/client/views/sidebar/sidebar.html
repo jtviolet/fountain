@@ -47,10 +47,27 @@
     <div
       ui-sref-active="active"
       ui-sref="app.team"
-      ng-show="!currentUser.status.declined"
+      ng-show="!currentUser.status.declined && currentUser.status.completedProfile"
       class="item">
       Team
     </div>
+
+    <div
+      ui-sref-active="active"
+      ui-sref="app.submission"
+      ng-show="!currentUser.status.declined && currentUser.status.completedProfile"
+      class="item">
+      Project Submission
+    </div>
+
+    <a style="color:white;" href="https://news.ycombinator.com" target="_blank">
+      <div
+        ui-sref-active="active"
+        ng-show="!currentUser.status.declined && currentUser.status.completedProfile"
+        class="item">
+        HELPq
+      </div>
+    </a>
 
     <div
       ui-sref-active="active"

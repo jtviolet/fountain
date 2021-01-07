@@ -27,6 +27,9 @@ var schema = new mongoose.Schema({
   },
   confirmationText: {
     type: String,
+  },
+  helpqUrl: {
+    type: String,
   }
 });
 
