@@ -78,6 +78,35 @@ UserController.loginWithToken = function(token, callback){
   });
 };
 
+UserController.checkInByEmail = function(email, callback) {
+  if (!validator.isEmail(email)){
+    return callback({
+      message: 'Invalid email'
+    });
+  }
+
+  User.findOneAndUpdate({
+    email: email.toLowerCase(),
+    verified: true,
+    'status.checkedIn': false,
+    'status.completedProfile': true,
+  },{
+    $set: {
+      'status.checkedIn': true,
+      'status.checkInTime': Date.now()
+    }
+  }, {
+    new: true
+  },
+  (err, res) => {
+    if (!res) {
+      callback(null, { message: `Check in failed for ${email}.` });
+    } else {
+      callback(null, { message: 'Check in success.', name: res.profile.name });
+    }
+  });
+}
+
 /**
  * Login a user given an email and password.
  * @param  {String}   email    Email address

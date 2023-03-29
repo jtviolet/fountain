@@ -1,5 +1,9 @@
 # Quill
 
+## ACM Deprecation Notice
+
+This fork is no longer active in favor of the [HackPortal](https://github.com/acmutd/hackportal) project.
+
 ## *Registration, for hackers!*
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code-of-conduct.md)
