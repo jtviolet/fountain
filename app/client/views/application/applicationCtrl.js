@@ -17,10 +17,10 @@ angular.module('reg')
       $scope.user = currentUser.data;
 
       // Is the student from MIT?
-      $scope.isMitStudent = $scope.user.email.split('@')[1] == 'mit.edu';
+      //$scope.isMitStudent = $scope.user.email.split('@')[1] == 'cornell.edu';
 
       // If so, default them to adult: true
-      if ($scope.isMitStudent){
+      if (false){
         $scope.user.profile.adult = true;
       }
 
@@ -144,12 +144,30 @@ angular.module('reg')
                 }
               ]
             },
+			major: {
+              identifier: 'major',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a field of study.'
+                }
+              ]
+            },
             adult: {
               identifier: 'adult',
               rules: [
                 {
                   type: 'allowMinors',
-                  prompt: 'You must be an adult, or an MIT student.'
+                  prompt: 'You must be an adult, college student.'
+                }
+              ]
+            },
+			essay: {
+              identifier: 'essay',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please complete the essay question.'
                 }
               ]
             }

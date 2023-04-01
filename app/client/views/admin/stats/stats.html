@@ -60,12 +60,32 @@
             {{stats.confirmed}}
           </div>
         </div>
+		<div
+          class="item">
+          <i class="green circle check icon"></i>
+          <div class="content">
+            <strong>
+              Confirmed (In-Person)
+            </strong> :
+            {{stats.confirmedInPerson}}
+          </div>
+        </div>
+		<div
+          class="item">
+          <i class="green circle check icon"></i>
+          <div class="content">
+            <strong>
+              Confirmed (Virtual)
+            </strong> :
+            {{stats.confirmedVirtual}}
+          </div>
+        </div>
         <div
           class="item">
           <i class="green circle check icon"></i>
           <div class="content">
             <strong>
-              Confirmed (MIT)
+              Confirmed (Cornell)
             </strong> :
             {{stats.confirmedMit}}
           </div>
@@ -103,28 +123,14 @@
               M ({{stats.shirtSizes['M']}})
               L ({{stats.shirtSizes['L']}})
               XL ({{stats.shirtSizes['XL']}})
-              XXL ({{stats.shirtSizes['XXL']}})
-          </div>
-        </div>
-
-        <div class="item">
-          <i class="child icon"></i>
-          <div class="content">
-            <strong>
-              Women's shirt sizes:
-            </strong> :
-              XS ({{stats.shirtSizes['WXS']}})
-              S ({{stats.shirtSizes['WS']}})
-              M ({{stats.shirtSizes['WM']}})
-              L ({{stats.shirtSizes['WL']}})
-              XL ({{stats.shirtSizes['WXL']}})
-              XXL ({{stats.shirtSizes['WXXL']}})
+              2XL ({{stats.shirtSizes['2XL']}})
+              3XL ({{stats.shirtSizes['3XL']}})
           </div>
         </div>
 
         <div class="ui divider"></div>
 
-        <div class="item">
+        <!--<div class="item">
           <i class="green money icon"></i>
           <div class="content">
             <strong>
@@ -153,7 +159,7 @@
           </div>
         </div>
 
-        <div class="ui divider"></div>
+        <div class="ui divider"></div>-->
 
         <div class="item">
           <i class="food icon"></i>
@@ -213,16 +219,16 @@
     <div class="ui divider"></div>
       <div class="ui list">
         <div class="item">
-          <strong>Fresh:</strong> {{stats.demo.year['2019']}} ({{stats.demo.year['2019'] / stats.total * 100 | number: 1}}%)
+          <strong>Fresh:</strong> {{stats.demo.year['2022']}} ({{stats.demo.year['2022'] / stats.total * 100 | number: 1}}%)
         </div>
         <div class="item">
-          <strong>Soph:</strong> {{stats.demo.year['2018']}} ({{stats.demo.year['2018'] / stats.total * 100 | number: 1}}%)
+          <strong>Soph:</strong> {{stats.demo.year['2023']}} ({{stats.demo.year['2023'] / stats.total * 100 | number: 1}}%)
         </div>
         <div class="item">
-         <strong>Junior:</strong> {{stats.demo.year['2017']}} ({{stats.demo.year['2017'] / stats.total * 100 | number: 1}}%)
+         <strong>Junior:</strong> {{stats.demo.year['2024']}} ({{stats.demo.year['2024'] / stats.total * 100 | number: 1}}%)
         </div>
         <div class="item">
-          <strong>Senior:</strong> {{stats.demo.year['2016']}} ({{stats.demo.year['2016'] / stats.total * 100 | number: 1}}%)
+          <strong>Senior:</strong> {{stats.demo.year['2025']}} ({{stats.demo.year['2025'] / stats.total * 100 | number: 1}}%)
         </div>
       </div>
     <div class="ui divider"></div>

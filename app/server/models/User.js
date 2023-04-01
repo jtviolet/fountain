@@ -1,8 +1,8 @@
-var mongoose   = require('mongoose'),
-    bcrypt     = require('bcrypt'),
-    validator  = require('validator'),
-    jwt        = require('jsonwebtoken');
-    JWT_SECRET = process.env.JWT_SECRET;
+var mongoose = require('mongoose'),
+  bcrypt = require('bcrypt'),
+  validator = require('validator'),
+  jwt = require('jsonwebtoken');
+JWT_SECRET = process.env.JWT_SECRET;
 
 var profile = {
 
@@ -28,7 +28,7 @@ var profile = {
   graduationYear: {
     type: String,
     enum: {
-      values: '2016 2017 2018 2019'.split(' '),
+      values: '2022 2023 2024 2025 2026'.split(' '),
     }
   },
 
@@ -38,6 +38,26 @@ var profile = {
     max: 300
   },
 
+  major: {
+    type: String,
+    min: 1,
+    max: 150,
+  },
+  github: {
+    type: String,
+    min: 1,
+    max: 150,
+  },
+  twitter: {
+    type: String,
+    min: 1,
+    max: 150,
+  },
+  website: {
+    type: String,
+    min: 1,
+    max: 150,
+  },
   essay: {
     type: String,
     min: 0,
@@ -47,8 +67,15 @@ var profile = {
   // Optional info for demographics
   gender: {
     type: String,
-    enum : {
-      values: 'M F O N'.split(' ')
+    enum: {
+      values: 'M F O Non-binary N'.split(' ')
+    }
+  },
+
+  raceOrEthnicity: {
+    type: String,
+    enum: {
+      values: 'H/L C B/AA NH/PI A SA AI/AN ME O P'.split(' ')
     }
   },
 
@@ -61,16 +88,11 @@ var confirmation = {
   shirtSize: {
     type: String,
     enum: {
-      values: 'XS S M L XL XXL WXS WS WM WL WXL WXXL'.split(' ')
+      values: 'XS S M L XL 2XL 3XL'.split(' ')
     }
   },
   wantsHardware: Boolean,
   hardware: String,
-
-  major: String,
-  github: String,
-  twitter: String,
-  website: String,
   resume: String,
 
   needsReimbursement: Boolean,
@@ -84,6 +106,7 @@ var confirmation = {
     country: String
   },
   receipt: String,
+  discordId: String,
 
   hostNeededFri: Boolean,
   hostNeededSat: Boolean,
@@ -97,6 +120,9 @@ var confirmation = {
   signatureLiability: String,
   signaturePhotoRelease: String,
   signatureCodeOfConduct: String,
+  signatureLogisticsRelease: String,
+  communicationRelease: Boolean,
+  inPerson: Boolean,
 };
 
 var status = {
@@ -153,13 +179,13 @@ var status = {
 var schema = new mongoose.Schema({
 
   email: {
-      type: String,
-      required: true,
-      unique: true,
-      validate: [
-        validator.isEmail,
-        'Invalid Email',
-      ]
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      validator.isEmail,
+      'Invalid Email',
+    ]
   },
 
   password: {
@@ -237,16 +263,16 @@ schema.set('toObject', {
 //=========================================
 
 // checking if this password matches
-schema.methods.checkPassword = function(password) {
+schema.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 // Token stuff
-schema.methods.generateEmailVerificationToken = function(){
+schema.methods.generateEmailVerificationToken = function () {
   return jwt.sign(this.email, JWT_SECRET);
 };
 
-schema.methods.generateAuthToken = function(){
+schema.methods.generateAuthToken = function () {
   return jwt.sign(this._id, JWT_SECRET);
 };
 
@@ -259,7 +285,7 @@ schema.methods.generateAuthToken = function(){
  *   exp: expiration ms
  * }
  */
-schema.methods.generateTempAuthToken = function(){
+schema.methods.generateTempAuthToken = function () {
   return jwt.sign({
     id: this._id
   }, JWT_SECRET, {
@@ -271,7 +297,7 @@ schema.methods.generateTempAuthToken = function(){
 // Static Methods
 //=========================================
 
-schema.statics.generateHash = function(password) {
+schema.statics.generateHash = function (password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
 };
 
@@ -280,8 +306,8 @@ schema.statics.generateHash = function(password) {
  * @param  {[type]}   token token
  * @param  {Function} cb    args(err, email)
  */
-schema.statics.verifyEmailVerificationToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, email) {
+schema.statics.verifyEmailVerificationToken = function (token, callback) {
+  jwt.verify(token, JWT_SECRET, function (err, email) {
     return callback(err, email);
   });
 };
@@ -291,14 +317,14 @@ schema.statics.verifyEmailVerificationToken = function(token, callback){
  * @param  {[type]}   token    temporary auth token
  * @param  {Function} callback args(err, id)
  */
-schema.statics.verifyTempAuthToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, payload){
+schema.statics.verifyTempAuthToken = function (token, callback) {
+  jwt.verify(token, JWT_SECRET, function (err, payload) {
 
-    if (err || !payload){
+    if (err || !payload) {
       return callback(err);
     }
 
-    if (!payload.exp || Date.now() >= payload.exp * 1000){
+    if (!payload.exp || Date.now() >= payload.exp * 1000) {
       return callback({
         message: 'Token has expired.'
       });
@@ -308,7 +334,7 @@ schema.statics.verifyTempAuthToken = function(token, callback){
   });
 };
 
-schema.statics.findOneByEmail = function(email){
+schema.statics.findOneByEmail = function (email) {
   return this.findOne({
     email: email.toLowerCase()
   });
@@ -319,23 +345,23 @@ schema.statics.findOneByEmail = function(email){
  * @param  {String}   token    User's authentication token.
  * @param  {Function} callback args(err, user)
  */
-schema.statics.getByToken = function(token, callback){
-  jwt.verify(token, JWT_SECRET, function(err, id){
+schema.statics.getByToken = function (token, callback) {
+  jwt.verify(token, JWT_SECRET, function (err, id) {
     if (err) {
       return callback(err);
     }
-    this.findOne({_id: id}, callback);
+    this.findOne({ _id: id }, callback);
   }.bind(this));
 };
 
-schema.statics.validateProfile = function(profile, cb){
+schema.statics.validateProfile = function (profile, cb) {
   return cb(!(
     profile.name.length > 0 &&
     profile.adult &&
     profile.school.length > 0 &&
-    ['2016', '2017', '2018', '2019'].indexOf(profile.graduationYear) > -1 &&
-    ['M', 'F', 'O', 'N'].indexOf(profile.gender) > -1
-    ));
+    ['2022', '2023', '2024', '2025', '2026', 'Other'].indexOf(profile.graduationYear) > -1 &&
+    ['M', 'F', 'Non-binary', 'O', 'N'].indexOf(profile.gender) > -1
+  ));
 };
 
 //=========================================
@@ -346,7 +372,7 @@ schema.statics.validateProfile = function(profile, cb){
  * Has the user completed their profile?
  * This provides a verbose explanation of their furthest state.
  */
-schema.virtual('status.name').get(function(){
+schema.virtual('status.name').get(function () {
 
   if (this.status.checkedIn) {
     return 'checked in';
@@ -364,11 +390,11 @@ schema.virtual('status.name').get(function(){
     return "admitted";
   }
 
-  if (this.status.completedProfile){
+  if (this.status.completedProfile) {
     return "submitted";
   }
 
-  if (!this.verified){
+  if (!this.verified) {
     return "unverified";
   }
 

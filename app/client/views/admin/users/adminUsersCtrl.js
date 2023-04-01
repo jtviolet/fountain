@@ -285,6 +285,18 @@ angular.module('reg')
                 name: 'School',
                 value: user.profile.school
               },{
+                name: 'Major',
+                value: user.profile.major
+              },{
+                name: 'Github',
+                value: user.profile.github
+              },{
+                name: 'Twitter',
+                value: user.profile.twitter
+              },{
+                name: 'Website',
+                value: user.profile.website
+              },{
                 name: 'Graduation Year',
                 value: user.profile.graduationYear
               },{
@@ -307,22 +319,6 @@ angular.module('reg')
               },{
                 name: 'Shirt Size',
                 value: user.confirmation.shirtSize
-              },{
-                name: 'Major',
-                value: user.confirmation.major
-              },{
-                name: 'Github',
-                value: user.confirmation.github
-              },{
-                name: 'Website',
-                value: user.confirmation.website
-              },{
-                name: 'Needs Hardware',
-                value: user.confirmation.wantsHardware,
-                type: 'boolean'
-              },{
-                name: 'Hardware Requested',
-                value: user.confirmation.hardware
               }
             ]
           },{

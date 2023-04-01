@@ -89,6 +89,69 @@ angular.module('reg')
                 }
               ]
             },
+            discord: {
+              identifier: 'discord',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a discord ID.'
+                }
+              ]
+            },
+            name: {
+              identifier: 'name',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter an address name.'
+                }
+              ]
+            },
+            addressLine1: {
+              identifier: 'addressLine1',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter an Address.'
+                }
+              ]
+            },
+            city: {
+              identifier: 'city',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a city.'
+                }
+              ]
+            },
+            state: {
+              identifier: 'state',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a state.'
+                }
+              ]
+            },
+            zip: {
+              identifier: 'zip',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a zip/postal code.'
+                }
+              ]
+            },
+            country: {
+              identifier: 'country',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter a country.'
+                }
+              ]
+            },
             signatureLiability: {
               identifier: 'signatureLiabilityWaiver',
               rules: [
@@ -116,6 +179,24 @@ angular.module('reg')
                 }
               ]
             },
+            signatureCodeOfConduct: {
+              identifier: 'signatureCodeOfConduct',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            },
+            signatureLogisticsRelease: {
+              identifier: 'signatureLogisticsRelease',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please type your digital signature.'
+                }
+              ]
+            }
           }
         });
       }
@@ -123,6 +204,8 @@ angular.module('reg')
       $scope.submitForm = function(){
         if ($('.ui.form').form('is valid')){
           _updateUser();
+        } else {
+          swal("Uh oh!", "Please Fill The Required Fields", "error");
         }
       };
 

@@ -214,6 +214,8 @@
         <div
           class="description"
           ng-if="dashState('confirmed')">
+		  <br>
+		  <h2>You are attending <span ng-if="user.confirmation.inPerson && (user.email.split('@')[1] == 'cornell.edu') && (user.profile.school == 'Cornell University')">In-Person</span><span ng-if="!user.confirmation.inPerson || (user.email.split('@')[1] != 'cornell.edu') || (user.profile.school != 'Cornell University')">Virtually</span></h2>
 
           <div
             ng-show="!pastConfirmation"

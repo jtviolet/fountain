@@ -5,113 +5,248 @@
 
   <div class="ui stackable page grid">
     <div class="column">
-      <div class="ui form"
-            ng-class="{'loading': loading}">
+      <div class="ui form" ng-class="{'loading': loading}">
 
+        <div class="divided title">Note On BigRed//Hacks 2022</div>
+        <p>
+          <strong>
+            Please note that BigRed//Hacks will be an in-person event for Cornell students and hybrid for non-Cornell
+            participants. BigRed//Hacks will be taking place from October 14 to 16th. Learn more about the hackathon at
+            https://bigredhacks.com. Registration for BigRed//Hacks will close on 9/30 at 11:59pm.
+          </strong>
+        </p>
+        <br>
         <div class="divided title">Basic Information</div>
 
         <fieldset ng-disabled="regIsClosed">
 
-        <div class="field">
-          <label> Email </label>
-          <input type="email"
-                 name="email"
-                 disabled="disabled"
-                 ng-model="user.email">
-        </div>
+          <div class="field">
+            <label> Email </label>
+            <input type="email" name="email" disabled="disabled" ng-model="user.email">
+          </div>
 
-        <div class="field">
-          <label> Full Name </label>
-          <input type="text"
-                 name="name"
-                 ng-model="user.profile.name">
-        </div>
+          <div class="field">
+            <label> Full Name </label>
+            <input type="text" name="name" ng-model="user.profile.name">
+          </div>
 
-        <div class="field" ng-show="autoFilledSchool">
-          <label> School </label>
-          <input class="ui input"
-                 disabled="disabled"
-                 ng-show="autoFilledSchool"
-                 ng-model="user.profile.school">
-        </div>
+          <div class="field">
+            <label> NetID (Non-Cornell students please put N/A) </label>
+            <input type="text" name="netid" ng-model="user.profile.netid">
+          </div>
 
-        <div class="field" ng-show="!autoFilledSchool">
-          <label> School </label>
-          <div id="school" class="ui search">
-            <div class="ui input">
-              <input class="prompt" type="text" placeholder="School" name="school" ng-model="user.profile.school">                
+          <div class="field" ng-show="autoFilledSchool">
+            <label> University </label>
+            <input class="ui input" disabled="disabled" ng-show="autoFilledSchool" ng-model="user.profile.school">
+          </div>
+
+          <div class="field" ng-show="!autoFilledSchool">
+            <label> University </label>
+            <div id="school" class="ui search">
+              <div class="ui input">
+                <input class="prompt" type="text" name="school" ng-model="user.profile.school">
+              </div>
+              <div class="results"></div>
             </div>
-            <div class="results"></div>
           </div>
-        </div>
 
-        <div class="field">
-          <label>Graduation Year</label>
-          <select
-            name="year"
-            ng-model="user.profile.graduationYear">
-            <option value="">Graduation Year</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-            <option value="2018">2018</option>
-            <option value="2019">2019</option>
-          </select>
-        </div>
+          <div class="field">
+            <label> College (Non-Cornell students please choose N/A) </label>
+            <select name="subcollege" ng-model="user.profile.subcollege">
+              <option value="">College</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Arts and Sciences">Arts and Sciences</option>
+              <option value="Human Ecology">Human Ecology</option>
+              <option value="Agriculture and Life Sciences">Agriculture and Life Sciences</option>
+              <option value="Hotel Management">Hotel Management</option>
+              <option value="Architecture, Art, and Planning">Architecture, Art, and Planning</option>
+              <option value="Industrial and Labor Relations">Industrial and Labor Relations</option>
+              <option value="Dyson">Dyson</option>
+              <option value="Other">Other Cornell Colleges (e.g. SC Johnson)</option>
+              <option value="N/A">N/A</option>
+            </select>
+          </div>
 
-        <div class="field">
-          <label>Gender</label>
-          <select
-            name="gender"
-            ng-model="user.profile.gender">
-            <option value="">Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-            <option value="N">I prefer not to answer.</option>
-          </select>
-        </div>
+          <div class="field">
+            <label> Major </label>
+            <input type="text" name="major" placeholder="Computer Science, Product Design, Basket Weaving, etc."
+              ng-model="user.profile.major">
+          </div>
 
-        <div class="field">
-          <label>I would describe myself as a...</label>
-          <input type="text"
-                 placeholder="Designer, Data Scientist, iOS Wizard, Hacker Extraordinaire"
-                 ng-model="user.profile.description">
-        </div>
+          <div class="field">
+            <label>Graduation Year</label>
+            <select name="year" ng-model="user.profile.graduationYear">
+              <option value="">Graduation Year</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-        <div class="field">
-          <label>
-              What would you like to learn or get out of HackMIT? (optional)
-          </label>
-          <textarea ng-model="user.profile.essay">
+          <div class="field">
+            <label>I'm pursuing a</label>
+            <select name="degree" ng-model="user.profile.degreeType">
+              <option value="">Degree Type</option>
+              <option value="Undergraduate degree">Undergraduate degree</option>
+              <option value="Masters degree">Masters degree</option>
+              <option value="PhD">PhD degree</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <p>The below questions are for diversity and inclusion initiatives and any data that is collected will be
+              anonymous. Answers to these questions will not be considered in the application process.</p>
+          </div>
+
+          <div class="field">
+            <label>Gender </label>
+            <select name="gender" ng-model="user.profile.gender">
+              <option value="">Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="Non-binary">Non-binary</option>
+              <option value="O">Prefer to self-describe</option>
+              <option value="N">I prefer not to answer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label> If prefer to self-describe, please specify here:</label>
+            <input type="text" name="selfDescribedGender" ng-model="user.profile.selfDescribedGender">
+          </div>
+
+          <div class="field">
+            <label>Race/Ethnicity</label>
+            <select name="raceOrEthnicity" ng-model="user.profile.raceOrEthnicity">
+              <option value="">Race/Ethnicity</option>
+              <option value="H/L">Hispanic/Latino</option>
+              <option value="C">Caucasian</option>
+              <option value="B/AA">Black/African American</option>
+              <option value="NH/PI">Native Hawaiian/Pacific Islander</option>
+              <option value="A">Asian</option>
+              <option value="SA">South Asian</option>
+              <option value="AI/AN">American Indian/Alaskan Native</option>
+              <option value="ME">Middle Eastern</option>
+              <option value="O">Prefer to self-describe</option>
+              <option value="P">I prefer not to answer</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label> If prefer to self-describe, please specify here:</label>
+            <input type="text" name="selfDescribedRaceOrEthnicity" ng-model="user.profile.selfDescribedRaceOrEthnicity">
+          </div>
+
+          <br>
+          <br>
+
+          <div class="divided title"> Links </div>
+
+          <div class="field">
+            <label> Github (Optional) </label>
+            <input type="text" name="github" placeholder="https://github.com/foobar" ng-model="user.profile.github">
+          </div>
+
+          <div class="field">
+            <label> Twitter (Optional) </label>
+            <input type="text" name="twitter" placeholder="https://twitter.com/foobar" ng-model="user.profile.twitter">
+          </div>
+
+          <div class="field">
+            <label> LinkedIn (Optional) </label>
+            <input type="text" name="linkedin" placeholder="https://linkedin.com/foobar"
+              ng-model="user.profile.linkedin">
+          </div>
+
+          <div class="field">
+            <label> Website (Optional) </label>
+            <input type="text" name="website" placeholder="https://example.com" ng-model="user.profile.website">
+          </div>
+
+          <div class="field">
+            <label> Resume (Required) </label>
+            <p>
+              Please upload your resume to our resume Dropbox. PDF preferred! Your resume will be shared with our
+              sponsors if you confirm your spot at BigRed//Hacks 2022.
+            </p>
+            <a target="_blank" href="https://www.dropbox.com/request/oXXKRpKukIJM0WCEBuHv" class="ui pink button">
+              Upload
+            </a>
+          </div>
+
+          <br>
+          <br>
+
+          <div class="divided title"> More Information </div>
+
+          <div class="field">
+            <label>I would describe myself as a...</label>
+            <input type="text" placeholder="Excited Beginner, Designer, Software Developer, Hardware Enthusiast,..."
+              ng-model="user.profile.description">
+          </div>
+
+          <div class="field">
+            <label>Years of programming experience</label>
+            <select name="experience" ng-model="user.profile.experience">
+              <option value="">Number of years</option>
+              <option value="Under 1">Under 1</option>
+              <option value="1 to 3">1 to 3</option>
+              <option value="More than 3">More than 3</option>
+              <option value="N/A">N/A</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>
+              What would you like to learn or get out of BigRed//Hacks?
+            </label>
+            <textarea name="essay" ng-model="user.profile.essay">
           </textarea>
-        </div>
-
-        <div class="field"
-             ng-hide="isMitStudent">
-          <p>
-            Because of limitations imposed by MIT, we are not legally allowed to host
-            non-MIT minors (those under 18) for HackMIT 2015. Checking the box below affirms that you are or will be 18 years or older by September 19th, 2015.
-          </p>
-          <p>
-            <strong>
-            We will be checking ID. If you are a non-MIT minor, you will be turned away at the door.
-            </strong>
-          </p>
-          <div class="ui checkbox">
-            <input type="checkbox" id="adult" ng-model="user.profile.adult">
-            <label for="adult">I am 18 or older.</label>
           </div>
-        </div>
 
-        <br>
+          <div class="field">
+            <label>How did you hear about BigRed//Hacks?</label>
+            <select name="source" ng-model="user.profile.source">
+              <option value="">Source</option>
+              <option value="Email Listserv">Email Listserv</option>
+              <option value="Professor/Class">Professor/Class</option>
+              <option value="Friend">Friend</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-        <div class="field" ng-hide="regIsClosed">
-          <button type="submit"
-                  class="fluid ui purple button"
-                  ng-click="submitForm()">
-            Submit
-          </button>
-        </div>
+          <div class="field">
+            <label> If other, please specify here:</label>
+            <input type="text" name="otherSource" ng-model="user.profile.otherSource">
+          </div>
+
+          <div class="field" ng-hide="isMitStudent">
+            <p>
+              Checking the box below affirms that you are or will be 18 years or older by October 14th, 2022.
+            </p>
+            <p>
+              <strong>
+                We will be checking ID. If you are a minor, you will be turned away at the door.
+              </strong>
+            </p>
+            <div class="ui checkbox">
+              <input type="checkbox" id="adult" ng-model="user.profile.adult">
+              <label for="adult">I am 18 or older.</label>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="field" ng-hide="regIsClosed">
+            <button type="submit" class="fluid ui purple button" ng-click="submitForm()">
+              Submit
+            </button>
+          </div>
 
         </fieldset>
       </div>

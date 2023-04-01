@@ -100,10 +100,14 @@
             <th>School</th>
             <th>Grad</th>
             <th>V/S/A/C</th>
-            <th>Host</th>
-            <th>$</th>
-            <th></th>
-            <th></th>
+            <th>Liability</th>
+            <th>Photo</th>
+			<th>Conduct</th>
+			<th>Logi</th>
+			<th>MLH Com</th>
+			<th>In Person</th>
+            <th>Details</th>
+            <th>Acc/Check/Admin</th>
           </tr>
         </thead>
         <tbody>
@@ -176,8 +180,104 @@
               </i>
 
             </td>
+			
+			<td
+              class="collapsing">
 
-            <!-- Host -->
+              <span>
+                <i
+                  ng-if="user.confirmation.signatureLiability"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.signatureLiability"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+			
+			<td
+              class="collapsing">
+
+              <span>
+                <i
+                  ng-if="user.confirmation.signaturePhotoRelease"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.signaturePhotoRelease"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+			
+			<td
+              class="collapsing">
+
+              <span>
+                <i
+                  ng-if="user.confirmation.signatureCodeOfConduct"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.signatureCodeOfConduct"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+			
+			<td
+              class="collapsing">
+
+              <span>
+                <i
+                  ng-if="user.confirmation.signatureLogisticsRelease"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.signatureLogisticsRelease"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+			
+			<td
+              class="collapsing">
+
+              <span>
+                <i
+                  ng-if="user.confirmation.communicationRelease"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.communicationRelease"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+			
+			<td
+              class="collapsing">
+
+              <span>
+                <i
+                  ng-if="user.confirmation.inPerson && (user.email.split('@')[1] == 'cornell.edu') && (user.profile.school == 'Cornell University')"
+                  class="green check circle icon">
+                </i>
+				<i
+                  ng-if="!user.confirmation.inPerson || (user.email.split('@')[1] != 'cornell.edu') || (user.profile.school != 'Cornell University')"
+                  class="red remove circle icon">
+                </i>
+              </span>
+
+            </td>
+
+            <!-- Host 
             <td
               class="collapsing">
 
@@ -210,7 +310,7 @@
                   class="green money icon">
                 </i>
               </span>
-            </td>
+            </td>-->
 
             <td
               class="collapsing">

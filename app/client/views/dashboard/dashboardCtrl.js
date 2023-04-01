@@ -63,7 +63,7 @@ angular.module('reg')
               !user.status.declined;
           case 'confirmed':
             return user.status.admitted && user.status.confirmed && !user.status.declined;
-          case 'declined':
+		  case 'declined':
             return user.status.declined;
         }
         return false;
